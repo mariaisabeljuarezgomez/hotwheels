@@ -86,9 +86,14 @@ app.use((req, res) => {
 // Start server
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🏎️ Hot Wheels Velocity server running on port ${PORT}`);
-  console.log(`🌐 Frontend: http://localhost:${PORT}`);
+  console.log(`🌐 Frontend: http://0.0.0.0:${PORT}`);
   console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🚀 Server ready to accept connections`);
+  console.log(`🚀 Server ready to accept connections on all interfaces`);
+  
+  // Send ready signal to Railway
+  if (process.send) {
+    process.send('ready');
+  }
 });
 
 // Graceful shutdown
