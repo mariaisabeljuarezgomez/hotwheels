@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout Experience - Hot Wheels Velocity</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" content="Secure checkout with collector-specific services including professional grading, custom packaging, and comprehensive insurance." />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fhotwheels2986back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+</head>
+<body class="bg-background text-text-primary font-inter">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-md border-b border-border">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="homepage.html" class="flex items-center space-x-2">
+                        <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" stroke="url(#gradient)" stroke-width="2"/>
+                            <path d="M12 20L20 12L28 20L20 28L12 20Z" fill="url(#gradient)"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF0080"/>
+                                    <stop offset="100%" style="stop-color:#00FF88"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="font-orbitron font-bold text-xl text-accent">Hot Wheels Velocity</span>
+                    </a>
+                </div>
+
+                <!-- Checkout Progress -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm text-text-secondary">Cart Review</span>
+                    </div>
+                    <div class="w-8 border-t-2 border-accent"></div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm font-bold">2</span>
+                        </div>
+                        <span class="text-sm text-accent font-semibold">Checkout</span>
+                    </div>
+                    <div class="w-8 border-t-2 border-border"></div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-surface border border-border rounded-full flex items-center justify-center">
+                            <span class="text-text-secondary text-sm">3</span>
+                        </div>
+                        <span class="text-sm text-text-secondary">Confirmation</span>
+                    </div>
+                </div>
+
+                <!-- Security Badge -->
+                <div class="flex items-center space-x-2">
+                    <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 1L5 4v5.5c0 3.5 2.5 6.9 5 8.5 2.5-1.6 5-5 5-8.5V4l-5-3z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-text-secondary hidden sm:inline">Secure Checkout</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Checkout Content -->
+    <main class="pt-20 min-h-screen bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- Cart Review Section -->
+                <div class="lg:col-span-1 order-2 lg:order-1">
+                    <div class="card-premium sticky top-24">
+                        <h2 class="font-orbitron font-bold text-2xl mb-6">Your Collection</h2>
+                        
+                        <!-- Cart Items -->
+                        <div class="space-y-4 mb-6">
+                            <!-- Item 1 -->
+                            <div class="flex items-center space-x-4 p-4 bg-background rounded-lg">
+                                <img src="https://images.pixabay.com/photo/2017/03/27/14/56/auto-2179220_1280.jpg" alt="1968 Redline Custom Camaro" class="w-16 h-12 object-cover rounded" loading="lazy" />
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-sm">1968 Redline Custom Camaro</h3>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="bg-success text-primary px-2 py-1 rounded text-xs font-bold">AUTHENTICATED</span>
+                                        <span class="bg-warning text-primary px-2 py-1 rounded text-xs font-bold">MINT 9.5</span>
+                                    </div>
+                                    <p class="text-xs text-text-secondary mt-1">Grading included • Ships in 3-5 days</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-mono text-success font-bold">$2,450</p>
+                                    <p class="text-xs text-text-secondary">Qty: 1</p>
+                                </div>
+                            </div>
+
+                            <!-- Item 2 -->
+                            <div class="flex items-center space-x-4 p-4 bg-background rounded-lg">
+                                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d" alt="2023 RLC McLaren" class="w-16 h-12 object-cover rounded" loading="lazy" />
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-sm">2023 RLC Exclusive McLaren</h3>
+                                    <div class="flex items-center space-x-2 mt-1">
+                                        <span class="bg-accent text-white px-2 py-1 rounded text-xs font-bold">RLC EXCLUSIVE</span>
+                                        <span class="bg-success text-primary px-2 py-1 rounded text-xs font-bold">NEW</span>
+                                    </div>
+                                    <p class="text-xs text-text-secondary mt-1">Ready to ship • Arrives in 1-2 days</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-mono text-success font-bold">$89</p>
+                                    <p class="text-xs text-text-secondary">Qty: 2</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="border-t border-border pt-6 space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span>Subtotal</span>
+                                <span class="font-mono">$2,628</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span>Professional Grading</span>
+                                <span class="font-mono">$25</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span>Premium Shipping</span>
+                                <span class="font-mono">$35</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span>Insurance ($25,000 coverage)</span>
+                                <span class="font-mono">$45</span>
+                            </div>
+                            <div class="border-t border-border pt-3 flex justify-between font-bold text-lg">
+                                <span>Total</span>
+                                <span class="font-mono text-success">$2,733</span>
+                            </div>
+                        </div>
+
+                        <!-- Collection Integration -->
+                        <div class="mt-6 p-4 bg-accent/10 border border-accent rounded-lg">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                </svg>
+                                <span class="text-sm font-semibold text-accent">Auto-Add to Collection</span>
+                            </div>
+                            <p class="text-xs text-text-secondary">Items will be automatically added to your digital garage with current market values.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Checkout Form -->
+                <div class="lg:col-span-2 order-1 lg:order-2">
+                    <div class="space-y-8">
+                        
+                        <!-- Shipping Information -->
+                        <div class="card-premium">
+                            <h2 class="font-orbitron font-bold text-2xl mb-6 flex items-center">
+                                <svg class="w-6 h-6 text-accent mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+                                </svg>
+                                Shipping & Handling
+                            </h2>
+                            
+                            <!-- Address Selection -->
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <label class="font-rajdhani font-semibold text-lg">Delivery Address</label>
+                                    <button class="text-accent hover:text-accent/80 transition-smooth text-sm">+ Add New Address</button>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="relative">
+                                        <input type="radio" id="home-address" name="address" class="peer sr-only" checked />
+                                        <label for="home-address" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="flex items-start justify-between">
+                                                <div>
+                                                    <p class="font-semibold">Home Collection</p>
+                                                    <p class="text-sm text-text-secondary">123 Collector Lane<br />Speedway, CA 90210</p>
+                                                </div>
+                                                <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="relative">
+                                        <input type="radio" id="storage-facility" name="address" class="peer sr-only" />
+                                        <label for="storage-facility" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="flex items-start justify-between">
+                                                <div>
+                                                    <p class="font-semibold">Storage Facility</p>
+                                                    <p class="text-sm text-text-secondary">Premier Vault Storage<br />456 Security Blvd, CA 90211</p>
+                                                </div>
+                                                <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Shipping Options -->
+                            <div class="mb-6">
+                                <label class="font-rajdhani font-semibold text-lg mb-4 block">Shipping Method</label>
+                                <div class="space-y-3">
+                                    
+                                    <div class="relative">
+                                        <input type="radio" id="white-glove" name="shipping" class="peer sr-only" />
+                                        <label for="white-glove" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                                    <div>
+                                                        <p class="font-semibold">White Glove Delivery</p>
+                                                        <p class="text-sm text-text-secondary">Climate-controlled • Signature required • Insurance included</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="font-mono font-bold">$85</p>
+                                                    <p class="text-xs text-success">2-3 business days</p>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="relative">
+                                        <input type="radio" id="collector-express" name="shipping" class="peer sr-only" checked />
+                                        <label for="collector-express" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                                    <div>
+                                                        <p class="font-semibold">Collector Express</p>
+                                                        <p class="text-sm text-text-secondary">Temperature controlled • Adult signature • Tracking</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="font-mono font-bold">$35</p>
+                                                    <p class="text-xs text-success">3-5 business days</p>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="relative">
+                                        <input type="radio" id="discrete-shipping" name="shipping" class="peer sr-only" />
+                                        <label for="discrete-shipping" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                                    <div>
+                                                        <p class="font-semibold">Discrete Shipping</p>
+                                                        <p class="text-sm text-text-secondary">Unmarked packaging • No branding • High-value items</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="font-mono font-bold">$45</p>
+                                                    <p class="text-xs text-success">2-4 business days</p>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Special Handling -->
+                            <div class="p-4 bg-warning/10 border border-warning rounded-lg">
+                                <h3 class="font-rajdhani font-semibold text-warning mb-3">Special Handling Options</h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" />
+                                        <span class="text-sm">Custom protective packaging (+$15)</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" />
+                                        <span class="text-sm">Gift wrapping (+$10)</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" checked />
+                                        <span class="text-sm">Professional grading service (+$25)</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3">
+                                        <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" />
+                                        <span class="text-sm">Custom message card (+$5)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Information -->
+                        <div class="card-premium">
+                            <h2 class="font-orbitron font-bold text-2xl mb-6 flex items-center">
+                                <svg class="w-6 h-6 text-accent mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                </svg>
+                                Payment Method
+                            </h2>
+
+                            <!-- Payment Options -->
+                            <div class="mb-6">
+                                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                                    <div class="relative">
+                                        <input type="radio" id="credit-card" name="payment" class="peer sr-only" checked />
+                                        <label for="credit-card" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="text-center">
+                                                <svg class="w-8 h-8 mx-auto mb-2 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                                </svg>
+                                                <p class="font-semibold text-sm">Credit Card</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="relative">
+                                        <input type="radio" id="installments" name="payment" class="peer sr-only" />
+                                        <label for="installments" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="text-center">
+                                                <svg class="w-8 h-8 mx-auto mb-2 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                                                </svg>
+                                                <p class="font-semibold text-sm">Installments</p>
+                                                <p class="text-xs text-text-secondary">4 payments</p>
+                                            </div>
+                                        </label>
+                                    </div>
+
+                                    <div class="relative">
+                                        <input type="radio" id="crypto" name="payment" class="peer sr-only" />
+                                        <label for="crypto" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                            <div class="text-center">
+                                                <svg class="w-8 h-8 mx-auto mb-2 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                                </svg>
+                                                <p class="font-semibold text-sm">Cryptocurrency</p>
+                                                <p class="text-xs text-text-secondary">BTC, ETH</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Credit Card Form -->
+                                <div id="credit-card-form" class="space-y-4">
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-semibold mb-2">Card Number</label>
+                                            <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-accent focus:outline-none transition-smooth font-mono" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold mb-2">Cardholder Name</label>
+                                            <input type="text" placeholder="John Collector" class="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-accent focus:outline-none transition-smooth" />
+                                        </div>
+                                    </div>
+                                    <div class="grid md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-semibold mb-2">Expiry Date</label>
+                                            <input type="text" placeholder="MM/YY" class="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-accent focus:outline-none transition-smooth font-mono" />
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold mb-2">CVV</label>
+                                            <input type="text" placeholder="123" class="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:border-accent focus:outline-none transition-smooth font-mono" />
+                                        </div>
+                                        <div class="flex items-end">
+                                            <label class="flex items-center space-x-2">
+                                                <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" />
+                                                <span class="text-sm">Save card</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Trade-in Credits -->
+                                <div class="mt-6 p-4 bg-success/10 border border-success rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3">
+                                            <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <span class="font-semibold">Available Trade-in Credits</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-mono text-success font-bold">$245.00</p>
+                                            <button class="text-xs text-accent hover:text-accent/80 transition-smooth">Apply Credits</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Insurance & Protection -->
+                        <div class="card-premium">
+                            <h2 class="font-orbitron font-bold text-2xl mb-6 flex items-center">
+                                <svg class="w-6 h-6 text-accent mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                </svg>
+                                Order Protection
+                            </h2>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Insurance Coverage</h3>
+                                    <div class="space-y-3">
+                                        <div class="relative">
+                                            <input type="radio" id="basic-insurance" name="insurance" class="peer sr-only" />
+                                            <label for="basic-insurance" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center space-x-3">
+                                                        <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                                        <div>
+                                                            <p class="font-semibold">Basic Coverage</p>
+                                                            <p class="text-sm text-text-secondary">Up to $5,000</p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="font-mono text-sm">Free</span>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <div class="relative">
+                                            <input type="radio" id="premium-insurance" name="insurance" class="peer sr-only" checked />
+                                            <label for="premium-insurance" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center space-x-3">
+                                                        <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                                        <div>
+                                                            <p class="font-semibold">Premium Coverage</p>
+                                                            <p class="text-sm text-text-secondary">Up to $25,000</p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="font-mono text-sm">$45</span>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <div class="relative">
+                                            <input type="radio" id="collector-insurance" name="insurance" class="peer sr-only" />
+                                            <label for="collector-insurance" class="block p-4 bg-surface border border-border rounded-lg cursor-pointer peer-checked:border-accent peer-checked:bg-accent/5 transition-smooth">
+                                                <div class="flex items-center justify-between">
+                                                    <div class="flex items-center space-x-3">
+                                                        <div class="w-4 h-4 border-2 border-border rounded-full peer-checked:border-accent peer-checked:bg-accent"></div>
+                                                        <div>
+                                                            <p class="font-semibold">Collector Elite</p>
+                                                            <p class="text-sm text-text-secondary">Up to $100,000</p>
+                                                        </div>
+                                                    </div>
+                                                    <span class="font-mono text-sm">$125</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Damage Protection</h3>
+                                    <div class="space-y-3">
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" checked />
+                                            <span class="text-sm">Transit damage coverage</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" checked />
+                                            <span class="text-sm">Authentication guarantee</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3">
+                                            <input type="checkbox" class="w-4 h-4 text-accent focus:ring-accent bg-surface border-border rounded" />
+                                            <span class="text-sm">Condition grade protection (+$20)</span>
+                                        </label>
+                                    </div>
+
+                                    <!-- Declared Value -->
+                                    <div class="mt-4">
+                                        <label class="block text-sm font-semibold mb-2">Declared Value</label>
+                                        <div class="relative">
+                                            <span class="absolute left-3 top-3 text-text-secondary">$</span>
+                                            <input type="text" value="2,733" class="w-full pl-8 pr-4 py-3 bg-surface border border-border rounded-lg focus:border-accent focus:outline-none transition-smooth font-mono" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Biometric Authentication -->
+                        <div class="card-premium lg:hidden">
+                            <h2 class="font-orbitron font-bold text-2xl mb-6 flex items-center">
+                                <svg class="w-6 h-6 text-accent mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                </svg>
+                                Secure Authentication
+                            </h2>
+                            
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6.625 2.655A9 9 0 0119 11a1 1 0 11-2 0 7 7 0 00-9.625-6.492 1 1 0 11-.75-1.853zM4.662 4.959A1 1 0 014.75 6.37 6.97 6.97 0 003 11a1 1 0 11-2 0 8.97 8.97 0 012.25-5.953 1 1 0 011.412-.088z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd" d="M5 11a5 5 0 1110 0 1 1 0 11-2 0 3 3 0 10-6 0 1 1 0 11-2 0z" clip-rule="evenodd"/>
+                                        <path d="M7 9a2 2 0 012-2h.01a2 2 0 110 4H9a2 2 0 01-2-2z"/>
+                                        <path d="M7 13a2 2 0 012-2v2H7z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-text-secondary mb-4">Use biometric authentication for secure, one-touch checkout</p>
+                                <button class="btn-primary w-full">Enable Touch ID / Face ID</button>
+                            </div>
+                        </div>
+
+                        <!-- Complete Order -->
+                        <div class="card-premium bg-accent/5 border-accent">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 class="font-orbitron font-bold text-xl">Ready to Complete Order</h3>
+                                    <p class="text-sm text-text-secondary">Your items will be carefully packaged and shipped with full protection</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-text-secondary">Total Amount</p>
+                                    <p class="font-mono text-2xl font-bold text-success">$2,733</p>
+                                </div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="mb-6">
+                                <label class="flex items-start space-x-3">
+                                    <input type="checkbox" class="w-4 h-4 mt-1 text-accent focus:ring-accent bg-surface border-border rounded" checked />
+                                    <span class="text-sm text-text-secondary">
+                                        I agree to the <a href="#" class="text-accent hover:underline">Terms of Service</a> and 
+                                        <a href="#" class="text-accent hover:underline">Privacy Policy</a>. I understand that all sales are final and authentication is guaranteed.
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <button class="w-full py-4 bg-surface border border-border rounded-lg font-rajdhani font-semibold hover:bg-primary transition-smooth">
+                                    Save for Later
+                                </button>
+                                <button class="btn-primary w-full py-4 text-lg">
+                                    Complete Purchase
+                                </button>
+                            </div>
+
+                            <!-- Security Features -->
+                            <div class="mt-6 pt-6 border-t border-border">
+                                <div class="grid md:grid-cols-3 gap-4 text-center">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 1L5 4v5.5c0 3.5 2.5 6.9 5 8.5 2.5-1.6 5-5 5-8.5V4l-5-3z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="text-xs text-text-secondary">256-bit SSL</span>
+                                    </div>
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-xs text-text-secondary">PCI Compliant</span>
+                                    </div>
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <svg class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="text-xs text-text-secondary">Fraud Protected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Post-Purchase Engagement Modal (Hidden by default) -->
+    <div id="engagement-modal" class="hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="card-premium max-w-md w-full">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-success" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="font-orbitron font-bold text-xl mb-2">Order Completed!</h3>
+                <p class="text-text-secondary mb-6">Your precious finds are being prepared for shipment</p>
+                
+                <div class="space-y-3 mb-6">
+                    <button class="w-full py-3 bg-accent text-white rounded-lg font-rajdhani font-semibold">
+                        Add to Collection Gallery
+                    </button>
+                    <button class="w-full py-3 bg-surface border border-border rounded-lg font-rajdhani font-semibold">
+                        Share with Community
+                    </button>
+                    <button class="w-full py-3 bg-surface border border-border rounded-lg font-rajdhani font-semibold">
+                        Request Care Instructions
+                    </button>
+                </div>
+                
+                <button class="text-text-secondary hover:text-accent transition-smooth text-sm">
+                    Skip for now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// Form interactions and validation
+document.addEventListener('DOMContentLoaded', function() {
+    // Payment method switching
+    const paymentRadios = document.querySelectorAll('input[name="payment"]');
+    const creditCardForm = document.getElementById('credit-card-form');
+    
+    paymentRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'credit-card' || this.id === 'credit-card') {
+                creditCardForm.style.display = 'block';
+            } else {
+                creditCardForm.style.display = 'none';
+            }
+        });
+    });
+
+    // Form validation
+    const inputs = document.querySelectorAll('input[type="text"]');
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value.trim() === '') {
+                this.style.borderColor = 'var(--color-error)';
+            } else {
+                this.style.borderColor = 'var(--color-success)';
+            }
+        });
+    });
+
+    // Complete purchase button - Fixed: Using proper JavaScript selector instead of :contains()
+    const buttons = document.querySelectorAll('button');
+    let completePurchaseBtn = null;
+    
+    buttons.forEach(button => {
+        if (button.textContent.trim().includes('Complete Purchase')) {
+            completePurchaseBtn = button;
+        }
+    });
+    
+    if (completePurchaseBtn) {
+        completePurchaseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Show engagement modal
+            document.getElementById('engagement-modal').classList.remove('hidden');
+        });
+    }
+
+    // Close modal functionality
+    const modal = document.getElementById('engagement-modal');
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+});
+</script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

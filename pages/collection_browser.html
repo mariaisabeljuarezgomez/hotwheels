@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collection Browser - Hot Wheels Velocity</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" content="Browse the ultimate Hot Wheels collection with advanced filtering, 360° previews, and real-time inventory updates. Find rare treasures and authenticated pieces." />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fhotwheels2986back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+</head>
+<body class="bg-background text-text-primary font-inter">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-md border-b border-border">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="homepage.html" class="flex items-center space-x-2">
+                        <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" stroke="url(#gradient)" stroke-width="2"/>
+                            <path d="M12 20L20 12L28 20L20 28L12 20Z" fill="url(#gradient)"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF0080"/>
+                                    <stop offset="100%" style="stop-color:#00FF88"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="font-orbitron font-bold text-xl text-accent">Hot Wheels Velocity</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button class="flex items-center space-x-1 text-accent font-semibold">
+                            <span>Collections</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <!-- Mega Menu -->
+                        <div class="absolute top-full left-0 w-96 bg-surface border border-border rounded-lg shadow-premium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 mt-2">
+                            <div class="p-6 grid grid-cols-2 gap-4">
+                                <a href="collection_browser.html" class="block p-3 rounded-lg hover:bg-primary transition-smooth">
+                                    <img src="https://images.pexels.com/photos/35619/capri-ford-oldtimer-automotive.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Premium Collections" class="w-full h-20 object-cover rounded mb-2" loading="lazy" />
+                                    <h3 class="font-rajdhani font-semibold text-accent">Premium Collections</h3>
+                                    <p class="text-sm text-text-secondary">Treasure Hunts & RLC</p>
+                                </a>
+                                <a href="collection_browser.html" class="block p-3 rounded-lg hover:bg-primary transition-smooth">
+                                    <img src="https://images.pixabay.com/photo/2016/04/01/12/11/car-1300629_1280.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Vintage Vault" class="w-full h-20 object-cover rounded mb-2" loading="lazy" />
+                                    <h3 class="font-rajdhani font-semibold text-warning">Vintage Vault</h3>
+                                    <p class="text-sm text-text-secondary">Classic Redlines</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="collector_dashboard.html" class="text-text-primary hover:text-accent transition-smooth">Dashboard</a>
+                    <a href="about_hot_wheels_velocity.html" class="text-text-primary hover:text-accent transition-smooth">About</a>
+                </div>
+
+                <!-- Search & Actions -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden sm:block">
+                        <input type="search" placeholder="Search rare finds..." class="bg-surface border border-border rounded-lg px-4 py-2 pl-10 w-64 focus:border-accent focus:outline-none transition-smooth" />
+                        <svg class="absolute left-3 top-2.5 w-5 h-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <button class="relative p-2 text-text-primary hover:text-accent transition-smooth">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
+                        </svg>
+                        <span class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 text-text-primary hover:text-accent transition-smooth" id="mobileMenuBtn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md opacity-0 invisible transition-all duration-300" id="mobileMenu">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="homepage.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">Home</a>
+            <a href="collection_browser.html" class="text-2xl font-orbitron font-bold text-accent">Collections</a>
+            <a href="collector_dashboard.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">Dashboard</a>
+            <a href="about_hot_wheels_velocity.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">About</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <!-- Hero Section with Category Tiles -->
+        <section class="py-12 bg-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <h1 class="font-orbitron font-black text-4xl md:text-6xl mb-4 bg-gradient-to-r from-accent via-success to-accent bg-clip-text text-transparent">
+                        COLLECTION UNIVERSE
+                    </h1>
+                    <p class="text-xl text-text-secondary">Discover rare treasures with advanced filtering and 360° previews</p>
+                </div>
+
+                <!-- Category Tiles -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="card-rare group cursor-pointer hover:scale-105 transition-all duration-300">
+                        <div class="relative mb-3 overflow-hidden rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=300&h=200" alt="Treasure Hunts" class="w-full h-24 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-accent/80 to-transparent"></div>
+                        </div>
+                        <h3 class="font-orbitron font-bold text-lg text-accent">Treasure Hunts</h3>
+                        <p class="text-sm text-text-secondary">Ultra rare finds</p>
+                    </div>
+
+                    <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                        <div class="relative mb-3 overflow-hidden rounded-lg">
+                            <img src="https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?auto=compress&cs=tinysrgb&w=300&h=200" alt="RLC Exclusives" class="w-full h-24 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-warning/80 to-transparent"></div>
+                        </div>
+                        <h3 class="font-orbitron font-bold text-lg text-warning">RLC Exclusives</h3>
+                        <p class="text-sm text-text-secondary">Members only</p>
+                    </div>
+
+                    <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                        <div class="relative mb-3 overflow-hidden rounded-lg">
+                            <img src="https://images.pixabay.com/photo/2017/03/27/14/56/auto-2179220_1280.jpg?auto=compress&cs=tinysrgb&w=300&h=200" alt="Vintage Redlines" class="w-full h-24 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-success/80 to-transparent"></div>
+                        </div>
+                        <h3 class="font-orbitron font-bold text-lg text-success">Vintage Redlines</h3>
+                        <p class="text-sm text-text-secondary">Classic 1968-1977</p>
+                    </div>
+
+                    <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                        <div class="relative mb-3 overflow-hidden rounded-lg">
+                            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=300&h=200" alt="Mainlines" class="w-full h-24 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                        </div>
+                        <h3 class="font-orbitron font-bold text-lg">Mainlines</h3>
+                        <p class="text-sm text-text-secondary">Current releases</p>
+                    </div>
+                </div>
+
+                <!-- Advanced Search Bar -->
+                <div class="relative max-w-2xl mx-auto">
+                    <input type="search" placeholder="Search by model, series, year, or color..." class="w-full bg-surface border border-border rounded-lg px-6 py-4 pl-14 pr-20 text-lg focus:border-accent focus:outline-none transition-smooth" />
+                    <svg class="absolute left-4 top-4 w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <button class="absolute right-4 top-4 p-1 text-text-secondary hover:text-accent transition-smooth">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Browser Interface -->
+        <section class="py-8 bg-secondary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Sidebar Filters -->
+                    <aside class="lg:w-80 flex-shrink-0">
+                        <div class="card-premium sticky top-24">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="font-orbitron font-bold text-xl">Advanced Filters</h2>
+                                <button class="text-accent hover:text-success transition-smooth text-sm font-rajdhani font-semibold">
+                                    Reset All
+                                </button>
+                            </div>
+
+                            <!-- Filter Sections -->
+                            <div class="space-y-6">
+                                <!-- Year Range -->
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-3">Year Range</h3>
+                                    <div class="flex space-x-2">
+                                        <input type="number" placeholder="From" class="flex-1 bg-background border border-border rounded px-3 py-2 text-sm focus:border-accent focus:outline-none" />
+                                        <input type="number" placeholder="To" class="flex-1 bg-background border border-border rounded px-3 py-2 text-sm focus:border-accent focus:outline-none" />
+                                    </div>
+                                </div>
+
+                                <!-- Series -->
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-3">Series</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Treasure Hunt (47)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Super Treasure Hunt (23)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">RLC Exclusive (156)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Mainline (892)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Rarity Level -->
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-3">Rarity Level</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm flex items-center">
+                                                <span class="w-2 h-2 bg-error rounded-full mr-2"></span>
+                                                Ultra Rare (12)
+                                            </span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm flex items-center">
+                                                <span class="w-2 h-2 bg-warning rounded-full mr-2"></span>
+                                                Very Rare (45)
+                                            </span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm flex items-center">
+                                                <span class="w-2 h-2 bg-success rounded-full mr-2"></span>
+                                                Rare (128)
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Price Range -->
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-3">Price Range</h3>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between text-sm text-text-secondary">
+                                            <span>$5</span>
+                                            <span>$5,000+</span>
+                                        </div>
+                                        <input type="range" min="5" max="5000" class="w-full accent-accent" />
+                                        <div class="flex space-x-2">
+                                            <input type="number" placeholder="Min" class="flex-1 bg-background border border-border rounded px-3 py-2 text-sm focus:border-accent focus:outline-none" />
+                                            <input type="number" placeholder="Max" class="flex-1 bg-background border border-border rounded px-3 py-2 text-sm focus:border-accent focus:outline-none" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Authentication Status -->
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-3">Authentication</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Authenticated (234)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Graded (89)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Certificate Available (156)</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Condition -->
+                                <div>
+                                    <h3 class="font-rajdhani font-semibold text-lg mb-3">Condition</h3>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Mint (345)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Near Mint (567)</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" class="rounded border-border text-accent focus:ring-accent" />
+                                            <span class="text-sm">Excellent (234)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Save Filter Button -->
+                            <div class="mt-8 pt-6 border-t border-border">
+                                <button class="w-full bg-accent text-white font-rajdhani font-semibold py-3 rounded-lg hover:shadow-rare transition-smooth">
+                                    Save Filter Combo
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Main Content Area -->
+                    <div class="flex-1">
+                        <!-- Toolbar -->
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-text-secondary">Showing <span class="text-accent font-mono">1,247</span> results</span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm text-text-secondary">View:</span>
+                                    <button class="p-2 bg-accent text-white rounded transition-smooth">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="p-2 text-text-secondary hover:text-accent transition-smooth">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4">
+                                <select class="bg-surface border border-border rounded-lg px-4 py-2 focus:border-accent focus:outline-none">
+                                    <option>Sort by Newest</option>
+                                    <option>Sort by Rarest</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Price: High to Low</option>
+                                    <option>Most Popular</option>
+                                </select>
+                                <button class="flex items-center space-x-2 bg-surface border border-border rounded-lg px-4 py-2 hover:border-accent transition-smooth">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l3-3 3 3v13M9 19H6a2 2 0 01-2-2V9a2 2 0 012-2h3m0 10h6a2 2 0 002-2V9a2 2 0 00-2-2h-3"/>
+                                    </svg>
+                                    <span class="text-sm">Compare</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <!-- Product Card 1 - Ultra Rare -->
+                            <div class="card-rare group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.pixabay.com/photo/2017/03/27/14/56/auto-2179220_1280.jpg?auto=compress&cs=tinysrgb&w=400" alt="1968 Redline Custom Camaro" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <!-- Badges -->
+                                    <div class="absolute top-3 left-3 flex flex-col space-y-1">
+                                        <span class="bg-error text-white px-2 py-1 rounded-full text-xs font-mono font-bold">ULTRA RARE</span>
+                                        <span class="bg-success text-primary px-2 py-1 rounded-full text-xs font-bold">AUTHENTICATED</span>
+                                    </div>
+                                    
+                                    <!-- 360° Icon -->
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- Inventory Alert -->
+                                    <div class="absolute bottom-3 left-3 bg-warning text-primary px-2 py-1 rounded text-xs font-bold">
+                                        Only 1 left!
+                                    </div>
+
+                                    <!-- Quick Actions -->
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">1968 Redline Custom Camaro</h3>
+                                    <p class="text-text-secondary text-sm">Mint condition with original blister pack</p>
+                                    
+                                    <!-- Rarity Score -->
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-error">9.8/10</span>
+                                    </div>
+
+                                    <!-- Price and Action -->
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$2,450</span>
+                                            <p class="text-xs text-success">+15% this month</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 2 - RLC Exclusive -->
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&h=300" alt="2023 RLC Exclusive McLaren" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3">
+                                        <span class="bg-warning text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">RLC EXCLUSIVE</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute bottom-3 left-3 bg-success text-primary px-2 py-1 rounded text-xs font-bold">
+                                        Back in stock!
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">2023 RLC Exclusive McLaren</h3>
+                                    <p class="text-text-secondary text-sm">Limited edition with certificate</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-warning">7.5/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$89</span>
+                                            <p class="text-xs text-success">+5% this month</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 3 - Treasure Hunt -->
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=400&h=300" alt="2024 Treasure Hunt Mustang" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3">
+                                        <span class="bg-success text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">TREASURE HUNT</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">2024 Treasure Hunt Mustang</h3>
+                                    <p class="text-text-secondary text-sm">Super Treasure Hunt variant</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-success">8.9/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$156</span>
+                                            <p class="text-xs text-success">+22% this month</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product Card 4 - Mainline -->
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&h=300" alt="2025 Mainline Corvette" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3">
+                                        <span class="bg-primary text-text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">NEW RELEASE</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">2025 Mainline Corvette</h3>
+                                    <p class="text-text-secondary text-sm">Latest mainline release</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-text-secondary rounded-full"></div>
+                                            <div class="w-2 h-2 bg-text-secondary rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-text-secondary">3.2/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$12</span>
+                                            <p class="text-xs text-text-secondary">Stable price</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Additional Product Cards (5-8) -->
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.pixabay.com/photo/2016/04/01/12/11/car-1300629_1280.jpg?auto=compress&cs=tinysrgb&w=400&h=300" alt="1970 Redline Firebird" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3 flex flex-col space-y-1">
+                                        <span class="bg-warning text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">VERY RARE</span>
+                                        <span class="bg-success text-primary px-2 py-1 rounded-full text-xs font-bold">GRADED</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute bottom-3 left-3 bg-accent text-white px-2 py-1 rounded text-xs font-bold">
+                                        Only 3 left!
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">1970 Redline Firebird</h3>
+                                    <p class="text-text-secondary text-sm">Vintage classic with original card</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-warning">8.1/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$675</span>
+                                            <p class="text-xs text-success">+8% this month</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Continue with more product cards... -->
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg?auto=compress&cs=tinysrgb&w=400&h=300" alt="2024 Team Transport Set" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3">
+                                        <span class="bg-accent text-white px-2 py-1 rounded-full text-xs font-mono font-bold">TEAM TRANSPORT</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">2024 Team Transport Set</h3>
+                                    <p class="text-text-secondary text-sm">Car & carrier combo pack</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-success">6.4/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$45</span>
+                                            <p class="text-xs text-text-secondary">Stable price</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- More cards continue... -->
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=400&h=300" alt="2023 Car Culture Set" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3">
+                                        <span class="bg-success text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">CAR CULTURE</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">2023 Car Culture BMW</h3>
+                                    <p class="text-text-secondary text-sm">Modern Classics series</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-success rounded-full"></div>
+                                            <div class="w-2 h-2 bg-border rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-success">7.8/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$28</span>
+                                            <p class="text-xs text-success">+12% this month</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-premium group cursor-pointer hover:scale-105 transition-all duration-300">
+                                <div class="relative mb-4 overflow-hidden rounded-lg">
+                                    <img src="https://images.pixabay.com/photo/2012/05/29/00/43/car-49278_1280.jpg?auto=compress&cs=tinysrgb&w=400&h=300" alt="1969 Redline Custom Mustang" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                                    
+                                    <div class="absolute top-3 left-3 flex flex-col space-y-1">
+                                        <span class="bg-error text-white px-2 py-1 rounded-full text-xs font-mono font-bold">ULTRA RARE</span>
+                                        <span class="bg-success text-primary px-2 py-1 rounded-full text-xs font-bold">CERTIFIED</span>
+                                    </div>
+                                    
+                                    <div class="absolute top-3 right-3 bg-accent text-white p-2 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                        </svg>
+                                    </div>
+
+                                    <div class="absolute bottom-3 left-3 bg-error text-white px-2 py-1 rounded text-xs font-bold">
+                                        Last one!
+                                    </div>
+
+                                    <div class="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-3">
+                                        <button class="bg-accent text-white p-3 rounded-full hover:shadow-rare transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="bg-surface text-text-primary p-3 rounded-full hover:bg-accent hover:text-white transition-smooth">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-orbitron font-bold text-lg">1969 Redline Custom Mustang</h3>
+                                    <p class="text-text-secondary text-sm">Original blister pack, museum quality</p>
+                                    
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-xs text-text-secondary">Rarity Score:</span>
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                            <div class="w-2 h-2 bg-error rounded-full"></div>
+                                        </div>
+                                        <span class="text-xs font-mono text-error">9.9/10</span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-2">
+                                        <div>
+                                            <span class="font-mono text-2xl font-bold text-success">$3,200</span>
+                                            <p class="text-xs text-success">+25% this month</p>
+                                        </div>
+                                        <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth text-sm font-rajdhani font-semibold">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Load More Button -->
+                        <div class="text-center mt-12">
+                            <button class="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
+                                <span>Load More Treasures</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background border-t border-border py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg class="w-8 h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" stroke="url(#footerGradient)" stroke-width="2"/>
+                            <path d="M12 20L20 12L28 20L20 28L12 20Z" fill="url(#footerGradient)"/>
+                            <defs>
+                                <linearGradient id="footerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF0080"/>
+                                    <stop offset="100%" style="stop-color:#00FF88"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="font-orbitron font-bold text-lg text-accent">Hot Wheels Velocity</span>
+                    </div>
+                    <p class="text-text-secondary text-sm">The ultimate premium collector-focused eCommerce platform for die-cast enthusiasts.</p>
+                </div>
+
+                <div>
+                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Collections</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="collection_browser.html" class="text-text-secondary hover:text-accent transition-smooth">Premium Collections</a></li>
+                        <li><a href="collection_browser.html" class="text-text-secondary hover:text-accent transition-smooth">Vintage Vault</a></li>
+                        <li><a href="collection_browser.html" class="text-text-secondary hover:text-accent transition-smooth">New Arrivals</a></li>
+                        <li><a href="collection_browser.html" class="text-text-secondary hover:text-accent transition-smooth">Treasure Hunts</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Community</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="collector_dashboard.html" class="text-text-secondary hover:text-accent transition-smooth">Collector Dashboard</a></li>
+                        <li><a href="about_hot_wheels_velocity.html" class="text-text-secondary hover:text-accent transition-smooth">About Us</a></li>
+                        <li><a href="javascript:void(0)" class="text-text-secondary hover:text-accent transition-smooth">Authentication</a></li>
+                        <li><a href="javascript:void(0)" class="text-text-secondary hover:text-accent transition-smooth">Trade Hub</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-surface rounded-lg flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-surface rounded-lg flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:void(0)" class="w-10 h-10 bg-surface rounded-lg flex items-center justify-center hover:bg-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-border mt-8 pt-8 text-center">
+                <p class="text-text-secondary text-sm">© 2025 Hot Wheels Velocity. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('opacity-0');
+            mobileMenu.classList.toggle('invisible');
+        });
+
+        // Close mobile menu when clicking outside
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.add('opacity-0');
+                mobileMenu.classList.add('invisible');
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

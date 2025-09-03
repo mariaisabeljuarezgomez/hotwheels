@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #1A1A1A; /* Premium foundation */
+  --color-secondary: #2D2D2D; /* Subtle elevation */
+  --color-accent: #FF0080; /* Electric excitement */
+  
+  /* Background Colors */
+  --color-background: #0F0F0F; /* Deep canvas */
+  --color-surface: #242424; /* Gentle layering */
+  
+  /* Text Colors */
+  --color-text-primary: #FFFFFF; /* Crystal clarity */
+  --color-text-secondary: #B0B0B0; /* Clear hierarchy */
+  
+  /* Status Colors */
+  --color-success: #00FF88; /* Collector victory */
+  --color-warning: #FFD700; /* Premium alert */
+  --color-error: #FF4444; /* Helpful guidance */
+  
+  /* Border Colors */
+  --color-border: #333333; /* Subtle borders */
+  --color-border-accent: #FF0080; /* Electric borders */
+  
+  /* Shadow Colors */
+  --shadow-premium: 0 4px 20px rgba(255, 0, 128, 0.1);
+  --shadow-rare: 0 8px 40px rgba(255, 0, 128, 0.2);
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-accent text-white font-rajdhani font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-out hover:shadow-rare;
+  }
+  
+  .card-premium {
+    @apply bg-surface border border-border rounded-lg p-6 transition-all duration-300 ease-out hover:shadow-premium;
+  }
+  
+  .card-rare {
+    @apply bg-surface border border-accent rounded-lg p-6 shadow-rare;
+  }
+  
+  .text-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 300ms ease-out;
+  }
+  
+  .transition-micro {
+    transition: all 200ms ease-out;
+  }
+  
+  .transition-reveal {
+    transition: all 400ms ease-out;
+  }
+}
