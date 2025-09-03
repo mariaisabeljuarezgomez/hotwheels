@@ -11,32 +11,50 @@ const PORT = process.env.PORT || 3000;
 // Generate nonce for CSP
 const crypto = require('crypto');
 
+// Add nonce to all responses FIRST
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString('base64');
+  next();
+});
+
 // Middleware
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    },
-  },
+  contentSecurityPolicy: false  // We'll set CSP manually
 }));
+
+// Set CSP header manually with nonce
+app.use((req, res, next) => {
+  const nonce = res.locals.nonce;
+  res.setHeader('Content-Security-Policy', 
+    `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com;`
+  );
+  next();
+});
 
 app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Add nonce to all responses
-app.use((req, res, next) => {
-  res.locals.nonce = crypto.randomBytes(16).toString('base64');
-  next();
+// Serve HTML files with nonce injection FIRST
+app.get('/', (req, res) => {
+  const filePath = path.join(__dirname, 'index.html');
+  let html = require('fs').readFileSync(filePath, 'utf8');
+  html = html.replace(/nonce=""/g, `nonce="${res.locals.nonce}"`);
+  console.log(`Nonce injected: ${res.locals.nonce}`);
+  res.send(html);
 });
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
+app.get('/pages/:page', (req, res) => {
+  const filePath = path.join(__dirname, 'pages', req.params.page);
+  if (require('fs').existsSync(filePath)) {
+    let html = require('fs').readFileSync(filePath, 'utf8');
+    html = html.replace(/nonce=""/g, `nonce="${res.locals.nonce}"`);
+    res.send(html);
+  } else {
+    res.status(404).send('Page not found');
+  }
+});
 
 // Health check endpoint for Railway
 app.get('/health', (req, res) => {
@@ -84,34 +102,15 @@ app.get('/api/products/:id', (req, res) => {
   });
 });
 
-// Serve HTML files with nonce injection
-app.get('/', (req, res) => {
-  const filePath = path.join(__dirname, 'index.html');
-  let html = require('fs').readFileSync(filePath, 'utf8');
-  html = html.replace(/nonce=""/g, `nonce="${res.locals.nonce}"`);
-  res.send(html);
-});
-
-app.get('/pages/:page', (req, res) => {
-  const filePath = path.join(__dirname, 'pages', req.params.page);
-  if (require('fs').existsSync(filePath)) {
-    let html = require('fs').readFileSync(filePath, 'utf8');
-    html = html.replace(/nonce=""/g, `nonce="${res.locals.nonce}"`);
-    res.send(html);
-  } else {
-    res.status(404).send('Page not found');
+// Serve static files (CSS, JS, images, etc.) - but NOT HTML
+app.use(express.static(path.join(__dirname), {
+  extensions: false,
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      return false; // Don't serve HTML files through static middleware
+    }
   }
-});
-
-// Serve other static files normally
-app.get('*', (req, res) => {
-  const filePath = path.join(__dirname, req.path);
-  if (require('fs').existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).send('File not found');
-  }
-});
+}));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
