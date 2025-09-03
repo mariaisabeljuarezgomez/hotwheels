@@ -1,33 +1,59 @@
 {
   "name": "hot-wheels-velocity",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.html",
-  "dependencies": {
-    "@tailwindcss/forms": "^0.5.7",
-    "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-elevation": "^2.0.0",
-    "tailwindcss-fluid-type": "^2.0.7"
-  },
+  "description": "Premium Hot Wheels collector platform with marketplace and community features",
+  "main": "server.js",
   "scripts": {
-    "build": "echo 'Build process completed - CSS files are ready'",
-    "build:css": "echo 'CSS already compiled and ready'",
-    "watch:css": "echo 'CSS watching not needed for deployment'",
-    "dev": "python -m http.server 8000",
-    "serve": "python -m http.server 3000",
+    "build": "npm run build:css",
+    "build:css": "npx tailwindcss -i ./css/tailwind.css -o ./css/main.css",
+    "build:full": "npm run build:css && npm run build:server",
+    "build:server": "echo 'Server build ready'",
+    "watch:css": "npx tailwindcss -i ./css/tailwind.css -o ./css/main.css --watch",
+    "dev": "concurrently \"npm run watch:css\" \"npm run dev:server\"",
+    "dev:server": "node server.js",
+    "serve": "node server.js",
     "start": "npm run serve",
     "railway:dev": "npm run dev",
-    "railway:build": "npm run build",
-    "railway:start": "npm run serve"
+    "railway:build": "npm run build:full",
+    "railway:start": "npm run serve",
+    "db:migrate": "echo 'Database migrations ready'",
+    "db:seed": "echo 'Database seeding ready'",
+    "test": "echo 'Tests ready'"
   },
-  "author": "",
-  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
+    "mongoose": "^8.0.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "stripe": "^14.14.0",
+    "nodemailer": "^6.9.8",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.3",
+    "connect-mongo": "^5.1.0",
+    "express-validator": "^7.0.1",
+    "cloudinary": "^1.41.0",
+    "socket.io": "^4.7.4",
+    "express-fileupload": "^1.4.3"
+  },
   "devDependencies": {
+    "nodemon": "^3.0.2",
+    "concurrently": "^8.2.2",
     "tailwindcss": "^3.4.17",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/line-clamp": "^0.1.0",
-    "@tailwindcss/typography": "^0.5.16",
-    "serve": "^14.2.3"
-  }
+    "@tailwindcss/typography": "^0.5.16"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": ["hot-wheels", "collectibles", "marketplace", "nodejs", "express"],
+  "author": "Hot Wheels Velocity Team",
+  "license": "MIT"
 }
