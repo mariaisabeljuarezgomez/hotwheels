@@ -26,7 +26,7 @@ app.use(helmet({
 app.use((req, res, next) => {
   const nonce = res.locals.nonce;
   res.setHeader('Content-Security-Policy', 
-    `default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com;`
+    `default-src 'self'; script-src 'self' 'nonce-${nonce}' 'unsafe-hashes' 'sha256-Oq0+h6hP4KV0xrcTNIZ9PdNc6KCP5ai/rK/EGKVj3DU=' 'sha256-bNSr/6/jTvwFmaX/OaNsDX3Ns6333tmsFTI1G6wiWqI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com;`
   );
   next();
 });
@@ -54,6 +54,11 @@ app.get('/pages/:page', (req, res) => {
   } else {
     res.status(404).send('Page not found');
   }
+});
+
+// Favicon endpoint
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).send(); // No content for favicon
 });
 
 // Health check endpoint for Railway
