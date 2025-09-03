@@ -2,10 +2,7 @@
 nixPkgs = ["nodejs-18_x", "npm-8_x"]
 
 [phases.install]
-cmds = ["npm ci"]
-
-[phases.build]
-cmds = ["npm run build:full"]
+cmds = ["npm install"]
 
 [start]
-cmd = "npm run serve"
+cmd = "npm start"

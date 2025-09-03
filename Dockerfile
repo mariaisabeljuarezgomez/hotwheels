@@ -1,25 +1,13 @@
-# Hot Wheels Velocity - Railway Deployment
-
-# Use Node.js for backend
 FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+RUN npm install
 
-# Copy source code
 COPY . .
 
-# Build the application
-RUN npm run build:full
-
-# Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "run", "serve"]
+CMD ["npm", "start"]
