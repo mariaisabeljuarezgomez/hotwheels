@@ -8,12 +8,32 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Generate nonce for CSP
+const crypto = require('crypto');
+
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+    },
+  },
+}));
+
 app.use(compression());
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Add nonce to all responses
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString('base64');
+  next();
+});
 
 // Serve static files
 app.use(express.static(path.join(__dirname)));
@@ -64,9 +84,33 @@ app.get('/api/products/:id', (req, res) => {
   });
 });
 
-// Serve React app for all other routes (for SPA routing)
+// Serve HTML files with nonce injection
+app.get('/', (req, res) => {
+  const filePath = path.join(__dirname, 'index.html');
+  let html = require('fs').readFileSync(filePath, 'utf8');
+  html = html.replace(/nonce=""/g, `nonce="${res.locals.nonce}"`);
+  res.send(html);
+});
+
+app.get('/pages/:page', (req, res) => {
+  const filePath = path.join(__dirname, 'pages', req.params.page);
+  if (require('fs').existsSync(filePath)) {
+    let html = require('fs').readFileSync(filePath, 'utf8');
+    html = html.replace(/nonce=""/g, `nonce="${res.locals.nonce}"`);
+    res.send(html);
+  } else {
+    res.status(404).send('Page not found');
+  }
+});
+
+// Serve other static files normally
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const filePath = path.join(__dirname, req.path);
+  if (require('fs').existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send('File not found');
+  }
 });
 
 // Error handling middleware
