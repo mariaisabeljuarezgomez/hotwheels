@@ -147,11 +147,45 @@ All product images include `onerror` handlers that automatically switch to backu
 
 ## 🚀 Deployment
 
-The site is built with static files and can be deployed to any web server or CDN:
+### Railway Deployment (Recommended)
 
-1. Build production assets: `npm run build:css`
+This project is configured for easy Railway deployment:
+
+1. **Push to GitHub** (already done)
+2. **Connect to Railway:**
+   - Go to [railway.app](https://railway.app)
+   - Connect your GitHub repository
+   - Railway auto-detects the configuration
+3. **Deploy automatically** - Railway handles build and deployment
+
+**Railway Configuration Files:**
+- `railway.json` - Railway deployment config
+- `nixpacks.toml` - Railway build configuration
+- `Dockerfile` - Docker deployment option
+
+### Manual Deployment
+
+For other hosting providers:
+
+1. Build production assets: `npm run build`
 2. Upload all files to your hosting provider
 3. Ensure the `public/` directory is accessible
+
+### Local Development
+
+1. **Environment Setup:**
+   ```bash
+   # Copy environment template
+   cp env.template .env.local
+   # Edit .env.local with your settings
+   ```
+
+2. **Run locally:**
+   ```bash
+   npm install
+   npm run dev        # Development with CSS watching
+   npm run serve      # Production-like serving
+   ```
 
 ## 🙏 Acknowledgments
 

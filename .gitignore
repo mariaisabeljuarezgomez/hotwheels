@@ -133,3 +133,37 @@ user-preferences.json
 # Build artifacts that shouldn't be committed
 css/main.css.map
 css/tailwind.css.map
+
+# Environment files (create your own .env from env.template)
+.env
+.env.local
+.env.production
+.env.staging
+
+# Railway deployment files (optional - can be committed)
+# railway.json
+# nixpacks.toml
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Coverage directory
+coverage/
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
