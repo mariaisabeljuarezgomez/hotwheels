@@ -1,25 +1,16 @@
 # Hot Wheels Velocity - Railway Deployment
 
-# Use Node.js for building and serving
-FROM node:18-alpine
+# Use Python for serving static files
+FROM python:3.9-slim
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy source code
+# Copy all files
 COPY . .
-
-# Build the application
-RUN npm run build
 
 # Expose port
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "run", "serve"]
+# Start Python HTTP server
+CMD ["python", "-m", "http.server", "3000"]

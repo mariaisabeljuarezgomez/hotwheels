@@ -14,7 +14,7 @@
     "build:css": "echo 'CSS already compiled and ready'",
     "watch:css": "echo 'CSS watching not needed for deployment'",
     "dev": "python -m http.server 8000",
-    "serve": "python -m http.server ${PORT:-3000}",
+    "serve": "python -m http.server 3000",
     "start": "npm run serve",
     "railway:dev": "npm run dev",
     "railway:build": "npm run build",
