@@ -4,6 +4,19 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const path = require('path');
+const session = require('express-session');
+const rateLimit = require('express-rate-limit');
+
+// Import database and models
+const { initializeDatabase } = require('./config/database');
+
+// Import controllers
+const authController = require('./controllers/authController');
+const productController = require('./controllers/productController');
+const cartController = require('./controllers/cartController');
+
+// Import validation middleware
+const validation = require('./middleware/validation');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,7 +45,30 @@ app.use((req, res, next) => {
 });
 
 app.use(compression());
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? false : true,
+  credentials: true
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api/', limiter);
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'hot-wheels-session-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  }
+}));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -71,7 +107,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API Routes (placeholder for future backend)
+// API Routes
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
@@ -81,31 +117,34 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Cart API endpoints (placeholders)
-app.get('/api/cart', (req, res) => {
-  res.json({ message: 'Cart API ready', items: [] });
-});
+// Authentication routes
+app.post('/api/auth/register', validation.validateRegister, authController.register);
+app.post('/api/auth/login', validation.validateLogin, authController.login);
+app.get('/api/auth/profile', authController.verifyToken, authController.getProfile);
+app.put('/api/auth/profile', authController.verifyToken, validation.validateProfileUpdate, authController.updateProfile);
+app.put('/api/auth/change-password', authController.verifyToken, validation.validateChangePassword, authController.changePassword);
+app.post('/api/auth/logout', authController.verifyToken, authController.logout);
 
-app.post('/api/cart', (req, res) => {
-  res.json({ message: 'Item added to cart', success: true });
-});
+// Product routes
+app.get('/api/products', validation.validatePagination, validation.validateProductFilters, productController.getProducts);
+app.get('/api/products/featured', validation.validatePagination, productController.getFeaturedProducts);
+app.get('/api/products/search', validation.validateSearch, validation.validatePagination, productController.searchProducts);
+app.get('/api/products/filters', productController.getProductFilters);
+app.get('/api/products/category/:categorySlug', validation.validateCategorySlug, validation.validatePagination, productController.getProductsByCategory);
+app.get('/api/products/:id', validation.validateProductId, productController.getProduct);
+app.get('/api/products/slug/:slug', validation.validateProductSlug, productController.getProductBySlug);
+app.get('/api/products/:id/reviews', validation.validateProductId, validation.validatePagination, productController.getProductReviews);
+app.get('/api/categories', productController.getCategories);
 
-// User API endpoints (placeholders)
-app.get('/api/user', (req, res) => {
-  res.json({ message: 'User API ready' });
-});
-
-// Products API endpoints (placeholders)
-app.get('/api/products', (req, res) => {
-  res.json({ message: 'Products API ready', products: [] });
-});
-
-app.get('/api/products/:id', (req, res) => {
-  res.json({
-    message: 'Product API ready',
-    productId: req.params.id
-  });
-});
+// Cart routes (with optional authentication)
+app.get('/api/cart', authController.optionalAuth, cartController.getCart);
+app.post('/api/cart', authController.optionalAuth, validation.validateAddToCart, cartController.addToCart);
+app.put('/api/cart/:productId', authController.optionalAuth, validation.validateUpdateCartItem, cartController.updateCartItem);
+app.delete('/api/cart/:productId', authController.optionalAuth, validation.validateProductId, cartController.removeFromCart);
+app.delete('/api/cart', authController.optionalAuth, cartController.clearCart);
+app.get('/api/cart/count', authController.optionalAuth, cartController.getCartCount);
+app.get('/api/cart/validate', authController.optionalAuth, cartController.validateCart);
+app.post('/api/cart/merge', authController.verifyToken, cartController.mergeCart);
 
 // Serve static files (CSS, JS, images, etc.) - but NOT HTML
 app.use(express.static(path.join(__dirname), {
@@ -131,18 +170,36 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Start server
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🏎️ Hot Wheels Velocity server running on port ${PORT}`);
-  console.log(`🌐 Frontend: http://0.0.0.0:${PORT}`);
-  console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🚀 Server ready to accept connections on all interfaces`);
-  
-  // Send ready signal to Railway
-  if (process.send) {
-    process.send('ready');
+// Initialize database and start server
+const startServer = async () => {
+  try {
+    // Initialize database tables
+    await initializeDatabase();
+    console.log('✅ Database initialized successfully');
+    
+    // Start server
+    const server = app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🏎️ Hot Wheels Velocity server running on port ${PORT}`);
+      console.log(`🌐 Frontend: http://0.0.0.0:${PORT}`);
+      console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🚀 Server ready to accept connections on all interfaces`);
+      console.log(`📊 Database connected and ready`);
+      
+      // Send ready signal to Railway
+      if (process.send) {
+        process.send('ready');
+      }
+    });
+
+    return server;
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
   }
-});
+};
+
+// Start the server
+startServer();
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
