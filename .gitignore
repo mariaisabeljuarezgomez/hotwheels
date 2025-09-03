@@ -162,6 +162,9 @@ coverage/
 # Dependency directories
 node_modules/
 
+# PostgreSQL binaries (should not be committed)
+bin/
+
 # Optional npm cache directory
 .npm
 
