@@ -1,5 +1,5 @@
 // Initialize Homepage Listings with Default Data
-const { query } = require('../config/database');
+const { query, initializeDatabase } = require('../config/database');
 
 const defaultListings = [
     // Featured Treasures
@@ -87,7 +87,9 @@ const defaultListings = [
 async function initializeHomepageListings() {
     try {
         console.log('🔄 Initializing homepage listings...');
-        
+
+        // Database should already be initialized by server
+
         // Check if listings already exist
         const existingListings = await query('SELECT COUNT(*) FROM homepage_listings');
         const count = parseInt(existingListings.rows[0].count);

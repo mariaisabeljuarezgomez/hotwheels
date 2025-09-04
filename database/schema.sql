@@ -3,24 +3,10 @@
 
 -- Users table for authentication and profiles
 CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
+    id VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20),
-    date_of_birth DATE,
-    address_line1 VARCHAR(255),
-    address_line2 VARCHAR(255),
-    city VARCHAR(100),
-    state VARCHAR(50),
-    zip_code VARCHAR(20),
-    country VARCHAR(100) DEFAULT 'USA',
-    profile_image_url VARCHAR(500),
-    is_verified BOOLEAN DEFAULT FALSE,
-    is_admin BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL
 );
 
 -- Categories for Hot Wheels products
@@ -241,7 +227,7 @@ CREATE TABLE IF NOT EXISTS product_details (
 -- Shopping cart
 CREATE TABLE IF NOT EXISTS cart_items (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    user_id VARCHAR(255) REFERENCES users(id) ON DELETE CASCADE,
     session_id VARCHAR(255), -- For guest users
     product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
     quantity INTEGER NOT NULL DEFAULT 1,
@@ -254,34 +240,20 @@ CREATE TABLE IF NOT EXISTS cart_items (
 
 -- Orders
 CREATE TABLE IF NOT EXISTS orders (
-    id SERIAL PRIMARY KEY,
-    order_number VARCHAR(50) UNIQUE NOT NULL,
-    user_id INTEGER REFERENCES users(id),
-    email VARCHAR(255) NOT NULL,
-    status VARCHAR(50) DEFAULT 'pending', -- 'pending', 'processing', 'shipped', 'delivered', 'cancelled'
-    payment_status VARCHAR(50) DEFAULT 'pending', -- 'pending', 'paid', 'failed', 'refunded'
-    payment_method VARCHAR(50), -- 'stripe', 'paypal', 'credit_card'
-    payment_id VARCHAR(255),
-    subtotal DECIMAL(10,2) NOT NULL,
-    tax_amount DECIMAL(10,2) DEFAULT 0,
-    shipping_amount DECIMAL(10,2) DEFAULT 0,
-    discount_amount DECIMAL(10,2) DEFAULT 0,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_number VARCHAR(50) UNIQUE,
+    user_id VARCHAR(255) REFERENCES users(id),
+    session_id VARCHAR(255) NOT NULL,
+    items JSONB NOT NULL,
     total_amount DECIMAL(10,2) NOT NULL,
-    currency VARCHAR(3) DEFAULT 'USD',
-    shipping_address JSONB,
-    billing_address JSONB,
-    notes TEXT,
-    tracking_number VARCHAR(100),
-    shipped_at TIMESTAMP,
-    delivered_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    status VARCHAR(50) DEFAULT 'pending',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Order items
 CREATE TABLE IF NOT EXISTS order_items (
     id SERIAL PRIMARY KEY,
-    order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
+    order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
     product_id INTEGER REFERENCES products(id),
     product_name VARCHAR(255) NOT NULL, -- Store product name at time of order
     product_sku VARCHAR(100) NOT NULL,
@@ -294,7 +266,7 @@ CREATE TABLE IF NOT EXISTS order_items (
 -- User collections (wishlist/favorites)
 CREATE TABLE IF NOT EXISTS user_collections (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    user_id VARCHAR(255) REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     is_public BOOLEAN DEFAULT FALSE,
@@ -316,7 +288,7 @@ CREATE TABLE IF NOT EXISTS collection_items (
 CREATE TABLE IF NOT EXISTS product_reviews (
     id SERIAL PRIMARY KEY,
     product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    user_id VARCHAR(255) REFERENCES users(id) ON DELETE CASCADE,
     rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
     title VARCHAR(255),
     review_text TEXT,
@@ -349,7 +321,7 @@ CREATE TABLE IF NOT EXISTS coupons (
 -- User sessions for authentication
 CREATE TABLE IF NOT EXISTS user_sessions (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    user_id VARCHAR(255) REFERENCES users(id) ON DELETE CASCADE,
     session_token VARCHAR(255) UNIQUE NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

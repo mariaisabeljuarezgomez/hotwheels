@@ -240,8 +240,9 @@
                                 <input type="text" id="listing-title" name="title" class="form-input" required>
                             </div>
                             <div class="form-group">
-                                <label for="listing-price">Price ($) *</label>
+                                <label for="listing-price">Product Price ($) *</label>
                                 <input type="number" id="listing-price" name="price" class="form-input" step="0.01" min="0" required>
+                                <small class="form-help">This is the main product price that customers will pay.</small>
                             </div>
                         </div>
                         
@@ -265,13 +266,13 @@
                         </div>
                         <div class="section-content" id="product-image-content">
                         <div class="form-group">
-                            <label for="listing-image-upload">Upload New Image</label>
+                            <label for="listing-image-upload">Upload New Image (Optional)</label>
                             <input type="file" id="listing-image-upload" name="image_upload" class="form-input" accept="image/*">
                             <div class="image-preview-container">
-                                <img id="image-preview" src="" alt="Preview" style="display: none; max-width: 200px; max-height: 150px; margin-top: 10px; border-radius: 8px;">
+                                <img id="image-preview" alt="Preview" style="display: none; max-width: 200px; max-height: 150px; margin-top: 10px; border-radius: 8px;">
                             </div>
                             <input type="hidden" id="listing-image-url" name="image_url">
-                            <small class="text-text-secondary">Only select a file if you want to replace the existing image.</small>
+                            <small class="text-text-secondary">✅ Current image is already saved. Only select a new file if you want to replace it.</small>
                         </div>
                         </div>
                     </div>
@@ -362,6 +363,20 @@
                                         <input type="radio" name="product_type" value="tumbler">
                                         <span class="radio-custom"></span>
                                         Tumbler
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" id="tshirt-colors" style="display: none;">
+                                <label>T-Shirt Colors Available</label>
+                                <div class="size-grid">
+                                    <label class="size-option">
+                                        <input type="checkbox" name="tshirt_colors" value="White">
+                                        <span class="size-label">White</span>
+                                    </label>
+                                    <label class="size-option">
+                                        <input type="checkbox" name="tshirt_colors" value="Black">
+                                        <span class="size-label">Black</span>
                                     </label>
                                 </div>
                             </div>
@@ -468,7 +483,7 @@
                                     <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                 </div>
                                 <div class="image-preview" style="display: none;">
-                                    <img src="" alt="Preview">
+                                    <img alt="Preview">
                                     <div class="image-actions">
                                         <button type="button" class="btn-danger delete-image">✕</button>
                                     </div>
@@ -485,7 +500,7 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img src="" alt="Preview">
+                                        <img alt="Preview">
                                         <div class="image-actions">
                                             <button type="button" class="btn-danger delete-image">✕</button>
                                         </div>
@@ -500,7 +515,7 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img src="" alt="Preview">
+                                        <img alt="Preview">
                                         <div class="image-actions">
                                             <button type="button" class="btn-danger delete-image">✕</button>
                                         </div>
@@ -515,7 +530,7 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img src="" alt="Preview">
+                                        <img alt="Preview">
                                         <div class="image-actions">
                                             <button type="button" class="btn-danger delete-image">✕</button>
                                         </div>
@@ -530,7 +545,7 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img src="" alt="Preview">
+                                        <img alt="Preview">
                                         <div class="image-actions">
                                             <button type="button" class="btn-danger delete-image">✕</button>
                                         </div>
@@ -661,8 +676,9 @@
                         <div class="section-content" id="market-value-content">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="listing-market-value">Current Market Value ($)</label>
+                                <label for="listing-market-value">Market Value ($) - Separate from Product Price</label>
                                 <input type="number" id="listing-market-value" name="market_value" class="form-input" step="0.01" min="0" placeholder="2450.00">
+                                <small class="form-help">This is the estimated market value for investment purposes, separate from the product price above.</small>
                             </div>
                             <div class="form-group">
                                 <label for="listing-price-change">Price Change % (30 days)</label>

@@ -79,19 +79,53 @@ class HomepageListings {
     async loadListings() {
         try {
             this.showLoading(true);
-            
-            const response = await fetch('/api/homepage-listings');
-            const result = await response.json();
-            
-            if (result.success) {
-                this.listings = {};
-                result.data.listings.forEach(listing => {
+
+            // Load both homepage listings and product details
+            const [homepageResponse, productDetailsResponse] = await Promise.all([
+                fetch('/api/homepage-listings'),
+                fetch('/api/product-details/all')
+            ]);
+
+            const [homepageResult, productDetailsResult] = await Promise.all([
+                homepageResponse.json(),
+                productDetailsResponse.json()
+            ]);
+
+            this.listings = {};
+
+            // Load homepage listings
+            if (homepageResult.success) {
+                homepageResult.data.listings.forEach(listing => {
                     this.listings[listing.listing_id] = listing;
                 });
-                this.updateDisplay();
-            } else {
-                this.showMessage('Failed to load listings: ' + result.message, 'error');
             }
+
+            // Load product details and merge with homepage listings
+            if (productDetailsResult.success) {
+                productDetailsResult.data.products.forEach(product => {
+                    const listingId = `product-${product.product_id}`;
+                    if (this.listings[listingId]) {
+                        // Merge product details with existing homepage listing
+                        this.listings[listingId] = { ...this.listings[listingId], ...product };
+                    } else {
+                        // Create new listing entry for product
+                        this.listings[listingId] = {
+                            listing_id: listingId,
+                            title: product.title,
+                            description: product.subtitle || '',
+                            price: product.current_price,
+                            image_url: product.main_image_url,
+                            tag_type: product.primary_tag || 'standard',
+                            tag_text: product.primary_tag_text || '',
+                            product_link: `product_detail.html?id=${product.product_id}`,
+                            is_active: product.is_active,
+                            ...product // Include all product detail fields
+                        };
+                    }
+                });
+            }
+
+            this.updateDisplay();
         } catch (error) {
             console.error('Load listings error:', error);
             this.showMessage('Error loading listings: ' + error.message, 'error');
@@ -166,21 +200,39 @@ class HomepageListings {
         document.getElementById('listing-image-url').value = listing.image_url;
         document.getElementById('listing-tag').value = listing.tag_type;
         document.getElementById('listing-tag-text').value = listing.tag_text || '';
-        
+
         // Auto-generate product link based on listing ID
         const productId = listingId.split('-')[1];
         const autoProductLink = `product_detail.html?id=${productId}`;
         document.getElementById('listing-link').value = autoProductLink;
         document.getElementById('listing-link').readOnly = true;
         document.getElementById('listing-link').style.backgroundColor = '#f3f4f6';
-        
+
         document.getElementById('listing-active').checked = listing.is_active;
+
+        // Restore toggle states from database if available
+        if (listing.toggle_settings) {
+            Object.entries(listing.toggle_settings).forEach(([toggleId, isChecked]) => {
+                const toggleElement = document.getElementById(toggleId);
+                if (toggleElement) {
+                    toggleElement.checked = isChecked;
+                    // Trigger the toggle functionality to show/hide sections
+                    this.handleToggleChange(toggleId, isChecked);
+                }
+            });
+        }
 
         // Populate extended product details
         document.getElementById('listing-subtitle').value = listing.subtitle || '';
         document.getElementById('listing-original-price').value = listing.original_price || '';
         document.getElementById('listing-stock').value = listing.stock_quantity || '';
         document.getElementById('listing-detailed-description').value = listing.detailed_description || '';
+        
+        // Populate historical context fields
+        document.getElementById('listing-historical-description').value = listing.historical_description || '';
+        document.getElementById('listing-expert-quote').value = listing.expert_quote || '';
+        document.getElementById('listing-expert-name').value = listing.expert_name || '';
+        document.getElementById('listing-expert-rating').value = listing.expert_rating || '';
 
         // Populate features
         if (listing.features && Array.isArray(listing.features)) {
@@ -254,6 +306,7 @@ class HomepageListings {
         this.populateImageSlots(listing);
 
         // Update image preview
+        console.log('[editListing] Setting image preview with URL:', listing.image_url);
         this.updateImagePreview(listing.image_url);
 
         // Show modal
@@ -287,11 +340,14 @@ class HomepageListings {
 
     updateImagePreview(imageUrl) {
         const preview = document.getElementById('image-preview');
-        if (imageUrl) {
+        if (preview) {
+            if (imageUrl && imageUrl.trim() !== '') {
             preview.src = imageUrl;
             preview.style.display = 'block';
         } else {
             preview.style.display = 'none';
+                preview.src = ''; // Clear the src to prevent 404 errors
+            }
         }
     }
 
@@ -299,7 +355,13 @@ class HomepageListings {
         document.getElementById('edit-listing-modal').style.display = 'none';
         this.currentListing = null;
         document.getElementById('listing-edit-form').reset();
-        document.getElementById('image-preview').style.display = 'none';
+        
+        // Clear image preview
+        const imagePreview = document.getElementById('image-preview');
+        if (imagePreview) {
+            imagePreview.style.display = 'none';
+            imagePreview.src = ''; // Clear the src to prevent 404 errors
+        }
     }
 
     async saveListing() {
@@ -378,8 +440,37 @@ class HomepageListings {
             }
             console.log('[saveListing] Final image URLs:', imageUrls);
 
-            // Use main image as the primary image_url for homepage listings
-            const imageUrl = imageUrls.main_image_url || document.getElementById('listing-image-url').value;
+            // Handle old single image upload system
+            let imageUrl = imageUrls.main_image_url || document.getElementById('listing-image-url').value;
+            
+            // If there's a new file uploaded via the old system, handle it
+            const oldImageInput = document.getElementById('listing-image-upload');
+            if (oldImageInput && oldImageInput.files && oldImageInput.files[0]) {
+                console.log('[saveListing] Found file in old image upload system. Uploading...');
+                const uploadFormData = new FormData();
+                uploadFormData.append('image', oldImageInput.files[0]);
+                uploadFormData.append('listing_id', this.currentListing);
+                
+                const uploadResponse = await fetch('/api/upload-homepage-image', {
+                    method: 'POST',
+                    body: uploadFormData
+                });
+                
+                const uploadResult = await uploadResponse.json();
+                if (uploadResult.success) {
+                    imageUrl = uploadResult.data.imageUrl;
+                    console.log('[saveListing] Old image uploaded successfully. URL:', imageUrl);
+                } else {
+                    this.showMessage(`Failed to upload image: ${uploadResult.message}`, 'error');
+                    console.error('[saveListing] Old image upload failed:', uploadResult.message);
+                    this.showLoading(false);
+                    return;
+                }
+            } else if (!imageUrl && existingListing && existingListing.image_url) {
+                // Use existing image URL if no new upload
+                imageUrl = existingListing.image_url;
+                console.log('[saveListing] Using existing image URL:', imageUrl);
+            }
 
             // Collect features from textarea (one per line)
             const featuresText = document.getElementById('listing-features').value;
@@ -401,83 +492,166 @@ class HomepageListings {
                 title: document.getElementById('listing-title').value,
                 description: document.getElementById('listing-description').value,
                 price: parseFloat(document.getElementById('listing-price').value),
+                
+                // Product Image (only if section is enabled)
+                ...(document.getElementById('toggle-product-image').checked ? {
                 image_url: imageUrl,
-                // Multiple image URLs
-                main_image_url: imageUrls.main_image_url,
-                thumbnail_1_url: imageUrls.thumbnail_1_url,
-                thumbnail_2_url: imageUrls.thumbnail_2_url,
-                thumbnail_3_url: imageUrls.thumbnail_3_url,
-                thumbnail_4_url: imageUrls.thumbnail_4_url,
+                } : {}),
+                
+                // Product Images (only if section is enabled)
+                ...(document.getElementById('toggle-product-images').checked ? {
+                    main_image_url: imageUrls.main_image_url,
+                    thumbnail_1_url: imageUrls.thumbnail_1_url,
+                    thumbnail_2_url: imageUrls.thumbnail_2_url,
+                    thumbnail_3_url: imageUrls.thumbnail_3_url,
+                    thumbnail_4_url: imageUrls.thumbnail_4_url,
+                } : {}),
+                // Product Tag (only if section is enabled)
+                ...(document.getElementById('toggle-product-tag').checked ? {
                 tag_type: document.getElementById('listing-tag').value,
                 tag_text: document.getElementById('listing-tag-text').value || null,
+                } : {}),
+                
+                // Product Link (only if section is enabled)
+                ...(document.getElementById('toggle-product-link').checked ? {
                 product_link: document.getElementById('listing-link').value || null,
+                } : {}),
+                
+                // Status (always enabled)
                 is_active: document.getElementById('listing-active').checked,
-                // Extended product details
-                subtitle: document.getElementById('listing-subtitle').value || null,
-                original_price: document.getElementById('listing-original-price').value ? parseFloat(document.getElementById('listing-original-price').value) : null,
-                stock_quantity: document.getElementById('listing-stock').value ? parseInt(document.getElementById('listing-stock').value) : null,
-                detailed_description: document.getElementById('listing-detailed-description').value || null,
-                features: features,
-                // Apparel data
-                ...this.getSelectedSizes(),
-                specifications: specifications,
+                
+                // Extended product details (only if section is enabled)
+                ...(document.getElementById('toggle-extended-details').checked ? {
+                    subtitle: document.getElementById('listing-subtitle').value || null,
+                    original_price: document.getElementById('listing-original-price').value ? parseFloat(document.getElementById('listing-original-price').value) : null,
+                    stock_quantity: document.getElementById('listing-stock').value ? parseInt(document.getElementById('listing-stock').value) : null,
+                    detailed_description: document.getElementById('listing-detailed-description').value || null,
+                } : {}),
+                
+                // Product Features (only if section is enabled)
+                ...(document.getElementById('toggle-product-features').checked ? {
+                    features: features,
+                } : {}),
+                
+                // Apparel data (only if section is enabled)
+                ...(document.getElementById('toggle-apparel').checked ? {
+                    ...this.getSelectedSizes(),
+                } : {}),
+                
+                // Product Specifications (only if section is enabled)
+                ...(document.getElementById('toggle-product-specifications').checked ? {
+                    specifications: specifications,
+                } : {}),
 
-                // Market Value & Investment Data
-                market_value: document.getElementById('listing-market-value').value ? parseFloat(document.getElementById('listing-market-value').value) : null,
-                price_change_percentage: document.getElementById('listing-price-change').value ? parseFloat(document.getElementById('listing-price-change').value) : null,
-                investment_grade: document.getElementById('listing-investment-grade').value || null,
-                last_price_update: document.getElementById('listing-last-price-update').value || null,
-                week_low: document.getElementById('listing-week-low').value ? parseFloat(document.getElementById('listing-week-low').value) : null,
-                week_high: document.getElementById('listing-week-high').value ? parseFloat(document.getElementById('listing-week-high').value) : null,
-                avg_sale_price: document.getElementById('listing-avg-sale-price').value ? parseFloat(document.getElementById('listing-avg-sale-price').value) : null,
+                // Market Value & Investment Data (only if section is enabled)
+                ...(document.getElementById('toggle-market-value').checked ? {
+                    market_value: document.getElementById('listing-market-value').value ? parseFloat(document.getElementById('listing-market-value').value) : null,
+                    price_change_percentage: document.getElementById('listing-price-change').value ? parseFloat(document.getElementById('listing-price-change').value) : null,
+                    investment_grade: document.getElementById('listing-investment-grade').value || null,
+                    last_price_update: document.getElementById('listing-last-price-update').value || null,
+                    week_low: document.getElementById('listing-week-low').value ? parseFloat(document.getElementById('listing-week-low').value) : null,
+                    week_high: document.getElementById('listing-week-high').value ? parseFloat(document.getElementById('listing-week-high').value) : null,
+                    avg_sale_price: document.getElementById('listing-avg-sale-price').value ? parseFloat(document.getElementById('listing-avg-sale-price').value) : null,
+                } : {}),
 
-                // Expert Authentication
-                expert_authenticated: document.getElementById('listing-expert-authenticated').checked,
-                certificate_number: document.getElementById('listing-certificate-number').value || null,
-                authenticated_by: document.getElementById('listing-authenticated-by').value || null,
+                // Expert Authentication (only if section is enabled)
+                ...(document.getElementById('toggle-expert-auth').checked ? {
+                    expert_authenticated: document.getElementById('listing-expert-authenticated').checked,
+                    certificate_number: document.getElementById('listing-certificate-number').value || null,
+                    authenticated_by: document.getElementById('listing-authenticated-by').value || null,
+                } : {}),
 
-                // Detailed Specifications
-                production_year: document.getElementById('listing-production-year').value ? parseInt(document.getElementById('listing-production-year').value) : null,
-                casting: document.getElementById('listing-casting').value || null,
-                spectraflame_color: document.getElementById('listing-spectraflame-color').value || null,
-                tampo: document.getElementById('listing-tampo').value || null,
-                wheel_type: document.getElementById('listing-wheel-type').value || null,
-                country_of_origin: document.getElementById('listing-country-of-origin').value || null,
-                condition_rating: document.getElementById('listing-condition-rating').value ? parseFloat(document.getElementById('listing-condition-rating').value) : null,
-                condition_description: document.getElementById('listing-condition-description').value || null,
+                // Detailed Specifications (only if section is enabled)
+                ...(document.getElementById('toggle-detailed-specs').checked ? {
+                    production_year: document.getElementById('listing-production-year').value ? parseInt(document.getElementById('listing-production-year').value) : null,
+                    casting: document.getElementById('listing-casting').value || null,
+                    spectraflame_color: document.getElementById('listing-spectraflame-color').value || null,
+                    tampo: document.getElementById('listing-tampo').value || null,
+                    wheel_type: document.getElementById('listing-wheel-type').value || null,
+                    country_of_origin: document.getElementById('listing-country-of-origin').value || null,
+                    condition_rating: document.getElementById('listing-condition-rating').value ? parseFloat(document.getElementById('listing-condition-rating').value) : null,
+                    condition_description: document.getElementById('listing-condition-description').value || null,
+                } : {}),
 
-                // Premium Services
-                professional_grading: document.getElementById('listing-professional-grading').checked,
-                grading_price: document.getElementById('listing-grading-price').value ? parseFloat(document.getElementById('listing-grading-price').value) : null,
-                custom_display_case: document.getElementById('listing-custom-display-case').checked,
-                display_case_price: document.getElementById('listing-display-case-price').value ? parseFloat(document.getElementById('listing-display-case-price').value) : null,
-                insurance_valuation: document.getElementById('listing-insurance-valuation').checked,
-                insurance_price: document.getElementById('listing-insurance-price').value ? parseFloat(document.getElementById('listing-insurance-price').value) : null,
+                // Premium Services (only if section is enabled)
+                ...(document.getElementById('toggle-premium-services').checked ? {
+                    professional_grading: document.getElementById('listing-professional-grading').checked,
+                    grading_price: document.getElementById('listing-grading-price').value ? parseFloat(document.getElementById('listing-grading-price').value) : null,
+                    custom_display_case: document.getElementById('listing-custom-display-case').checked,
+                    display_case_price: document.getElementById('listing-display-case-price').value ? parseFloat(document.getElementById('listing-display-case-price').value) : null,
+                    insurance_valuation: document.getElementById('listing-insurance-valuation').checked,
+                    insurance_price: document.getElementById('listing-insurance-price').value ? parseFloat(document.getElementById('listing-insurance-price').value) : null,
+                } : {}),
 
-                // Product Status Tags
-                ultra_rare: document.getElementById('listing-ultra-rare').checked,
-                mint_condition: document.getElementById('listing-mint-condition').checked,
-                investment_grade_tag: document.getElementById('listing-investment-grade-tag').checked,
-                limited_edition: document.getElementById('listing-limited-edition').checked,
-                original_packaging: document.getElementById('listing-original-packaging').checked,
-                certified_authentic: document.getElementById('listing-certified-authentic').checked,
+                // Product Status Tags (only if section is enabled)
+                ...(document.getElementById('toggle-status-tags').checked ? {
+                    ultra_rare: document.getElementById('listing-ultra-rare').checked,
+                    mint_condition: document.getElementById('listing-mint-condition').checked,
+                    investment_grade_tag: document.getElementById('listing-investment-grade-tag').checked,
+                    limited_edition: document.getElementById('listing-limited-edition').checked,
+                    original_packaging: document.getElementById('listing-original-packaging').checked,
+                    certified_authentic: document.getElementById('listing-certified-authentic').checked,
+                } : {}),
 
-                // Historical Context & Expert Commentary
-                historical_description: document.getElementById('listing-historical-description').value || null,
-                expert_quote: document.getElementById('listing-expert-quote').value || null,
-                expert_name: document.getElementById('listing-expert-name').value || null,
-                expert_rating: document.getElementById('listing-expert-rating').value ? parseFloat(document.getElementById('listing-expert-rating').value) : null
+                // Historical Context & Expert Commentary (only if section is enabled)
+                ...(document.getElementById('toggle-historical-context').checked ? {
+                    historical_description: document.getElementById('listing-historical-description').value || null,
+                    expert_quote: document.getElementById('listing-expert-quote').value || null,
+                    expert_name: document.getElementById('listing-expert-name').value || null,
+                    expert_rating: document.getElementById('listing-expert-rating').value ? parseFloat(document.getElementById('listing-expert-rating').value) : null
+                } : {})
             };
 
             console.log('[saveListing] Assembled listingData object:', listingData);
 
-            console.log('[saveListing] Sending PUT request to /api/homepage-listings...');
-            const response = await fetch('/api/homepage-listings', {
+            // Determine which API endpoint to use based on listing type
+            let apiEndpoint, requestData;
+
+            if (this.currentListing.startsWith('product-')) {
+                // This is a product detail edit - use product details API
+                const productId = this.currentListing.split('-')[1];
+                apiEndpoint = `/api/product-details/${productId}`;
+
+                // For product details, we only send the product-specific data
+                // Collect current toggle states
+                const toggleStates = {};
+                document.querySelectorAll('input[type="checkbox"][id^="toggle-"]').forEach(toggle => {
+                    toggleStates[toggle.id] = toggle.checked;
+                });
+
+                requestData = {
+                    title: listingData.title,
+                    subtitle: listingData.subtitle,
+                    current_price: listingData.price,
+                    main_image_url: listingData.main_image_url,
+                    thumbnail_1_url: listingData.thumbnail_1_url,
+                    thumbnail_2_url: listingData.thumbnail_2_url,
+                    thumbnail_3_url: listingData.thumbnail_3_url,
+                    thumbnail_4_url: listingData.thumbnail_4_url,
+                    primary_tag: listingData.tag_type,
+                    primary_tag_text: listingData.tag_text,
+                    toggle_settings: toggleStates, // Save toggle states
+                    // Include all other product detail fields that were provided
+                    ...Object.fromEntries(
+                        Object.entries(listingData).filter(([key, value]) =>
+                            value !== undefined && value !== null &&
+                            !['listing_id', 'price', 'tag_type', 'tag_text', 'image_url', 'product_link', 'is_active'].includes(key)
+                        )
+                    )
+                };
+            } else {
+                // This is a homepage listing edit - use homepage listings API
+                apiEndpoint = '/api/homepage-listings';
+                requestData = listingData;
+            }
+
+            console.log(`[saveListing] Sending PUT request to ${apiEndpoint}...`, requestData);
+            const response = await fetch(apiEndpoint, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(listingData)
+                body: JSON.stringify(requestData)
             });
             console.log('[saveListing] PUT request sent. Response status:', response.status);
 
@@ -547,7 +721,11 @@ class HomepageListings {
         // Populate with existing images if available
         if (listing.main_image_url) {
             this.populateImageSlot(0, listing.main_image_url);
+        } else if (listing.image_url) {
+            // Fallback to single image_url for main image if main_image_url is not available
+            this.populateImageSlot(0, listing.image_url);
         }
+        
         if (listing.thumbnail_1_url) {
             this.populateImageSlot(1, listing.thumbnail_1_url);
         }
@@ -560,17 +738,42 @@ class HomepageListings {
         if (listing.thumbnail_4_url) {
             this.populateImageSlot(4, listing.thumbnail_4_url);
         }
+        
+        console.log('🖼️ [populateImageSlots] Populated images for listing:', listing.listing_id, {
+            main_image_url: listing.main_image_url,
+            image_url: listing.image_url,
+            thumbnail_1_url: listing.thumbnail_1_url,
+            thumbnail_2_url: listing.thumbnail_2_url,
+            thumbnail_3_url: listing.thumbnail_3_url,
+            thumbnail_4_url: listing.thumbnail_4_url
+        });
     }
 
     populateImageSlot(slotIndex, imageUrl) {
         const uploadArea = document.querySelector(`[data-slot="${slotIndex}"]`);
         const preview = uploadArea.parentElement.querySelector('.image-preview');
         const img = preview.querySelector('img');
-        
+
         if (uploadArea && preview && img) {
-            uploadArea.style.display = 'none';
-            preview.style.display = 'block';
-            img.src = imageUrl;
+            if (imageUrl && imageUrl.trim() !== '') {
+                uploadArea.style.display = 'none';
+                preview.style.display = 'block';
+                img.src = imageUrl;
+            } else {
+                uploadArea.style.display = 'block';
+                preview.style.display = 'none';
+                img.src = ''; // Clear the src to prevent 404 errors
+            }
+        }
+    }
+
+    handleToggleChange(toggleId, isChecked) {
+        // This method handles showing/hiding sections based on toggle states
+        // The actual implementation depends on how your toggle system works
+        // For now, we'll just ensure the toggle element reflects the correct state
+        const toggleElement = document.getElementById(toggleId);
+        if (toggleElement) {
+            toggleElement.checked = isChecked;
         }
     }
 
@@ -676,7 +879,8 @@ class HomepageListings {
     }
 
     handleProductTypeChange(productType) {
-        // Hide all size selectors
+        // Hide all size and color selectors
+        document.getElementById('tshirt-colors').style.display = 'none';
         document.getElementById('size-selector').style.display = 'none';
         document.getElementById('hat-sizes').style.display = 'none';
         document.getElementById('tumbler-options').style.display = 'none';
@@ -684,6 +888,7 @@ class HomepageListings {
         // Show appropriate size selector
         switch(productType) {
             case 't-shirt':
+                document.getElementById('tshirt-colors').style.display = 'block';
                 document.getElementById('size-selector').style.display = 'block';
                 break;
             case 'hat':
@@ -712,10 +917,12 @@ class HomepageListings {
     getSelectedSizes() {
         const productType = document.querySelector('input[name="product_type"]:checked')?.value || 'hot-wheels';
         let sizes = [];
+        let colors = [];
 
         switch(productType) {
             case 't-shirt':
                 sizes = Array.from(document.querySelectorAll('input[name="sizes"]:checked')).map(cb => cb.value);
+                colors = Array.from(document.querySelectorAll('input[name="tshirt_colors"]:checked')).map(cb => cb.value);
                 break;
             case 'hat':
                 sizes = Array.from(document.querySelectorAll('input[name="hat_sizes"]:checked')).map(cb => cb.value);
@@ -727,7 +934,8 @@ class HomepageListings {
 
         return {
             productType,
-            sizes
+            sizes,
+            colors
         };
     }
 }

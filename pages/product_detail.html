@@ -230,6 +230,35 @@
                         </div>
                     </div>
 
+                    <!-- Extended Product Details (when market value section is disabled) -->
+                    <div class="card-premium" id="extended-product-details" style="display: none;">
+                        <h3 class="font-orbitron font-bold text-xl mb-4">Product Details</h3>
+                        
+                        <!-- Product Description -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-3">Description</h4>
+                            <p class="text-text-secondary" id="extended-description">
+                                <!-- JS will populate this -->
+                            </p>
+                        </div>
+                        
+                        <!-- Original Price -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-3">Original Price</h4>
+                            <p class="text-2xl font-bold text-accent" id="extended-original-price">
+                                <!-- JS will populate this -->
+                            </p>
+                        </div>
+                        
+                        <!-- Stock Information -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-3">Availability</h4>
+                            <p class="text-text-secondary" id="extended-stock">
+                                <!-- JS will populate this -->
+                            </p>
+                        </div>
+                    </div>
+
                     <!-- Purchase Options -->
                     <div class="card-premium">
                         <div class="space-y-4">
@@ -257,6 +286,27 @@
                         <h3 class="font-orbitron font-bold text-xl mb-4">Specifications</h3>
                         <div class="space-y-3" id="product-specifications">
                             <!-- JS will populate this -->
+                        </div>
+                    </div>
+
+                    <!-- T-Shirt Sizes & Colors (only for T-shirts) -->
+                    <div class="card-premium" id="tshirt-section" style="display: none;">
+                        <h3 class="font-orbitron font-bold text-xl mb-4">Available Options</h3>
+                        
+                        <!-- Colors -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-3">Colors</h4>
+                            <div class="flex flex-wrap gap-3" id="tshirt-colors">
+                                <!-- JS will populate this -->
+                            </div>
+                        </div>
+                        
+                        <!-- Sizes -->
+                        <div>
+                            <h4 class="font-semibold text-lg mb-3">Sizes</h4>
+                            <div class="flex flex-wrap gap-3" id="tshirt-sizes">
+                                <!-- JS will populate this -->
+                            </div>
                         </div>
                     </div>
 
@@ -789,6 +839,137 @@
                 `;
                 specsContainer.appendChild(specDiv);
             }
+        }
+
+        // Populate T-shirt section (only for T-shirts)
+        const tshirtSection = document.getElementById('tshirt-section');
+        if (currentProduct.productType === 't-shirt') {
+            tshirtSection.style.display = 'block';
+            
+            // Populate colors
+            const colorsContainer = document.getElementById('tshirt-colors');
+            colorsContainer.innerHTML = '';
+            if (currentProduct.colors && currentProduct.colors.length > 0) {
+                currentProduct.colors.forEach(color => {
+                    const colorDiv = document.createElement('div');
+                    colorDiv.className = 'px-4 py-2 bg-accent text-white rounded-lg font-semibold';
+                    colorDiv.textContent = color;
+                    colorsContainer.appendChild(colorDiv);
+                });
+            }
+            
+            // Populate sizes
+            const sizesContainer = document.getElementById('tshirt-sizes');
+            sizesContainer.innerHTML = '';
+            if (currentProduct.sizes && currentProduct.sizes.length > 0) {
+                currentProduct.sizes.forEach(size => {
+                    const sizeDiv = document.createElement('div');
+                    sizeDiv.className = 'px-4 py-2 bg-background border border-border rounded-lg font-semibold hover:border-accent transition-smooth cursor-pointer';
+                    sizeDiv.textContent = size;
+                    sizesContainer.appendChild(sizeDiv);
+                });
+            }
+        } else {
+            tshirtSection.style.display = 'none';
+        }
+
+        // Populate Extended Product Details (show when market value section is disabled)
+        const extendedDetailsSection = document.getElementById('extended-product-details');
+        
+        // Find market value section by looking for the heading text
+        let marketValueSection = null;
+        const headings = document.querySelectorAll('.card-premium h3');
+        for (const heading of headings) {
+            if (heading.textContent.includes('Current Market Value')) {
+                marketValueSection = heading.closest('.card-premium');
+                break;
+            }
+        }
+        
+        // Check if market value section has data
+        const hasMarketValueData = currentProduct.market_value || currentProduct.price_change_percentage || 
+                                 currentProduct.investment_grade || currentProduct.week_low || 
+                                 currentProduct.week_high || currentProduct.avg_sale_price;
+        
+        // Hide the main market value section if no data
+        const marketValueElements = document.querySelectorAll('.card-rare, .card-premium');
+        let marketValueSectionElement = null;
+        
+        for (const element of marketValueElements) {
+            const textContent = element.textContent || element.innerText || '';
+            if (textContent.includes('Current Market Value')) {
+                marketValueSectionElement = element;
+                break;
+            }
+        }
+        
+        if (marketValueSectionElement) {
+            if (hasMarketValueData) {
+                marketValueSectionElement.style.display = 'block';
+            } else {
+                marketValueSectionElement.style.display = 'none';
+            }
+        }
+        
+        // Hide/Show Specifications section based on data
+        const hasSpecificationsData = currentProduct.specifications && currentProduct.specifications.length > 0;
+        const specificationsSection = [...document.querySelectorAll('.card-premium h3')].find(h => h.textContent.includes('Specifications'))?.closest('.card-premium');
+        
+        if (specificationsSection) {
+            specificationsSection.style.display = hasSpecificationsData ? 'block' : 'none';
+        }
+        
+        // Hide/Show Expert Authenticated section based on data
+        const hasExpertAuthData = currentProduct.expert_authenticated || currentProduct.certificate_number;
+        const expertAuthSection = [...document.querySelectorAll('h3')].find(h => h.textContent.includes('Expert Authenticated'))?.closest('.card-premium');
+        
+        if (expertAuthSection) {
+            expertAuthSection.style.display = hasExpertAuthData ? 'block' : 'none';
+        }
+        
+        // Hide/Show Premium Services section based on data
+        const hasPremiumServicesData = currentProduct.professional_grading || currentProduct.grading_price || 
+                                     currentProduct.custom_display_case || currentProduct.display_case_price || 
+                                     currentProduct.insurance_valuation || currentProduct.insurance_price;
+        const premiumServicesSection = [...document.querySelectorAll('.card-premium h3')].find(h => h.textContent.includes('Premium Services'))?.closest('.card-premium');
+        
+        if (premiumServicesSection) {
+            premiumServicesSection.style.display = hasPremiumServicesData ? 'block' : 'none';
+        }
+        
+        // Show Extended Product Details when market value is hidden
+        if (!hasMarketValueData && (currentProduct.historical_description || currentProduct.expert_quote || currentProduct.subtitle)) {
+            extendedDetailsSection.style.display = 'block';
+            
+            // Populate description
+            const descriptionElement = document.getElementById('extended-description');
+            if (currentProduct.historical_description) {
+                descriptionElement.textContent = currentProduct.historical_description;
+            } else if (currentProduct.expert_quote) {
+                descriptionElement.textContent = currentProduct.expert_quote;
+            } else if (currentProduct.description) {
+                descriptionElement.textContent = currentProduct.description;
+            } else {
+                descriptionElement.textContent = 'No detailed description available.';
+            }
+            
+            // Populate original price (use current price as fallback)
+            const originalPriceElement = document.getElementById('extended-original-price');
+            if (currentProduct.current_price) {
+                originalPriceElement.textContent = `$${parseFloat(currentProduct.current_price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            } else {
+                originalPriceElement.textContent = 'Price not specified';
+            }
+            
+            // Populate stock information (use subtitle as product info)
+            const stockElement = document.getElementById('extended-stock');
+            if (currentProduct.subtitle) {
+                stockElement.textContent = currentProduct.subtitle;
+            } else {
+                stockElement.textContent = 'Product information not available';
+            }
+        } else {
+            extendedDetailsSection.style.display = 'none';
         }
 
         // Populate description in "Historical Context"

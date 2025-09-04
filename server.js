@@ -8,7 +8,7 @@ const session = require('express-session');
 const rateLimit = require('express-rate-limit');
 
 // Import database and models
-const { initializeDatabase, isUsingMockData } = require('./config/database');
+const { initializeDatabase } = require('./config/database');
 
 // Import controllers
 const authController = require('./controllers/authController');
@@ -443,11 +443,136 @@ app.delete('/api/categories/:id', async (req, res) => {
 });
 
 // Product details API endpoints
+app.get('/api/product-details/all', async (req, res) => {
+    try {
+        const { query } = require('./config/database');
+        const result = await query('SELECT * FROM product_details ORDER BY product_id');
+        res.json({ success: true, data: { products: result.rows } });
+    } catch (error) {
+        console.error('Error fetching all product details:', error);
+        res.status(500).json({ success: false, message: 'Failed to get product details', error: error.message });
+    }
+});
+
+app.put('/api/product-details/:id', async (req, res) => {
+    try {
+        const productId = parseInt(req.params.id);
+        const { query } = require('./config/database');
+
+        console.log('PUT /api/product-details/:id received for product:', productId);
+        console.log('Request body:', req.body);
+
+        // Build dynamic update query for product_details table
+        const updateFields = [];
+        const queryParams = [];
+
+        // Always update these core fields
+        updateFields.push('title = $' + (queryParams.length + 1));
+        queryParams.push(req.body.title);
+
+        updateFields.push('current_price = $' + (queryParams.length + 1));
+        queryParams.push(req.body.current_price);
+
+        updateFields.push('updated_at = CURRENT_TIMESTAMP');
+
+        // Add other fields if provided
+        const fieldMappings = {
+            subtitle: 'subtitle',
+            main_image_url: 'main_image_url',
+            thumbnail_1_url: 'thumbnail_1_url',
+            thumbnail_2_url: 'thumbnail_2_url',
+            thumbnail_3_url: 'thumbnail_3_url',
+            thumbnail_4_url: 'thumbnail_4_url',
+            primary_tag: 'primary_tag',
+            primary_tag_text: 'primary_tag_text',
+            secondary_tag: 'secondary_tag',
+            secondary_tag_text: 'secondary_tag_text',
+            expert_authenticated: 'expert_authenticated',
+            certificate_number: 'certificate_number',
+            authenticated_by: 'authenticated_by',
+            production_year: 'production_year',
+            series: 'series',
+            casting: 'casting',
+            color: 'color',
+            tampo: 'tampo',
+            wheels: 'wheels',
+            country: 'country',
+            condition_rating: 'condition_rating',
+            condition_description: 'condition_description',
+            professional_grading: 'professional_grading',
+            grading_price: 'grading_price',
+            custom_display_case: 'custom_display_case',
+            display_case_price: 'display_case_price',
+            insurance_valuation: 'insurance_valuation',
+            insurance_price: 'insurance_price',
+            production_run: 'production_run',
+            mint_survivors: 'mint_survivors',
+            designer: 'designer',
+            historical_description: 'historical_description',
+            expert_quote: 'expert_quote',
+            expert_name: 'expert_name',
+            expert_rating: 'expert_rating',
+            five_year_growth: 'five_year_growth',
+            liquidity: 'liquidity',
+            market_demand: 'market_demand',
+            risk_level: 'risk_level',
+            review_1_author: 'review_1_author',
+            review_1_rating: 'review_1_rating',
+            review_1_text: 'review_1_text',
+            review_1_verified: 'review_1_verified',
+            review_1_date: 'review_1_date',
+            review_2_author: 'review_2_author',
+            review_2_rating: 'review_2_rating',
+            review_2_text: 'review_2_text',
+            review_2_verified: 'review_2_verified',
+            review_2_date: 'review_2_date',
+            review_3_author: 'review_3_author',
+            review_3_rating: 'review_3_rating',
+            review_3_text: 'review_3_text',
+            review_3_verified: 'review_3_verified',
+            review_3_date: 'review_3_date',
+            product_type: 'product_type',
+            available_sizes: 'available_sizes',
+            size_chart_url: 'size_chart_url',
+            toggle_settings: 'toggle_settings',
+            is_active: 'is_active'
+        };
+
+        Object.entries(fieldMappings).forEach(([requestField, dbField]) => {
+            if (req.body[requestField] !== undefined) {
+                updateFields.push(`${dbField} = $${queryParams.length + 1}`);
+                queryParams.push(req.body[requestField]);
+            }
+        });
+
+        const updateQuery = `
+            UPDATE product_details SET
+                ${updateFields.join(', ')}
+            WHERE product_id = $${queryParams.length + 1}
+        `;
+        queryParams.push(productId);
+
+        console.log('Product details update query:', updateQuery);
+        console.log('Query params:', queryParams);
+
+        const result = await query(updateQuery, queryParams);
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        res.json({ success: true, message: 'Product details updated successfully', data: { updated: result.rowCount } });
+    } catch (error) {
+        console.error('Error updating product details:', error);
+        res.status(500).json({ success: false, message: 'Failed to update product details', error: error.message });
+    }
+});
+
 app.get('/api/product-details/:id', async (req, res) => {
     try {
         const productId = parseInt(req.params.id);
         
-        if (process.env.USE_MOCK_DATA === 'true' || isUsingMockData()) {
+        if (process.env.USE_MOCK_DATA === 'true') {
             let mockProduct;
             if (productId === 1) {
                 // Specific mock data for the T-shirt (product_id: 1)
@@ -462,10 +587,13 @@ app.get('/api/product-details/:id', async (req, res) => {
                     thumbnail_2_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-3.jpg",
                     thumbnail_3_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-4.jpg",
                     thumbnail_4_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-5.jpg",
+                    productType: "t-shirt",
+                    colors: ["Black", "White"],
+                    sizes: ["S", "M", "L", "XL", "2XL"],
                     specifications: {
                         "Product Type": "T-Shirt",
-                        "Sizes": "S, M, L, XL, XXL",
-                        "Material": "100% Cotton"
+                        "Material": "100% Cotton",
+                        "Care Instructions": "Machine wash cold, tumble dry low"
                     },
                     features: [
                         "Limited edition Kenny Scharf design",
@@ -505,6 +633,11 @@ app.get('/api/product-details/:id', async (req, res) => {
 
         const product = result.rows[0];
         
+        console.log('🔍 Raw product from database - available_sizes:', product.available_sizes);
+        console.log('🔍 Raw product from database - product_type:', product.product_type);
+        console.log('🔍 Raw product from database - historical_description:', product.historical_description?.substring(0, 50) + '...');
+        console.log('🔍 Raw product from database - expert_quote:', product.expert_quote?.substring(0, 50) + '...');
+        
         // Parse JSON fields
         if (product.features) {
             product.features = JSON.parse(product.features);
@@ -514,6 +647,14 @@ app.get('/api/product-details/:id', async (req, res) => {
         }
         if (product.images) {
             product.images = JSON.parse(product.images);
+        }
+        if (product.available_sizes) {
+            console.log('🔍 Parsing available_sizes:', product.available_sizes);
+            const sizesData = JSON.parse(product.available_sizes);
+            product.productType = sizesData.productType || 'hot-wheels';
+            product.sizes = sizesData.sizes || [];
+            product.colors = sizesData.colors || [];
+            console.log('🔍 Parsed T-shirt data:', { productType: product.productType, sizes: product.sizes, colors: product.colors });
         }
 
         res.json(product);
@@ -532,12 +673,19 @@ let mockHomepageListings = [
 
 // Homepage listings API endpoints
 app.get('/api/homepage-listings', async (req, res) => {
-    if (isUsingMockData()) {
+    if (process.env.USE_MOCK_DATA === 'true') {
         return res.json({ success: true, data: { listings: mockHomepageListings } });
     }
     try {
         const { query } = require('./config/database');
-        const result = await query('SELECT * FROM homepage_listings ORDER BY section, position');
+        const result = await query(`
+            SELECT hl.*,
+                   pd.main_image_url, pd.thumbnail_1_url, pd.thumbnail_2_url,
+                   pd.thumbnail_3_url, pd.thumbnail_4_url
+            FROM homepage_listings hl
+            LEFT JOIN product_details pd ON hl.listing_id = 'product-' || pd.product_id::text
+            ORDER BY hl.section, hl.position
+        `);
         res.json({ success: true, data: { listings: result.rows } });
     } catch (error) {
         console.error('Get homepage listings error:', error);
@@ -547,7 +695,7 @@ app.get('/api/homepage-listings', async (req, res) => {
 
 app.put('/api/homepage-listings', async (req, res) => {
     console.log('--- PUT /api/homepage-listings request received ---');
-    if (isUsingMockData()) {
+    if (process.env.USE_MOCK_DATA === 'true') {
         console.log('✅ Mocking PUT /api/homepage-listings');
         const updatedListing = req.body;
         const index = mockHomepageListings.findIndex(l => l.listing_id === updatedListing.listing_id);
@@ -559,16 +707,17 @@ app.put('/api/homepage-listings', async (req, res) => {
 
     try {
         const { query } = require('./config/database');
-        const { 
+        const {
             listing_id, title, description, price, image_url, tag_type, tag_text, product_link, is_active,
             subtitle,
             main_image_url, thumbnail_1_url, thumbnail_2_url, thumbnail_3_url, thumbnail_4_url,
-            productType, sizes,
+            productType, sizes, colors,
             market_value, price_change_percentage, investment_grade, week_low, week_high, avg_sale_price,
             expert_authenticated, certificate_number, authenticated_by,
             production_year, series, casting, color, tampo, wheels, country, condition_rating, condition_description,
             professional_grading, grading_price, custom_display_case, display_case_price, insurance_valuation, insurance_price,
-            historical_description, expert_quote, expert_name, expert_rating
+            historical_description, expert_quote, expert_name, expert_rating,
+            ...otherFields
         } = req.body;
 
         // --- 1. Update the base homepage_listings table ---
@@ -588,87 +737,182 @@ app.put('/api/homepage-listings', async (req, res) => {
         // --- 2. Update the detailed product_details table ---
         const productId = parseInt(listing_id.split('-')[1]);
         if (productId) {
-            const productDetailsData = {
-                title,
-                subtitle,
-                main_image_url,
-                thumbnail_1_url,
-                thumbnail_2_url,
-                thumbnail_3_url,
-                thumbnail_4_url,
-                current_price: price,
-                price_change_percentage,
-                investment_grade,
-                week_low,
-                week_high,
-                avg_sale_price,
-                primary_tag: tag_type,
-                primary_tag_text: tag_text,
-                expert_authenticated,
-                certificate_number,
-                authenticated_by,
-                production_year,
-                series,
-                casting,
-                color,
-                tampo,
-                wheels,
-                country,
-                condition_rating,
-                condition_description,
-                professional_grading,
-                grading_price,
-                custom_display_case,
-                display_case_price,
-                insurance_valuation,
-                insurance_price,
-                historical_description,
-                expert_quote,
-                expert_name,
-                expert_rating,
-                product_type: productType,
-                available_sizes: JSON.stringify(sizes || []),
-                is_active,
-                product_id: productId
-            };
+            // Build dynamic update query - only update fields that are provided
+            const updateFields = [];
+            const queryParams = [];
+
+            // Core required fields
+            updateFields.push('title = $' + (queryParams.length + 1));
+            queryParams.push(title);
+
+            updateFields.push('current_price = $' + (queryParams.length + 1));
+            queryParams.push(price);
+
+            updateFields.push('updated_at = CURRENT_TIMESTAMP');
+
+            // Optional fields - only include if provided
+            if (subtitle !== undefined) {
+                updateFields.push('subtitle = $' + (queryParams.length + 1));
+                queryParams.push(subtitle);
+            }
+            if (main_image_url !== undefined) {
+                updateFields.push('main_image_url = $' + (queryParams.length + 1));
+                queryParams.push(main_image_url);
+            }
+            if (thumbnail_1_url !== undefined) {
+                updateFields.push('thumbnail_1_url = $' + (queryParams.length + 1));
+                queryParams.push(thumbnail_1_url);
+            }
+            if (thumbnail_2_url !== undefined) {
+                updateFields.push('thumbnail_2_url = $' + (queryParams.length + 1));
+                queryParams.push(thumbnail_2_url);
+            }
+            if (thumbnail_3_url !== undefined) {
+                updateFields.push('thumbnail_3_url = $' + (queryParams.length + 1));
+                queryParams.push(thumbnail_3_url);
+            }
+            if (thumbnail_4_url !== undefined) {
+                updateFields.push('thumbnail_4_url = $' + (queryParams.length + 1));
+                queryParams.push(thumbnail_4_url);
+            }
+            if (price_change_percentage !== undefined) {
+                updateFields.push('price_change_percentage = $' + (queryParams.length + 1));
+                queryParams.push(price_change_percentage);
+            }
+            if (investment_grade !== undefined) {
+                updateFields.push('investment_grade = $' + (queryParams.length + 1));
+                queryParams.push(investment_grade);
+            }
+            if (week_low !== undefined) {
+                updateFields.push('week_low = $' + (queryParams.length + 1));
+                queryParams.push(week_low);
+            }
+            if (week_high !== undefined) {
+                updateFields.push('week_high = $' + (queryParams.length + 1));
+                queryParams.push(week_high);
+            }
+            if (avg_sale_price !== undefined) {
+                updateFields.push('avg_sale_price = $' + (queryParams.length + 1));
+                queryParams.push(avg_sale_price);
+            }
+            if (tag_type !== undefined) {
+                updateFields.push('primary_tag = $' + (queryParams.length + 1));
+                queryParams.push(tag_type);
+            }
+            if (tag_text !== undefined) {
+                updateFields.push('primary_tag_text = $' + (queryParams.length + 1));
+                queryParams.push(tag_text);
+            }
+            if (expert_authenticated !== undefined) {
+                updateFields.push('expert_authenticated = $' + (queryParams.length + 1));
+                queryParams.push(expert_authenticated);
+            }
+            if (certificate_number !== undefined) {
+                updateFields.push('certificate_number = $' + (queryParams.length + 1));
+                queryParams.push(certificate_number);
+            }
+            if (authenticated_by !== undefined) {
+                updateFields.push('authenticated_by = $' + (queryParams.length + 1));
+                queryParams.push(authenticated_by);
+            }
+            if (production_year !== undefined) {
+                updateFields.push('production_year = $' + (queryParams.length + 1));
+                queryParams.push(production_year);
+            }
+            if (series !== undefined) {
+                updateFields.push('series = $' + (queryParams.length + 1));
+                queryParams.push(series);
+            }
+            if (casting !== undefined) {
+                updateFields.push('casting = $' + (queryParams.length + 1));
+                queryParams.push(casting);
+            }
+            if (color !== undefined) {
+                updateFields.push('color = $' + (queryParams.length + 1));
+                queryParams.push(color);
+            }
+            if (tampo !== undefined) {
+                updateFields.push('tampo = $' + (queryParams.length + 1));
+                queryParams.push(tampo);
+            }
+            if (wheels !== undefined) {
+                updateFields.push('wheels = $' + (queryParams.length + 1));
+                queryParams.push(wheels);
+            }
+            if (country !== undefined) {
+                updateFields.push('country = $' + (queryParams.length + 1));
+                queryParams.push(country);
+            }
+            if (condition_rating !== undefined) {
+                updateFields.push('condition_rating = $' + (queryParams.length + 1));
+                queryParams.push(condition_rating);
+            }
+            if (condition_description !== undefined) {
+                updateFields.push('condition_description = $' + (queryParams.length + 1));
+                queryParams.push(condition_description);
+            }
+            if (professional_grading !== undefined) {
+                updateFields.push('professional_grading = $' + (queryParams.length + 1));
+                queryParams.push(professional_grading);
+            }
+            if (grading_price !== undefined) {
+                updateFields.push('grading_price = $' + (queryParams.length + 1));
+                queryParams.push(grading_price);
+            }
+            if (custom_display_case !== undefined) {
+                updateFields.push('custom_display_case = $' + (queryParams.length + 1));
+                queryParams.push(custom_display_case);
+            }
+            if (display_case_price !== undefined) {
+                updateFields.push('display_case_price = $' + (queryParams.length + 1));
+                queryParams.push(display_case_price);
+            }
+            if (insurance_valuation !== undefined) {
+                updateFields.push('insurance_valuation = $' + (queryParams.length + 1));
+                queryParams.push(insurance_valuation);
+            }
+            if (insurance_price !== undefined) {
+                updateFields.push('insurance_price = $' + (queryParams.length + 1));
+                queryParams.push(insurance_price);
+            }
+            if (historical_description !== undefined) {
+                updateFields.push('historical_description = $' + (queryParams.length + 1));
+                queryParams.push(historical_description);
+            }
+            if (expert_quote !== undefined) {
+                updateFields.push('expert_quote = $' + (queryParams.length + 1));
+                queryParams.push(expert_quote);
+            }
+            if (expert_name !== undefined) {
+                updateFields.push('expert_name = $' + (queryParams.length + 1));
+                queryParams.push(expert_name);
+            }
+            if (expert_rating !== undefined) {
+                updateFields.push('expert_rating = $' + (queryParams.length + 1));
+                queryParams.push(expert_rating);
+            }
+            if (productType !== undefined) {
+                updateFields.push('product_type = $' + (queryParams.length + 1));
+                queryParams.push(productType);
+            }
+            if (sizes !== undefined || colors !== undefined) {
+                updateFields.push('available_sizes = $' + (queryParams.length + 1));
+                queryParams.push(JSON.stringify({
+                    productType: productType || 'hot-wheels',
+                    sizes: sizes || [],
+                    colors: colors || []
+                }));
+            }
 
             const updateQuery = `
                 UPDATE product_details SET
-                    title = $1, subtitle = $2, main_image_url = $3, thumbnail_1_url = $4,
-                    thumbnail_2_url = $5, thumbnail_3_url = $6, thumbnail_4_url = $7,
-                    current_price = $8, price_change_percentage = $9, investment_grade = $10,
-                    week_low = $11, week_high = $12, avg_sale_price = $13, primary_tag = $14,
-                    primary_tag_text = $15, expert_authenticated = $16, certificate_number = $17,
-                    authenticated_by = $18, production_year = $19, series = $20, casting = $21,
-                    color = $22, tampo = $23, wheels = $24, country = $25, condition_rating = $26,
-                    condition_description = $27, professional_grading = $28, grading_price = $29,
-                    custom_display_case = $30, display_case_price = $31, insurance_valuation = $32,
-                    insurance_price = $33, historical_description = $34, expert_quote = $35,
-                    expert_name = $36, expert_rating = $37, product_type = $38,
-                    available_sizes = $39, is_active = $40, updated_at = CURRENT_TIMESTAMP
-                WHERE product_id = $41
+                    ${updateFields.join(', ')}
+                WHERE product_id = $${queryParams.length + 1}
             `;
+            queryParams.push(productId);
 
-            const queryParams = [
-                productDetailsData.title, productDetailsData.subtitle, productDetailsData.main_image_url,
-                productDetailsData.thumbnail_1_url, productDetailsData.thumbnail_2_url,
-                productDetailsData.thumbnail_3_url, productDetailsData.thumbnail_4_url,
-                productDetailsData.current_price, productDetailsData.price_change_percentage,
-                productDetailsData.investment_grade, productDetailsData.week_low, productDetailsData.week_high,
-                productDetailsData.avg_sale_price, productDetailsData.primary_tag, productDetailsData.primary_tag_text,
-                productDetailsData.expert_authenticated, productDetailsData.certificate_number,
-                productDetailsData.authenticated_by, productDetailsData.production_year,
-                productDetailsData.series, productDetailsData.casting, productDetailsData.color,
-                productDetailsData.tampo, productDetailsData.wheels, productDetailsData.country,
-                productDetailsData.condition_rating, productDetailsData.condition_description,
-                productDetailsData.professional_grading, productDetailsData.grading_price,
-                productDetailsData.custom_display_case, productDetailsData.display_case_price,
-                productDetailsData.insurance_valuation, productDetailsData.insurance_price,
-                productDetailsData.historical_description, productDetailsData.expert_quote,
-                productDetailsData.expert_name, productDetailsData.expert_rating,
-                productDetailsData.product_type, productDetailsData.available_sizes,
-                productDetailsData.is_active, productDetailsData.product_id
-            ];
+            console.log('🔍 Dynamic UPDATE query:', updateQuery);
+            console.log('🔍 Query params count:', queryParams.length);
 
             try {
                 const updateResult = await query(updateQuery, queryParams);
@@ -958,7 +1202,22 @@ const startServer = async () => {
     // Initialize database tables
     await initializeDatabase();
     console.log('✅ Database initialized successfully');
-    
+
+    // Initialize data after database is ready
+    try {
+      const { initializeHomepageListings } = require('./scripts/init-homepage-listings');
+      await initializeHomepageListings();
+    } catch (error) {
+      console.log('⚠️ Homepage listings initialization skipped:', error.message);
+    }
+
+    try {
+      const { initializeProductDetails } = require('./scripts/init-product-details');
+      await initializeProductDetails();
+    } catch (error) {
+      console.log('⚠️ Product details initialization skipped:', error.message);
+    }
+
     // Start server
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🏎️ Hot Wheels Velocity server running on port ${PORT}`);
