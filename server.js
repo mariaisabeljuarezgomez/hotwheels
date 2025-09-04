@@ -523,8 +523,18 @@ app.get('/api/product-details/:id', async (req, res) => {
     }
 });
 
+// State for mock data
+let mockHomepageListings = [
+    { listing_id: 'featured-1', section: 'featured', position: 1, title: '1968 Redline Custom Camaro', description: 'Mint condition with original blister pack', price: '2450.00', image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg', tag_type: 'ultra-rare', tag_text: 'ULTRA RARE', product_link: 'product_detail.html?id=1', is_active: true },
+    { listing_id: 'featured-2', section: 'featured', position: 2, title: '2023 RLC Exclusive McLaren', description: 'Limited edition with certificate', price: '89.00', image_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&h=300', tag_type: 'rlc-exclusive', tag_text: 'RLC EXCLUSIVE', product_link: 'product_detail.html?id=2', is_active: true },
+    { listing_id: 'featured-3', section: 'featured', position: 3, title: '2024 Treasure Hunt Mustang', description: 'Super Treasure Hunt variant', price: '156.00', image_url: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=400&h=300', tag_type: 'treasure-hunt', tag_text: 'TREASURE HUNT', product_link: 'product_detail.html?id=3', is_active: true },
+];
+
 // Homepage listings API endpoints
 app.get('/api/homepage-listings', async (req, res) => {
+    if (isUsingMockData()) {
+        return res.json({ success: true, data: { listings: mockHomepageListings } });
+    }
     try {
         const { query } = require('./config/database');
         const result = await query('SELECT * FROM homepage_listings ORDER BY section, position');
@@ -536,116 +546,141 @@ app.get('/api/homepage-listings', async (req, res) => {
 });
 
 app.put('/api/homepage-listings', async (req, res) => {
+    console.log('--- PUT /api/homepage-listings request received ---');
+    if (isUsingMockData()) {
+        console.log('✅ Mocking PUT /api/homepage-listings');
+        const updatedListing = req.body;
+        const index = mockHomepageListings.findIndex(l => l.listing_id === updatedListing.listing_id);
+        if (index !== -1) {
+            mockHomepageListings[index] = { ...mockHomepageListings[index], ...updatedListing };
+        }
+        return res.json({ success: true, message: 'Listing updated successfully (mocked)', data: { listing: mockHomepageListings[index] } });
+    }
+
     try {
         const { query } = require('./config/database');
         const { 
             listing_id, title, description, price, image_url, tag_type, tag_text, product_link, is_active,
-            subtitle, original_price, stock_quantity, detailed_description, features, specifications,
+            subtitle,
             main_image_url, thumbnail_1_url, thumbnail_2_url, thumbnail_3_url, thumbnail_4_url,
             productType, sizes,
-            // Market Value & Investment Data
-            market_value, price_change_percentage, investment_grade, last_price_update, week_low, week_high, avg_sale_price,
-            // Expert Authentication
+            market_value, price_change_percentage, investment_grade, week_low, week_high, avg_sale_price,
             expert_authenticated, certificate_number, authenticated_by,
-            // Detailed Specifications
-            production_year, series, casting, spectraflame_color, tampo, wheel_type, country_of_origin, condition_rating, condition_description,
-            // Premium Services
+            production_year, series, casting, color, tampo, wheels, country, condition_rating, condition_description,
             professional_grading, grading_price, custom_display_case, display_case_price, insurance_valuation, insurance_price,
-            // Product Status Tags
-            ultra_rare, mint_condition, investment_grade_tag, limited_edition, original_packaging, certified_authentic,
-            // Historical Context & Expert Commentary
             historical_description, expert_quote, expert_name, expert_rating
         } = req.body;
-        
-        // Update homepage_listings table
-        const result = await query(`
+
+        // --- 1. Update the base homepage_listings table ---
+        const homepageListingResult = await query(`
             UPDATE homepage_listings 
             SET title = $1, description = $2, price = $3, image_url = $4, 
                 tag_type = $5, tag_text = $6, product_link = $7, is_active = $8, 
                 updated_at = CURRENT_TIMESTAMP
             WHERE listing_id = $9
             RETURNING *
-        `, [title, description, price, image_url, tag_type, tag_text, product_link, is_active, listing_id]);
+        `, [title, description, price, image_url || main_image_url, tag_type, tag_text, product_link, is_active, listing_id]);
         
-        if (result.rows.length === 0) {
+        if (homepageListingResult.rows.length === 0) {
             return res.status(404).json({ success: false, message: 'Listing not found' });
         }
 
-        // Extract product ID from listing_id (e.g., 'featured-1' -> 1, 'exclusive-2' -> 2)
+        // --- 2. Update the detailed product_details table ---
         const productId = parseInt(listing_id.split('-')[1]);
-        
-        // Update or insert product_details
-        if (productId && (subtitle || original_price || stock_quantity || detailed_description || features || specifications || main_image_url || thumbnail_1_url)) {
+        if (productId) {
+            const productDetailsData = {
+                title,
+                subtitle,
+                main_image_url,
+                thumbnail_1_url,
+                thumbnail_2_url,
+                thumbnail_3_url,
+                thumbnail_4_url,
+                current_price: price,
+                price_change_percentage,
+                investment_grade,
+                week_low,
+                week_high,
+                avg_sale_price,
+                primary_tag: tag_type,
+                primary_tag_text: tag_text,
+                expert_authenticated,
+                certificate_number,
+                authenticated_by,
+                production_year,
+                series,
+                casting,
+                color,
+                tampo,
+                wheels,
+                country,
+                condition_rating,
+                condition_description,
+                professional_grading,
+                grading_price,
+                custom_display_case,
+                display_case_price,
+                insurance_valuation,
+                insurance_price,
+                historical_description,
+                expert_quote,
+                expert_name,
+                expert_rating,
+                product_type: productType,
+                available_sizes: JSON.stringify(sizes || []),
+                is_active,
+                product_id: productId
+            };
+
+            const updateQuery = `
+                UPDATE product_details SET
+                    title = $1, subtitle = $2, main_image_url = $3, thumbnail_1_url = $4,
+                    thumbnail_2_url = $5, thumbnail_3_url = $6, thumbnail_4_url = $7,
+                    current_price = $8, price_change_percentage = $9, investment_grade = $10,
+                    week_low = $11, week_high = $12, avg_sale_price = $13, primary_tag = $14,
+                    primary_tag_text = $15, expert_authenticated = $16, certificate_number = $17,
+                    authenticated_by = $18, production_year = $19, series = $20, casting = $21,
+                    color = $22, tampo = $23, wheels = $24, country = $25, condition_rating = $26,
+                    condition_description = $27, professional_grading = $28, grading_price = $29,
+                    custom_display_case = $30, display_case_price = $31, insurance_valuation = $32,
+                    insurance_price = $33, historical_description = $34, expert_quote = $35,
+                    expert_name = $36, expert_rating = $37, product_type = $38,
+                    available_sizes = $39, is_active = $40, updated_at = CURRENT_TIMESTAMP
+                WHERE product_id = $41
+            `;
+
+            const queryParams = [
+                productDetailsData.title, productDetailsData.subtitle, productDetailsData.main_image_url,
+                productDetailsData.thumbnail_1_url, productDetailsData.thumbnail_2_url,
+                productDetailsData.thumbnail_3_url, productDetailsData.thumbnail_4_url,
+                productDetailsData.current_price, productDetailsData.price_change_percentage,
+                productDetailsData.investment_grade, productDetailsData.week_low, productDetailsData.week_high,
+                productDetailsData.avg_sale_price, productDetailsData.primary_tag, productDetailsData.primary_tag_text,
+                productDetailsData.expert_authenticated, productDetailsData.certificate_number,
+                productDetailsData.authenticated_by, productDetailsData.production_year,
+                productDetailsData.series, productDetailsData.casting, productDetailsData.color,
+                productDetailsData.tampo, productDetailsData.wheels, productDetailsData.country,
+                productDetailsData.condition_rating, productDetailsData.condition_description,
+                productDetailsData.professional_grading, productDetailsData.grading_price,
+                productDetailsData.custom_display_case, productDetailsData.display_case_price,
+                productDetailsData.insurance_valuation, productDetailsData.insurance_price,
+                productDetailsData.historical_description, productDetailsData.expert_quote,
+                productDetailsData.expert_name, productDetailsData.expert_rating,
+                productDetailsData.product_type, productDetailsData.available_sizes,
+                productDetailsData.is_active, productDetailsData.product_id
+            ];
+
             try {
-                // Check if product details exist
-                const existingProduct = await query('SELECT * FROM product_details WHERE product_id = $1', [productId]);
-                
-                if (existingProduct.rows.length > 0) {
-                    // Update existing product details
-                    console.log('🔄 Updating product_details for product_id:', productId);
-                    console.log('📝 Update data:', { title, subtitle, price, description, detailed_description });
-                    
-                    const updateResult = await query(`
-                        UPDATE product_details 
-                        SET title = $1, subtitle = $2, current_price = $3, 
-                            historical_description = $4, expert_quote = $5,
-                            main_image_url = $6, thumbnail_1_url = $7, thumbnail_2_url = $8,
-                            thumbnail_3_url = $9, thumbnail_4_url = $10,
-                            -- Market Value & Investment Data
-                            avg_sale_price = $11, price_change_percentage = $12, investment_grade = $13,
-                            week_low = $14, week_high = $15,
-                            -- Expert Authentication
-                            expert_authenticated = $16, certificate_number = $17, authenticated_by = $18,
-                            -- Detailed Specifications
-                            production_year = $19, series = $20, casting = $21, color = $22, tampo = $23, wheels = $24, country = $25, condition_rating = $26, condition_description = $27,
-                            -- Premium Services
-                            professional_grading = $28, grading_price = $29, custom_display_case = $30, display_case_price = $31, insurance_valuation = $32, insurance_price = $33,
-                            -- Expert Commentary
-                            expert_name = $34, expert_rating = $35,
-                            updated_at = CURRENT_TIMESTAMP
-                        WHERE product_id = $36
-                    `, [
-                        title, subtitle, price, description, 
-                        detailed_description, main_image_url, thumbnail_1_url, 
-                        thumbnail_2_url, thumbnail_3_url, thumbnail_4_url, 
-                        // Market Value & Investment Data
-                        avg_sale_price, price_change_percentage, investment_grade, week_low, week_high,
-                        // Expert Authentication
-                        expert_authenticated, certificate_number, authenticated_by,
-                        // Detailed Specifications - using correct database column names
-                        production_year, series, casting, spectraflame_color, tampo, wheel_type, country_of_origin, condition_rating, condition_description,
-                        // Premium Services
-                        professional_grading, grading_price, custom_display_case, display_case_price, insurance_valuation, insurance_price,
-                        // Expert Commentary
-                        expert_name, expert_rating,
-                        productId
-                    ]);
-                    
-                    console.log('✅ Product details update result:', updateResult.rowCount, 'rows affected');
-                } else {
-                    // Insert new product details
-                    await query(`
-                        INSERT INTO product_details (
-                            product_id, title, subtitle, current_price, 
-                            historical_description, expert_quote,
-                            main_image_url, thumbnail_1_url, thumbnail_2_url,
-                            thumbnail_3_url, thumbnail_4_url,
-                            is_active
-                        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-                    `, [
-                        productId, title, subtitle, price, description,
-                        detailed_description, main_image_url, thumbnail_1_url, 
-                        thumbnail_2_url, thumbnail_3_url, thumbnail_4_url, 
-                        true
-                    ]);
-                }
+                const updateResult = await query(updateQuery, queryParams);
+                console.log('✅ Product details update result:', updateResult.rowCount, 'rows affected');
             } catch (productError) {
-                console.error('Error updating product details:', productError);
-                // Don't fail the entire request if product details update fails
+                console.error('❌ Error updating product details:', productError);
+                // Don't fail the entire request if product details update fails, but log it.
             }
         }
         
-        res.json({ success: true, message: 'Listing updated successfully', data: { listing: result.rows[0] } });
+        // Return the updated homepage listing data
+        res.json({ success: true, message: 'Listing updated successfully', data: { listing: homepageListingResult.rows[0] } });
     } catch (error) {
         console.error('Update homepage listing error:', error);
         res.status(500).json({ success: false, message: 'Failed to update listing', error: error.message });

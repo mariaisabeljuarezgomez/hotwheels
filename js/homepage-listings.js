@@ -303,13 +303,16 @@ class HomepageListings {
     }
 
     async saveListing() {
+        console.log('[saveListing] Function started.');
         if (!this.currentListing) {
             this.showMessage('No listing selected', 'error');
+            console.error('[saveListing] No this.currentListing found.');
             return;
         }
 
         try {
             this.showLoading(true);
+            console.log('[saveListing] Loading indicator shown.');
 
             // Handle multiple image uploads
             const imageUrls = {
@@ -320,12 +323,14 @@ class HomepageListings {
                 thumbnail_4_url: null
             };
 
+            console.log('[saveListing] Starting image upload loop.');
             // Upload images for each slot that has a new file
             for (let i = 0; i < 5; i++) {
                 const uploadArea = document.querySelector(`[data-slot="${i}"]`);
                 const input = uploadArea.querySelector('.slot-input');
                 
                 if (input && input.files && input.files[0]) {
+                    console.log(`[saveListing] Found file in slot ${i}. Uploading...`);
                     const uploadFormData = new FormData();
                     uploadFormData.append('image', input.files[0]);
                     uploadFormData.append('listing_id', this.currentListing);
@@ -340,15 +345,20 @@ class HomepageListings {
                     if (uploadResult.success) {
                         const fieldName = i === 0 ? 'main_image_url' : `thumbnail_${i}_url`;
                         imageUrls[fieldName] = uploadResult.data.imageUrl;
+                        console.log(`[saveListing] Slot ${i} uploaded successfully. URL: ${uploadResult.data.imageUrl}`);
                     } else {
                         this.showMessage(`Failed to upload image ${i + 1}: ${uploadResult.message}`, 'error');
+                        console.error(`[saveListing] Image upload failed for slot ${i}:`, uploadResult.message);
+                        this.showLoading(false);
                         return;
                     }
                 }
             }
+            console.log('[saveListing] Image upload loop finished.');
 
             // Use existing image URLs if no new uploads
             const existingListing = this.listings[this.currentListing];
+            console.log('[saveListing] Checking for existing images.');
             if (existingListing) {
                 if (!imageUrls.main_image_url && existingListing.main_image_url) {
                     imageUrls.main_image_url = existingListing.main_image_url;
@@ -366,6 +376,7 @@ class HomepageListings {
                     imageUrls.thumbnail_4_url = existingListing.thumbnail_4_url;
                 }
             }
+            console.log('[saveListing] Final image URLs:', imageUrls);
 
             // Use main image as the primary image_url for homepage listings
             const imageUrl = imageUrls.main_image_url || document.getElementById('listing-image-url').value;
@@ -458,6 +469,9 @@ class HomepageListings {
                 expert_rating: document.getElementById('listing-expert-rating').value ? parseFloat(document.getElementById('listing-expert-rating').value) : null
             };
 
+            console.log('[saveListing] Assembled listingData object:', listingData);
+
+            console.log('[saveListing] Sending PUT request to /api/homepage-listings...');
             const response = await fetch('/api/homepage-listings', {
                 method: 'PUT',
                 headers: {
@@ -465,22 +479,25 @@ class HomepageListings {
                 },
                 body: JSON.stringify(listingData)
             });
+            console.log('[saveListing] PUT request sent. Response status:', response.status);
 
             const result = await response.json();
+            console.log('[saveListing] Parsed JSON response:', result);
 
             if (result.success) {
                 this.showMessage('Listing updated successfully!', 'success');
-                this.listings[this.currentListing] = result.data.listing;
-                this.updateListingDisplay(this.currentListing, result.data.listing);
                 this.closeModal();
+                this.loadListings(); // Re-fetch all listings to get the updated data
             } else {
                 this.showMessage('Failed to update listing: ' + result.message, 'error');
+                console.error('[saveListing] Save failed. Server message:', result.message);
             }
         } catch (error) {
-            console.error('Save listing error:', error);
-            this.showMessage('Error saving listing: ' + error.message, 'error');
+            console.error('[saveListing] An error occurred:', error);
+            this.showMessage('An unexpected error occurred: ' + error.message, 'error');
         } finally {
             this.showLoading(false);
+            console.log('[saveListing] Function finished.');
         }
     }
 
