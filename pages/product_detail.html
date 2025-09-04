@@ -181,10 +181,6 @@
                 <div class="space-y-6">
                     <!-- Product Header -->
                     <div>
-                        <div class="flex items-center space-x-3 mb-4">
-                            <span class="bg-warning text-primary px-3 py-1 rounded-full text-sm font-mono font-bold">ULTRA RARE</span>
-                            <span class="bg-success text-primary px-3 py-1 rounded-full text-sm font-rajdhani font-semibold">MINT CONDITION</span>
-                        </div>
                         <h1 class="font-orbitron font-black text-4xl mb-2" id="product-title">Loading...</h1>
                         <p class="text-text-secondary text-lg" id="product-subtitle">Loading product details...</p>
                     </div>
@@ -259,39 +255,8 @@
                     <!-- Specifications -->
                     <div class="card-premium">
                         <h3 class="font-orbitron font-bold text-xl mb-4">Specifications</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Production Year</span>
-                                <span class="font-mono">1968</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Series</span>
-                                <span class="font-mono">Redline</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Casting</span>
-                                <span class="font-mono">Custom Camaro</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Color</span>
-                                <span class="font-mono">Spectraflame Orange</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Tampo</span>
-                                <span class="font-mono">Racing Stripes</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Wheels</span>
-                                <span class="font-mono">Redline</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Country</span>
-                                <span class="font-mono">Hong Kong</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-text-secondary">Condition</span>
-                                <span class="font-mono text-success">Mint (9.5/10)</span>
-                            </div>
+                        <div class="space-y-3" id="product-specifications">
+                            <!-- JS will populate this -->
                         </div>
                     </div>
 
@@ -710,61 +675,47 @@
     // Load product data
     async function loadProduct() {
         try {
+            console.log('🔄 Starting loadProduct()');
             const productId = getProductId();
+            console.log('📋 Product ID:', productId);
+
             const response = await fetch(`/api/product-details/${productId}`);
+            console.log('🌐 API Response status:', response.status);
+
             if (!response.ok) {
-                throw new Error('Failed to load product');
+                throw new Error(`API returned ${response.status}: ${response.statusText}`);
             }
-            currentProduct = await response.json();
-            
+
+            const data = await response.json();
+            console.log('📦 Raw API data:', data);
+
+            currentProduct = data;
+
             // Convert string prices to numbers for proper formatting
             if (currentProduct.current_price) {
                 currentProduct.current_price = parseFloat(currentProduct.current_price);
             }
-            
-            console.log('Loaded product data:', currentProduct);
+
+            console.log('✅ Processed product data:', currentProduct);
             populateProductData();
+            console.log('🎨 Product data populated');
+
         } catch (error) {
-            console.error('Error loading product:', error);
+            console.error('❌ Error in loadProduct():', error);
+            console.error('❌ Error stack:', error.stack);
             // Fallback to default data
             currentProduct = {
                 product_id: getProductId(),
-                title: '2023 RLC Skyline GT-R',
-                subtitle: 'Ultra-Rare Collectible',
-                current_price: 299.99,
-                historical_description: 'This stunning 2023 RLC Skyline GT-R is one of the most sought-after Hot Wheels collectibles.',
-                expert_quote: 'The 2023 RLC Skyline GT-R represents the pinnacle of Hot Wheels collecting.',
-                main_image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg',
-                thumbnail_1_url: '/HOT WHEELS IMAGES/hot-wheels-2.jpeg',
-                thumbnail_2_url: '/HOT WHEELS IMAGES/hot-wheels-3.jpeg',
-                thumbnail_3_url: '/HOT WHEELS IMAGES/hot-wheels-4.jpeg',
-                thumbnail_4_url: '/HOT WHEELS IMAGES/hot-wheels-5.jpeg',
-                features: [
-                    'Premium die-cast construction',
-                    'Authentic Camaro styling',
-                    'Detailed interior and exterior',
-                    'Working suspension system',
-                    'Rubber tires with realistic tread',
-                    'Original blister pack',
-                    'Certificate of authenticity'
-                ],
-                specifications: {
-                    scale: '1:64',
-                    material: 'Die-cast metal with plastic details',
-                    dimensions: '3.0" x 1.2" x 0.8"',
-                    weight: '2.5 oz',
-                    packaging: 'Original Blister Pack',
-                    year: '1968',
-                    series: 'Redline'
-                },
-                main_image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg',
-                thumbnail_1_url: '/HOT WHEELS IMAGES/hot-wheels-2.jpeg',
-                thumbnail_2_url: '/HOT WHEELS IMAGES/hot-wheels-3.jpeg',
-                thumbnail_3_url: '/HOT WHEELS IMAGES/hot-wheels-4.jpeg',
-                thumbnail_4_url: '/HOT WHEELS IMAGES/hot-wheels-5.jpeg',
-                stock_quantity: 1,
-                is_featured: true,
-                is_active: true
+                title: 'Error Loading Product',
+                subtitle: 'Please try again later',
+                current_price: 0,
+                main_image_url: '',
+                thumbnail_1_url: '',
+                thumbnail_2_url: '',
+                thumbnail_3_url: '',
+                thumbnail_4_url: '',
+                specifications: { "Error": "Could not load product details." },
+                description: "There was an error loading the product information. Please check the console for details and try refreshing the page."
             };
             populateProductData();
         }
@@ -772,7 +723,12 @@
 
     // Populate product data in the page
     function populateProductData() {
-        if (!currentProduct) return;
+        if (!currentProduct) {
+            console.error('❌ No currentProduct data available');
+            return;
+        }
+
+        console.log('🎨 Populating product data:', currentProduct);
 
         // Update page title and meta
         document.getElementById('page-title').textContent = `${currentProduct.title} - Hot Wheels Velocity`;
@@ -781,48 +737,64 @@
         // Update product information
         document.getElementById('product-title').textContent = currentProduct.title;
         document.getElementById('product-subtitle').textContent = currentProduct.subtitle;
-        document.getElementById('current-price').textContent = `$${currentProduct.current_price.toLocaleString()}`;
-        
+        const price = currentProduct.current_price || 0;
+        document.getElementById('current-price').textContent = `$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
         // Update Buy Now button
-        document.getElementById('buy-now-button').textContent = `Buy Now - $${currentProduct.current_price.toLocaleString()}`;
+        document.getElementById('buy-now-button').textContent = `Buy Now - $${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
         // Update main image
         if (currentProduct.main_image_url) {
             document.getElementById('main-product-image').src = currentProduct.main_image_url;
             document.getElementById('main-product-image').alt = `${currentProduct.title} - Main View`;
+            console.log('🖼️ Main image updated:', currentProduct.main_image_url);
         }
 
-        // Populate thumbnails (5 images total)
+        // Populate thumbnails
         const thumbnailGallery = document.getElementById('thumbnail-gallery');
         thumbnailGallery.innerHTML = '';
-        
-        // Create 5 thumbnail slots using the correct field names
         const thumbnails = [
             currentProduct.main_image_url,
             currentProduct.thumbnail_1_url,
             currentProduct.thumbnail_2_url,
             currentProduct.thumbnail_3_url,
             currentProduct.thumbnail_4_url
-        ];
-        
-        for (let i = 0; i < 5; i++) {
+        ].filter(Boolean); // Filter out null/undefined URLs
+
+        thumbnails.forEach((imageUrl, i) => {
             const thumbnail = document.createElement('div');
             thumbnail.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${i === 0 ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
-            
-            const imageUrl = thumbnails[i] || '../HOT WHEELS IMAGES/hot-wheels-1.jpeg';
-            const altText = i === 0 ? 'Main View' : i === 1 ? 'Side View' : i === 2 ? 'Rear View' : i === 3 ? 'Bottom View' : 'Detail View';
-            
-            thumbnail.innerHTML = `<img src="${imageUrl}" alt="${altText}" class="w-full h-full object-cover" loading="lazy" style="max-width: 100%; height: auto; object-fit: cover;" />`;
+            const altText = `${currentProduct.title} - View ${i + 1}`;
+            thumbnail.innerHTML = `<img src="${imageUrl}" alt="${altText}" class="w-full h-full object-cover" loading="lazy" />`;
             
             thumbnail.addEventListener('click', () => {
                 document.getElementById('main-product-image').src = imageUrl;
-                // Update active thumbnail
                 thumbnailGallery.querySelectorAll('div').forEach((div, index) => {
                     div.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${index === i ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
                 });
             });
-            
             thumbnailGallery.appendChild(thumbnail);
+        });
+
+        // Populate specifications
+        const specsContainer = document.getElementById('product-specifications');
+        specsContainer.innerHTML = ''; // Clear existing specs
+        if (currentProduct.specifications) {
+            for (const [key, value] of Object.entries(currentProduct.specifications)) {
+                const specDiv = document.createElement('div');
+                specDiv.className = 'flex justify-between';
+                specDiv.innerHTML = `
+                    <span class="text-text-secondary">${key}</span>
+                    <span class="font-mono">${value}</span>
+                `;
+                specsContainer.appendChild(specDiv);
+            }
+        }
+
+        // Populate description in "Historical Context"
+        const descriptionContainer = document.querySelector('.card-premium .text-text-secondary');
+        if (descriptionContainer && currentProduct.description) {
+            descriptionContainer.textContent = currentProduct.description;
         }
     }
 

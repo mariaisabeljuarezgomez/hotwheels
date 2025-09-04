@@ -8,7 +8,7 @@ const session = require('express-session');
 const rateLimit = require('express-rate-limit');
 
 // Import database and models
-const { initializeDatabase } = require('./config/database');
+const { initializeDatabase, isUsingMockData } = require('./config/database');
 
 // Import controllers
 const authController = require('./controllers/authController');
@@ -447,49 +447,52 @@ app.get('/api/product-details/:id', async (req, res) => {
     try {
         const productId = parseInt(req.params.id);
         
-        if (process.env.USE_MOCK_DATA === 'true') {
-            // Mock data for product details
-            const mockProduct = {
-                product_id: productId,
-                title: '2023 RLC Skyline GT-R',
-                subtitle: 'Ultra-Rare Collectible',
-                current_price: 299.99,
-                                        main_image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg',
-                        thumbnail_1_url: '/HOT WHEELS IMAGES/hot-wheels-2.jpeg',
-                        thumbnail_2_url: '/HOT WHEELS IMAGES/hot-wheels-3.jpeg',
-                        thumbnail_3_url: '/HOT WHEELS IMAGES/hot-wheels-4.jpeg',
-                        thumbnail_4_url: '/HOT WHEELS IMAGES/hot-wheels-5.jpeg',
-                primary_tag: 'ultra-rare',
-                primary_tag_text: 'ULTRA RARE',
-                secondary_tag: 'rlc-exclusive',
-                secondary_tag_text: 'RLC EXCLUSIVE',
-                expert_authenticated: true,
-                certificate_number: 'HWV-2025-0892',
-                authenticated_by: 'Hot Wheels Authority',
-                historical_description: 'This stunning 2023 RLC Skyline GT-R is one of the most sought-after Hot Wheels collectibles. Featuring premium die-cast construction, authentic decals, and exclusive RLC membership design.',
-                expert_quote: 'The 2023 RLC Skyline GT-R represents the pinnacle of Hot Wheels collecting. This exclusive release features a premium die-cast body with authentic Nissan Skyline GT-R styling, complete with detailed interior, working suspension, and rubber tires. The car comes in an exclusive RLC packaging with a certificate of authenticity.',
-                features: [
-                    'Premium die-cast construction',
-                    'Authentic Nissan Skyline GT-R styling',
-                    'Detailed interior and exterior',
-                    'Working suspension system',
-                    'Rubber tires with realistic tread',
-                    'Exclusive RLC packaging',
-                    'Certificate of authenticity'
-                ],
-                specifications: {
-                    scale: '1:64',
-                    material: 'Die-cast metal with plastic details',
-                    dimensions: '3.0" x 1.2" x 0.8"',
-                    weight: '2.5 oz',
-                    packaging: 'RLC Exclusive Box',
-                    year: '2023',
-                    series: 'RLC Exclusive'
-                },
-                stock_quantity: 5,
-                is_featured: true,
-                is_active: true
-            };
+        if (process.env.USE_MOCK_DATA === 'true' || isUsingMockData()) {
+            let mockProduct;
+            if (productId === 1) {
+                // Specific mock data for the T-shirt (product_id: 1)
+                mockProduct = {
+                    product_id: 1,
+                    title: "Hot Wheels x Kenny Scharf Black T-Shirt",
+                    subtitle: "BLACK T SHIRT",
+                    current_price: "70.00",
+                    description: "T-shirt description with sizing info",
+                    main_image_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-1.jpg",
+                    thumbnail_1_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-2.jpg",
+                    thumbnail_2_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-3.jpg",
+                    thumbnail_3_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-4.jpg",
+                    thumbnail_4_url: "/HOT WHEELS IMAGES/MC_PDP_KennyScharf-Tshirt-5.jpg",
+                    specifications: {
+                        "Product Type": "T-Shirt",
+                        "Sizes": "S, M, L, XL, XXL",
+                        "Material": "100% Cotton"
+                    },
+                    features: [
+                        "Limited edition Kenny Scharf design",
+                        "High-quality print",
+                        "Comfortable fit"
+                    ]
+                };
+            } else {
+                // Fallback mock data for other products
+                mockProduct = {
+                    product_id: productId,
+                    title: '2023 RLC Skyline GT-R',
+                    subtitle: 'Ultra-Rare Collectible',
+                    current_price: 299.99,
+                    main_image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+                    thumbnail_1_url: '/HOT WHEELS IMAGES/hot-wheels-2.jpeg',
+                    thumbnail_2_url: '/HOT WHEELS IMAGES/hot-wheels-3.jpeg',
+                    thumbnail_3_url: '/HOT WHEELS IMAGES/hot-wheels-4.jpeg',
+                    thumbnail_4_url: '/HOT WHEELS IMAGES/hot-wheels-5.jpeg',
+                    specifications: {
+                        scale: '1:64',
+                        material: 'Die-cast metal',
+                        year: '2023'
+                    },
+                    features: []
+                };
+            }
             return res.json(mockProduct);
         }
 
