@@ -58,6 +58,7 @@
                     </div>
                     <a href="collector_dashboard.html" class="text-text-primary hover:text-accent transition-smooth">Dashboard</a>
                     <a href="about_hot_wheels_velocity.html" class="text-text-primary hover:text-accent transition-smooth">About</a>
+                    <a href="/admin-login" class="text-accent hover:text-text-primary transition-smooth font-semibold">🔧 Admin</a>
                 </div>
 
                 <!-- Search & Actions -->
@@ -68,6 +69,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </div>
+                    <a href="/admin-login" class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/80 transition-smooth font-medium text-sm">
+                        🔧 Admin
+                    </a>
                     <button class="relative p-2 text-text-primary hover:text-accent transition-smooth">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
@@ -129,6 +133,11 @@
                     </svg>
                 </a>
             </div>
+            <div class="text-center mt-6">
+                <a href="/admin-login" class="text-accent hover:text-text-primary transition-smooth text-sm font-medium">
+                    🔧 Admin Access
+                </a>
+            </div>
         </div>
 
         <!-- Floating Cars Animation -->
@@ -149,69 +158,31 @@
             <!-- Carousel Container -->
             <div class="relative overflow-hidden">
                 <div class="flex space-x-6 pb-4" id="treasureCarousel">
-                    <!-- Treasure Card 1 -->
-                    <div class="card-rare min-w-80 group cursor-pointer">
-                        <div class="relative mb-4 overflow-hidden rounded-lg">
-                            <img src="../HOT WHEELS IMAGES/hot-wheels-1.jpeg" alt="1968 Redline Custom Camaro" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
-                            <div class="absolute top-3 right-3 bg-warning text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">
-                                ULTRA RARE
-                            </div>
-                            <div class="absolute bottom-3 left-3 bg-accent text-white px-3 py-1 rounded-full text-sm font-rajdhani font-semibold">
-                                360° VIEW
-                            </div>
-                        </div>
-                        <h3 class="font-orbitron font-bold text-xl mb-2">1968 Redline Custom Camaro</h3>
-                        <p class="text-text-secondary mb-3">Mint condition with original blister pack</p>
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-2xl font-bold text-success">$2,450</span>
-                            <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
+                    <!-- Dynamic content loaded by homepage-listings-loader.js -->
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Treasure Card 2 -->
-                    <div class="card-premium min-w-80 group cursor-pointer">
-                        <div class="relative mb-4 overflow-hidden rounded-lg">
-                            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&h=300" alt="2023 RLC Exclusive" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
-                            <div class="absolute top-3 right-3 bg-accent text-white px-2 py-1 rounded-full text-xs font-mono font-bold">
-                                RLC EXCLUSIVE
-                            </div>
-                        </div>
-                        <h3 class="font-orbitron font-bold text-xl mb-2">2023 RLC Exclusive McLaren</h3>
-                        <p class="text-text-secondary mb-3">Limited edition with certificate</p>
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-2xl font-bold text-success">$89</span>
-                            <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
+    <!-- Our Exclusive Collection -->
+    <section class="py-20 bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-orbitron font-bold text-4xl mb-4 text-accent">Our Exclusive Collection</h2>
+                <p class="text-text-secondary text-lg">Rare finds with authenticated provenance and 360° previews</p>
+            </div>
 
-                    <!-- Treasure Card 3 -->
-                    <div class="card-premium min-w-80 group cursor-pointer">
-                        <div class="relative mb-4 overflow-hidden rounded-lg">
-                            <img src="https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=400&h=300" alt="Treasure Hunt Series" class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1584824486509-112e4181ff6b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
-                            <div class="absolute top-3 right-3 bg-success text-primary px-2 py-1 rounded-full text-xs font-mono font-bold">
-                                TREASURE HUNT
-                            </div>
-                        </div>
-                        <h3 class="font-orbitron font-bold text-xl mb-2">2024 Treasure Hunt Mustang</h3>
-                        <p class="text-text-secondary mb-3">Super Treasure Hunt variant</p>
-                        <div class="flex items-center justify-between">
-                            <span class="font-mono text-2xl font-bold text-success">$156</span>
-                            <a href="product_detail.html" class="bg-accent text-white px-4 py-2 rounded-lg hover:shadow-rare transition-smooth">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
+            <!-- Carousel Container -->
+            <div class="relative overflow-hidden">
+                <div class="flex space-x-6 pb-4" id="exclusiveCarousel">
+                    <!-- Dynamic content loaded by homepage-listings-loader.js -->
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Collector Activity Feed -->
-    <section class="py-20 bg-secondary">
+    <section class="py-20 bg-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="font-orbitron font-bold text-4xl mb-4">Live Collector Activity</h2>
@@ -453,6 +424,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script nonce="" src="../js/main.js"></script>
+    <script nonce="" src="../js/cart.js"></script>
+    <script nonce="" src="../js/analytics.js"></script>
+    <script nonce="" src="../js/homepage-listings-loader.js"></script>
 <!-- DHWS data injector removed for Railway deployment -->
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSP disabled for Railway deployment -->
-    <title>1968 Redline Custom Camaro - Hot Wheels Velocity</title>
+    <title id="page-title">Loading... - Hot Wheels Velocity</title>
     <link rel="stylesheet" href="../css/main.css" />
     <meta name="description" content="Premium 1968 Redline Custom Camaro with 360° viewer, authentication details, and collector intelligence. Ultra-rare mint condition with original blister pack." />
 <!-- Rocket.new script removed for Railway deployment -->
@@ -102,7 +102,7 @@
                 <svg class="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
-                <span class="text-accent">1968 Redline Custom Camaro</span>
+                <span class="text-accent" id="breadcrumb-title">Loading...</span>
             </nav>
         </div>
     </section>
@@ -116,7 +116,7 @@
                     <!-- Main Product Viewer -->
                     <div class="card-rare">
                         <div class="relative bg-gradient-to-br from-primary to-secondary rounded-lg overflow-hidden">
-                            <img src="../HOT WHEELS IMAGES/hot-wheels-1.jpeg" alt="1968 Redline Custom Camaro - Main View" class="w-full h-96 object-contain" loading="lazy" onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
+                            <img id="main-product-image" src="../HOT WHEELS IMAGES/hot-wheels-1.jpeg" alt="Product Main View" class="w-full h-96 object-contain" loading="lazy" style="max-width: 100%; height: auto; object-fit: contain;" />
                             
                             <!-- 360° Viewer Controls -->
                             <div class="absolute top-4 right-4 bg-accent text-white px-3 py-2 rounded-lg font-rajdhani font-semibold text-sm">
@@ -156,19 +156,8 @@
                     </div>
 
                     <!-- Thumbnail Gallery -->
-                    <div class="grid grid-cols-4 gap-3">
-                        <div class="aspect-square bg-surface rounded-lg overflow-hidden border-2 border-accent">
-                            <img src="../HOT WHEELS IMAGES/hot-wheels-3.jpeg" alt="Front View" class="w-full h-full object-cover" loading="lazy" onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-4.jpeg'; this.onerror=null;" />
-                        </div>
-                        <div class="aspect-square bg-surface rounded-lg overflow-hidden border border-border hover:border-accent transition-smooth cursor-pointer">
-                            <img src="../HOT WHEELS IMAGES/hot-wheels-5.jpeg" alt="Side View" class="w-full h-full object-cover" loading="lazy" onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-6.jpg'; this.onerror=null;" />
-                        </div>
-                        <div class="aspect-square bg-surface rounded-lg overflow-hidden border border-border hover:border-accent transition-smooth cursor-pointer">
-                            <img src="../HOT WHEELS IMAGES/hot-wheels-7.jpeg" alt="Rear View" class="w-full h-full object-cover" loading="lazy" onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-8.jpeg'; this.onerror=null;" />
-                        </div>
-                        <div class="aspect-square bg-surface rounded-lg overflow-hidden border border-border hover:border-accent transition-smooth cursor-pointer">
-                            <img src="../HOT WHEELS IMAGES/hot-wheels-1.jpeg" alt="Bottom View" class="w-full h-full object-cover" loading="lazy" onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
-                        </div>
+                    <div class="grid grid-cols-4 gap-3" id="thumbnail-gallery">
+                        <!-- Thumbnails will be populated dynamically -->
                     </div>
 
                     <!-- Authentication Badge -->
@@ -196,8 +185,8 @@
                             <span class="bg-warning text-primary px-3 py-1 rounded-full text-sm font-mono font-bold">ULTRA RARE</span>
                             <span class="bg-success text-primary px-3 py-1 rounded-full text-sm font-rajdhani font-semibold">MINT CONDITION</span>
                         </div>
-                        <h1 class="font-orbitron font-black text-4xl mb-2">1968 Redline Custom Camaro</h1>
-                        <p class="text-text-secondary text-lg">Original blister pack • Hong Kong casting • Spectraflame Orange</p>
+                        <h1 class="font-orbitron font-black text-4xl mb-2" id="product-title">Loading...</h1>
+                        <p class="text-text-secondary text-lg" id="product-subtitle">Loading product details...</p>
                     </div>
 
                     <!-- Pricing Section -->
@@ -205,7 +194,7 @@
                         <div class="flex items-center justify-between mb-4">
                             <div>
                                 <p class="text-text-secondary text-sm">Current Market Value</p>
-                                <p class="font-mono text-4xl font-bold text-success">$2,450</p>
+                                <p class="font-mono text-4xl font-bold text-success" id="current-price">$0</p>
                             </div>
                             <div class="text-right">
                                 <p class="text-success text-sm">+18% (30 days)</p>
@@ -248,8 +237,8 @@
                     <!-- Purchase Options -->
                     <div class="card-premium">
                         <div class="space-y-4">
-                            <a href="checkout_experience.html" class="btn-primary w-full text-center block text-lg py-4">
-                                Buy Now - $2,450
+                            <a href="checkout_experience.html" class="btn-primary w-full text-center block text-lg py-4" id="buy-now-button">
+                                Buy Now - Loading...
                             </a>
                             
                             <div class="grid grid-cols-2 gap-3">
@@ -701,5 +690,146 @@
         </div>
     </footer>
 <!-- DHWS data injector removed for Railway deployment -->
+
+<!-- Scripts -->
+<script src="../js/main.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/analytics.js"></script>
+<script>
+    // Product page specific JavaScript
+    let currentProduct = null;
+    let quantity = 1;
+
+    // Get product ID from URL parameter or default to 1
+    function getProductId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        return id ? parseInt(id) : 1;
+    }
+
+    // Load product data
+    async function loadProduct() {
+        try {
+            const productId = getProductId();
+            const response = await fetch(`/api/product-details/${productId}`);
+            if (!response.ok) {
+                throw new Error('Failed to load product');
+            }
+            currentProduct = await response.json();
+            
+            // Convert string prices to numbers for proper formatting
+            if (currentProduct.current_price) {
+                currentProduct.current_price = parseFloat(currentProduct.current_price);
+            }
+            
+            console.log('Loaded product data:', currentProduct);
+            populateProductData();
+        } catch (error) {
+            console.error('Error loading product:', error);
+            // Fallback to default data
+            currentProduct = {
+                product_id: getProductId(),
+                title: '2023 RLC Skyline GT-R',
+                subtitle: 'Ultra-Rare Collectible',
+                current_price: 299.99,
+                historical_description: 'This stunning 2023 RLC Skyline GT-R is one of the most sought-after Hot Wheels collectibles.',
+                expert_quote: 'The 2023 RLC Skyline GT-R represents the pinnacle of Hot Wheels collecting.',
+                main_image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+                thumbnail_1_url: '/HOT WHEELS IMAGES/hot-wheels-2.jpeg',
+                thumbnail_2_url: '/HOT WHEELS IMAGES/hot-wheels-3.jpeg',
+                thumbnail_3_url: '/HOT WHEELS IMAGES/hot-wheels-4.jpeg',
+                thumbnail_4_url: '/HOT WHEELS IMAGES/hot-wheels-5.jpeg',
+                features: [
+                    'Premium die-cast construction',
+                    'Authentic Camaro styling',
+                    'Detailed interior and exterior',
+                    'Working suspension system',
+                    'Rubber tires with realistic tread',
+                    'Original blister pack',
+                    'Certificate of authenticity'
+                ],
+                specifications: {
+                    scale: '1:64',
+                    material: 'Die-cast metal with plastic details',
+                    dimensions: '3.0" x 1.2" x 0.8"',
+                    weight: '2.5 oz',
+                    packaging: 'Original Blister Pack',
+                    year: '1968',
+                    series: 'Redline'
+                },
+                main_image_url: '/HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+                thumbnail_1_url: '/HOT WHEELS IMAGES/hot-wheels-2.jpeg',
+                thumbnail_2_url: '/HOT WHEELS IMAGES/hot-wheels-3.jpeg',
+                thumbnail_3_url: '/HOT WHEELS IMAGES/hot-wheels-4.jpeg',
+                thumbnail_4_url: '/HOT WHEELS IMAGES/hot-wheels-5.jpeg',
+                stock_quantity: 1,
+                is_featured: true,
+                is_active: true
+            };
+            populateProductData();
+        }
+    }
+
+    // Populate product data in the page
+    function populateProductData() {
+        if (!currentProduct) return;
+
+        // Update page title and meta
+        document.getElementById('page-title').textContent = `${currentProduct.title} - Hot Wheels Velocity`;
+        document.getElementById('breadcrumb-title').textContent = currentProduct.title;
+
+        // Update product information
+        document.getElementById('product-title').textContent = currentProduct.title;
+        document.getElementById('product-subtitle').textContent = currentProduct.subtitle;
+        document.getElementById('current-price').textContent = `$${currentProduct.current_price.toLocaleString()}`;
+        
+        // Update Buy Now button
+        document.getElementById('buy-now-button').textContent = `Buy Now - $${currentProduct.current_price.toLocaleString()}`;
+
+        // Update main image
+        if (currentProduct.main_image_url) {
+            document.getElementById('main-product-image').src = currentProduct.main_image_url;
+            document.getElementById('main-product-image').alt = `${currentProduct.title} - Main View`;
+        }
+
+        // Populate thumbnails (5 images total)
+        const thumbnailGallery = document.getElementById('thumbnail-gallery');
+        thumbnailGallery.innerHTML = '';
+        
+        // Create 5 thumbnail slots using the correct field names
+        const thumbnails = [
+            currentProduct.main_image_url,
+            currentProduct.thumbnail_1_url,
+            currentProduct.thumbnail_2_url,
+            currentProduct.thumbnail_3_url,
+            currentProduct.thumbnail_4_url
+        ];
+        
+        for (let i = 0; i < 5; i++) {
+            const thumbnail = document.createElement('div');
+            thumbnail.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${i === 0 ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
+            
+            const imageUrl = thumbnails[i] || '../HOT WHEELS IMAGES/hot-wheels-1.jpeg';
+            const altText = i === 0 ? 'Main View' : i === 1 ? 'Side View' : i === 2 ? 'Rear View' : i === 3 ? 'Bottom View' : 'Detail View';
+            
+            thumbnail.innerHTML = `<img src="${imageUrl}" alt="${altText}" class="w-full h-full object-cover" loading="lazy" style="max-width: 100%; height: auto; object-fit: cover;" />`;
+            
+            thumbnail.addEventListener('click', () => {
+                document.getElementById('main-product-image').src = imageUrl;
+                // Update active thumbnail
+                thumbnailGallery.querySelectorAll('div').forEach((div, index) => {
+                    div.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${index === i ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
+                });
+            });
+            
+            thumbnailGallery.appendChild(thumbnail);
+        }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+        loadProduct();
+    });
+</script>
 </body>
 </html>

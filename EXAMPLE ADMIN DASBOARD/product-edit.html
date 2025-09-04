@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Editor</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .image-preview { position: relative; display: inline-block; margin: 0.25rem; }
+    .image-preview img { width: 96px; height: 96px; object-fit: cover; border-radius: 0.5rem; border: 2px solid rgba(0,188,212,0.3); }
+    .image-preview .remove { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 9999px; background:#ef4444; color:white; display:flex; align-items:center; justify-content:center; font-weight:700; }
+    .color-swatch { width: 32px; height: 32px; border-radius: 9999px; border: 3px solid transparent; cursor: pointer; }
+    .color-swatch.selected { border-color:#00bcd4; transform: scale(1.06); }
+    .size-chip { padding: 0.25rem 0.75rem; border: 2px solid rgba(0,188,212,0.3); border-radius: 0.5rem; cursor: pointer; text-align:center; }
+    .size-chip.selected { background: rgba(0,188,212,0.2); color:#00bcd4; border-color:#00bcd4; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+  <main class="container mx-auto px-6 py-8">
+    <div class="glass-card rounded-xl p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h1 id="pageTitle" class="font-orbitron text-2xl font-bold">Edit Product</h1>
+        <a href="admin-uploads.html" class="btn-secondary">← Back to Uploads</a>
+      </div>
+
+      <div id="loading" class="text-center py-12 text-text-secondary">Loading product...</div>
+
+      <form id="form" style="display:none" class="space-y-6" onsubmit="return false;">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Product Name</label>
+            <input id="name" type="text" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Category</label>
+            <select id="category" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg">
+              <option value="">Select Category</option>
+              <!-- Categories will be loaded dynamically -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Price ($)</label>
+            <input id="price" type="number" step="0.01" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Original Price ($)</label>
+            <input id="original_price" type="number" step="0.01" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" />
+          </div>
+        </div>
+
+        <!-- Individual Image Slots System -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="block text-sm font-medium text-text-primary">Product Images</label>
+            <div class="text-xs text-text-secondary">Click any slot to upload or replace</div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <!-- Main Image Slot -->
+            <div class="space-y-2">
+              <label class="block text-xs font-medium text-accent">Main Image</label>
+              <div id="main-image-slot" class="relative w-full h-32 border-2 border-dashed border-accent border-opacity-50 rounded-lg cursor-pointer hover:border-accent transition-colors bg-surface bg-opacity-20 flex items-center justify-center group">
+                <div id="main-image-content" class="text-center">
+                  <div class="text-2xl mb-1">📷</div>
+                  <div class="text-xs text-text-secondary">Click to add</div>
+                </div>
+              </div>
+              <input id="main-image-input" type="file" accept="image/*" class="hidden" />
+            </div>
+
+            <!-- Thumbnail Slots -->
+            <div class="space-y-2">
+              <label class="block text-xs font-medium text-text-secondary">Thumbnail 1</label>
+              <div id="thumb1-slot" class="relative w-full h-24 border-2 border-dashed border-surface-light border-opacity-50 rounded-lg cursor-pointer hover:border-accent transition-colors bg-surface bg-opacity-20 flex items-center justify-center group">
+                <div id="thumb1-content" class="text-center">
+                  <div class="text-xl mb-1">🖼️</div>
+                  <div class="text-xs text-text-secondary">Click to add</div>
+                </div>
+              </div>
+              <input id="thumb1-input" type="file" accept="image/*" class="hidden" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-medium text-text-secondary">Thumbnail 2</label>
+              <div id="thumb2-slot" class="relative w-full h-24 border-2 border-dashed border-surface-light border-opacity-50 rounded-lg cursor-pointer hover:border-accent transition-colors bg-surface bg-opacity-20 flex items-center justify-center group">
+                <div id="thumb2-content" class="text-center">
+                  <div class="text-xl mb-1">🖼️</div>
+                  <div class="text-xs text-text-secondary">Click to add</div>
+                </div>
+              </div>
+              <input id="thumb2-input" type="file" accept="image/*" class="hidden" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-medium text-text-secondary">Thumbnail 3</label>
+              <div id="thumb3-slot" class="relative w-full h-24 border-2 border-dashed border-surface-light border-opacity-50 rounded-lg cursor-pointer hover:border-accent transition-colors bg-surface bg-opacity-20 flex items-center justify-center group">
+                <div id="thumb3-content" class="text-center">
+                  <div class="text-xl mb-1">🖼️</div>
+                  <div class="text-xs text-text-secondary">Click to add</div>
+                </div>
+              </div>
+              <input id="thumb3-input" type="file" accept="image/*" class="hidden" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-medium text-text-secondary">Thumbnail 4</label>
+              <div id="thumb4-slot" class="relative w-full h-24 border-2 border-dashed border-surface-light border-opacity-50 rounded-lg cursor-pointer hover:border-accent transition-colors bg-surface bg-opacity-20 flex items-center justify-center group">
+                <div id="thumb4-content" class="text-center">
+                  <div class="text-xl mb-1">🖼️</div>
+                  <div class="text-xs text-text-secondary">Click to add</div>
+                </div>
+              </div>
+              <input id="thumb4-input" type="file" accept="image/*" class="hidden" />
+            </div>
+          </div>
+
+          <div class="text-xs text-text-secondary">
+            💡 Tip: Each image slot is independent. Delete or replace any image without affecting others.
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-text-primary mb-2">Description</label>
+          <textarea id="description" rows="3" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-text-primary mb-2">Product Images (5 total - 1 main + 4 sub)</label>
+          <div id="image-previews" class="mt-2 flex flex-wrap"></div>
+          <div class="mt-3">
+            <input id="image-upload" type="file" accept="image/*" multiple class="hidden" />
+            <button id="browse" type="button" class="btn-primary">Add Images</button>
+          </div>
+          <p class="text-xs text-text-secondary mt-1">First image is treated as the main image. Maximum 5 images.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Available Colors</label>
+            <div id="color-options" class="flex flex-wrap gap-2">
+              <div class="color-swatch" style="background:#000000" data-color="Black" title="Black"></div>
+              <div class="color-swatch" style="background:#252432" data-color="Navy" title="Navy"></div>
+              <div class="color-swatch" style="background:#d3d3d3" data-color="Athletic Grey Solid" title="Athletic Grey Solid"></div>
+              <div class="color-swatch" style="background:#626874" data-color="Storm Blue" title="Storm Blue"></div>
+              <div class="color-swatch" style="background:#17489b" data-color="Royal Blue" title="Royal Blue"></div>
+              <div class="color-swatch" style="background:#4098ca" data-color="Aqua Blue" title="Aqua Blue"></div>
+              <div class="color-swatch" style="background:#00a69c" data-color="Teal Blue Green" title="Teal Blue Green"></div>
+              <div class="color-swatch" style="background:#b2ddc4" data-color="Mint Green" title="Mint Green"></div>
+              <div class="color-swatch" style="background:#2b4d35" data-color="Evergreen" title="Evergreen"></div>
+              <div class="color-swatch" style="background:#495443" data-color="Military Green" title="Military Green"></div>
+              <div class="color-swatch" style="background:#585244" data-color="Army" title="Army"></div>
+              <div class="color-swatch" style="background:#eee8d8" data-color="Natural" title="Natural"></div>
+              <div class="color-swatch" style="background:#f8a790" data-color="Sunset" title="Sunset"></div>
+              <div class="color-swatch" style="background:#f3703b" data-color="Orange" title="Orange"></div>
+              <div class="color-swatch" style="background:#993f21" data-color="Autumn" title="Autumn"></div>
+              <div class="color-swatch" style="background:#f1b83e" data-color="Gold" title="Gold"></div>
+              <div class="color-swatch" style="background:#caa235" data-color="Mustard" title="Mustard"></div>
+              <div class="color-swatch" style="background:#ffffff;border:1px solid #ccc" data-color="White" title="White"></div>
+              <div class="color-swatch" style="background:#f27da0" data-color="Charity Pink" title="Charity Pink"></div>
+              <div class="color-swatch" style="background:#ec3f77" data-color="Fushsia" title="Fushsia"></div>
+              <div class="color-swatch" style="background:#6c2232" data-color="Maroon" title="Maroon"></div>
+              <div class="color-swatch" style="background:#d32621" data-color="Red" title="Red"></div>
+              <div class="color-swatch" style="background:#dab2d0" data-color="Lilac" title="Lilac"></div>
+              <div class="color-swatch" style="background:#471b7c" data-color="Team Purple" title="Team Purple"></div>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Available Sizes & Stock</label>
+            <div id="size-options" class="space-y-3">
+              <div class="flex items-center space-x-3 p-3 bg-surface-light rounded-lg">
+                <div class="size-chip" data-size="S">S</div>
+                <input type="number" id="stock-s" class="w-20 px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm" min="0" placeholder="15" />
+                <span class="text-text-secondary text-sm">in stock</span>
+              </div>
+              <div class="flex items-center space-x-3 p-3 bg-surface-light rounded-lg">
+                <div class="size-chip" data-size="M">M</div>
+                <input type="number" id="stock-m" class="w-20 px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm" min="0" placeholder="20" />
+                <span class="text-text-secondary text-sm">in stock</span>
+              </div>
+              <div class="flex items-center space-x-3 p-3 bg-surface-light rounded-lg">
+                <div class="size-chip" data-size="L">L</div>
+                <input type="number" id="stock-l" class="w-20 px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm" min="0" placeholder="20" />
+                <span class="text-text-secondary text-sm">in stock</span>
+              </div>
+              <div class="flex items-center space-x-3 p-3 bg-surface-light rounded-lg">
+                <div class="size-chip" data-size="XL">XL</div>
+                <input type="number" id="stock-xl" class="w-20 px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm" min="0" placeholder="15" />
+                <span class="text-text-secondary text-sm">in stock</span>
+              </div>
+              <div class="flex items-center space-x-3 p-3 bg-surface-light rounded-lg">
+                <div class="size-chip" data-size="XXL">XXL</div>
+                <input type="number" id="stock-xxl" class="w-20 px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm" min="0" placeholder="10" />
+                <span class="text-text-secondary text-sm">in stock</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Stock Quantity</label>
+            <input type="number" id="stock_quantity" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Low Stock Threshold</label>
+            <input type="number" id="low_stock_threshold" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Sale Percentage</label>
+            <input type="number" id="sale_percentage" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Product Specifications</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm text-text-secondary mb-1 block">Material</label>
+                <input type="text" id="spec_material" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" />
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary mb-1 block">Weight</label>
+                <input type="text" id="spec_weight" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" />
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary mb-1 block">Fit</label>
+                <input type="text" id="spec_fit" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" />
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary mb-1 block">Neck Style</label>
+                <input type="text" id="spec_neck" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" />
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary mb-1 block">Sleeve Length</label>
+                <input type="text" id="spec_sleeve" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" />
+              </div>
+              <div>
+                <label class="text-sm text-text-secondary mb-1 block">Origin</label>
+                <input type="text" id="spec_origin" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" />
+              </div>
+                                             <div>
+                  <label class="text-sm text-text-secondary mb-1 block">Print Method</label>
+                  <input type="text" id="spec_print_method" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" placeholder="Direct-to-Garment" />
+                </div>
+                <div>
+                  <label class="text-sm text-text-secondary mb-1 block">Sustainability</label>
+                  <input type="text" id="spec_sustainability" class="w-full px-3 py-2 bg-surface border border-surface-light rounded" placeholder="Eco-Friendly Inks" />
+                </div>
+                <div>
+                  <label class="text-sm text-text-secondary mb-1 block">Brand Preference</label>
+                  <input type="text" id="spec_brand_preference" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Either (Gildan Softstyle 64000 or Bella+Canvas 3001)" />
+                </div>
+            </div>
+          </div>
+
+          <!-- Shipping Information -->
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Shipping Information</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm text-text-secondary mb-1 block">Shipping Cost ($)</label>
+                    <input type="number" id="shipping_cost" step="0.01" min="0" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="4.50" />
+                    <p class="text-xs text-text-secondary mt-1">Default: $4.50 for shirts, $10.50 for hoodies</p>
+                </div>
+                <div>
+                    <label class="text-sm text-text-secondary mb-1 block">Local Pickup Option</label>
+                    <div class="flex items-center space-x-2 mt-2">
+                        <input type="checkbox" id="local_pickup_enabled" class="rounded border-surface-light text-accent focus:ring-accent">
+                        <label for="local_pickup_enabled" class="text-sm text-text-primary">Enable local pickup for this product</label>
+                    </div>
+                    <p class="text-xs text-text-secondary mt-1">Customers can choose to pick up locally instead of shipping</p>
+                </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-text-primary mb-2">Product Features</label>
+            <div class="space-y-2">
+
+              <label class="flex items-center space-x-2"><input type="checkbox" id="feature_double_stitched" class="rounded border-surface-light text-accent"><span>Double-stitched seams for durability</span></label>
+              <label class="flex items-center space-x-2"><input type="checkbox" id="feature_fade_resistant" class="rounded border-surface-light text-accent"><span>Fade-resistant printing technology</span></label>
+              <label class="flex items-center space-x-2"><input type="checkbox" id="feature_soft_touch" class="rounded border-surface-light text-accent"><span>Soft-touch finish for comfort</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Input Options -->
+        <div class="space-y-6">
+          <h3 class="font-orbitron text-lg font-semibold text-accent">Custom Input Options</h3>
+          
+          <!-- Birthday Custom Input -->
+          <div class="glass-card rounded-lg p-4 border border-accent border-opacity-20">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <input type="checkbox" id="custom_birthday_enabled" class="rounded border-surface-light text-accent focus:ring-accent">
+                <label for="custom_birthday_enabled" class="text-sm font-medium text-text-primary">Enable Birthday Custom Input</label>
+              </div>
+              <div class="flex items-center space-x-3">
+                <input type="checkbox" id="custom_birthday_required" class="rounded border-surface-light text-accent focus:ring-accent">
+                <label for="custom_birthday_required" class="text-sm text-text-secondary">Required</label>
+              </div>
+            </div>
+            
+            <div id="birthday-options" class="space-y-3 hidden">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm text-text-secondary mb-1">Character Limit</label>
+                  <input type="number" id="custom_birthday_char_limit" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="250" min="50" max="1000">
+                </div>
+                <div>
+                  <label class="block text-sm text-text-secondary mb-1">Enabled Fields</label>
+                  <div class="space-y-2">
+                    <div class="flex items-center space-x-2">
+                      <input type="checkbox" id="birthday-field-birthdate" class="rounded border-surface-light text-accent focus:ring-accent">
+                      <label for="birthday-field-birthdate" class="text-sm text-text-primary">Birthdate</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <input type="checkbox" id="birthday-field-name" class="rounded border-surface-light text-accent focus:ring-accent">
+                      <label for="birthday-field-name" class="text-sm text-text-primary">Name</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <input type="checkbox" id="birthday-field-additional" class="rounded border-surface-light text-accent focus:ring-accent">
+                      <label for="birthday-field-additional" class="text-sm text-text-primary">Additional Information</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm text-text-secondary mb-1">Custom Labels</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-text-secondary mb-1">Birthdate Label</label>
+                    <input type="text" id="birthday-label-birthdate" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Birthdate">
+                  </div>
+                  <div>
+                    <label class="block text-sm text-text-secondary mb-1">Name Label</label>
+                    <input type="text" id="birthday-label-name" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Name">
+                  </div>
+                  <div>
+                    <label class="block text-sm text-text-secondary mb-1">Additional Info Label</label>
+                    <input type="text" id="birthday-label-additional" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Any other references or information">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom Question Field -->
+              <div id="birthday-custom-question" class="hidden">
+                <label class="block text-sm text-text-secondary mb-1">Custom Question (Optional)</label>
+                <textarea id="custom_birthday_question" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Enter your custom question here (e.g., 'What theme would you like for the birthday design?')" rows="3" maxlength="500"></textarea>
+                <p class="text-xs text-text-secondary mt-1">This optional question will appear to customers along with the standard birthday fields.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lyrics Custom Input -->
+          <div class="glass-card rounded-lg p-4 border border-accent border-opacity-20">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <input type="checkbox" id="custom_lyrics_enabled" class="rounded border-surface-light text-accent focus:ring-accent">
+                <label for="custom_lyrics_enabled" class="text-sm font-medium text-text-primary">Enable Lyrics Custom Input</label>
+              </div>
+              <div class="flex items-center space-x-3">
+                <input type="checkbox" id="custom_lyrics_required" class="rounded border-surface-light text-accent focus:ring-accent">
+                <label for="custom_lyrics_required" class="text-sm text-text-secondary">Required</label>
+              </div>
+            </div>
+            
+            <div id="lyrics-options" class="space-y-3 hidden">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm text-text-secondary mb-1">Character Limit</label>
+                  <input type="number" id="custom_lyrics_char_limit" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="250" min="50" max="1000">
+                </div>
+                <div>
+                  <label class="block text-sm text-text-secondary mb-1">Enabled Fields</label>
+                  <div class="space-y-2">
+                    <div class="flex items-center space-x-2">
+                      <input type="checkbox" id="lyrics-field-artist" class="rounded border-surface-light text-accent focus:ring-accent">
+                      <label for="lyrics-field-artist" class="text-sm text-text-primary">Artist or Band Name</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <input type="checkbox" id="lyrics-field-song" class="rounded border-surface-light text-accent focus:ring-accent">
+                      <label for="lyrics-field-song" class="text-sm text-text-primary">Song Name</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <input type="checkbox" id="lyrics-field-lyrics" class="rounded border-surface-light text-accent focus:ring-accent">
+                      <label for="lyrics-field-lyrics" class="text-sm text-text-primary">Song Lyrics (Optional)</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm text-text-secondary mb-1">Custom Labels</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-text-secondary mb-1">Artist/Band Label</label>
+                    <input type="text" id="lyrics-label-artist" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Artist or Band Name">
+                  </div>
+                  <div>
+                    <label class="text-sm text-text-secondary mb-1">Song Name Label</label>
+                    <input type="text" id="lyrics-label-song" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Song Name">
+                  </div>
+                  <div>
+                    <label class="block text-sm text-text-secondary mb-1">Song Lyrics Label</label>
+                    <input type="text" id="lyrics-label-lyrics" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Song Lyrics (Optional)">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom Question Field -->
+              <div id="lyrics-custom-question" class="hidden">
+                <label class="block text-sm text-text-secondary mb-1">Custom Question (Optional)</label>
+                <textarea id="custom_lyrics_question" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none" placeholder="Enter your custom question here (e.g., 'What style would you like for the song lyrics design?')" rows="3" maxlength="500"></textarea>
+                <p class="text-xs text-text-secondary mt-1">This optional question will appear to customers along with the standard song lyrics fields.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size Chart (inches) -->
+        <div class="space-y-4">
+          <label class="block text-sm font-medium text-text-primary mb-2">Size Chart (inches)</label>
+          <div class="glass-card rounded-lg p-4 border border-accent border-opacity-20">
+            <!-- Garment Type Presets -->
+            <div class="mb-4">
+              <label class="block text-sm text-text-secondary mb-2">Garment Type</label>
+              <select id="garment-type" class="w-full px-3 py-2 bg-surface border border-surface-light rounded text-text-primary focus:border-accent focus:outline-none">
+                <option value="adult-tshirt" selected>Adult Unisex T-Shirt (Default)</option>
+                <option value="adult-hoodie">Adult Hoodie</option>
+                <option value="kids-tshirt">Kids T-Shirt</option>
+                <option value="kids-hoodie">Kids Hoodie</option>
+                <option value="custom">Custom (Manual Input)</option>
+              </select>
+              <p class="text-xs text-text-secondary mt-1">Select a preset to auto-fill measurements, or choose Custom to enter manually</p>
+            </div>
+
+            <!-- Size Chart Inputs -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div class="space-y-2">
+                <label class="block text-xs font-medium text-accent uppercase tracking-wide">Size S</label>
+                <div>
+                  <label class="block text-xs text-text-secondary">Chest Width</label>
+                  <input type="text" id="size-s-chest" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="18" placeholder="18">
+                </div>
+                <div>
+                  <label class="block text-xs text-text-secondary">Length</label>
+                  <input type="text" id="size-s-length" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="28" placeholder="28">
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-xs font-medium text-accent uppercase tracking-wide">Size M</label>
+                <div>
+                  <label class="block text-xs text-text-secondary">Chest Width</label>
+                  <input type="text" id="size-m-chest" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="20" placeholder="20">
+                </div>
+                <div>
+                  <label class="block text-xs text-text-secondary">Length</label>
+                  <input type="text" id="size-m-length" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="29" placeholder="29">
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-xs font-medium text-accent uppercase tracking-wide">Size L</label>
+                <div>
+                  <label class="block text-xs text-text-secondary">Chest Width</label>
+                  <input type="text" id="size-l-chest" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="22" placeholder="22">
+                </div>
+                <div>
+                  <label class="block text-xs text-text-secondary">Length</label>
+                  <input type="text" id="size-l-length" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="30" placeholder="30">
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-xs font-medium text-accent uppercase tracking-wide">Size XL</label>
+                <div>
+                  <label class="block text-xs text-text-secondary">Chest Width</label>
+                  <input type="text" id="size-xl-chest" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="24" placeholder="24">
+                </div>
+                <div>
+                  <label class="block text-xs text-text-secondary">Length</label>
+                  <input type="text" id="size-xl-length" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="31" placeholder="31">
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-xs font-medium text-accent uppercase tracking-wide">Size 2XL</label>
+                <div>
+                  <label class="block text-xs text-text-secondary">Chest Width</label>
+                  <input type="text" id="size-2xl-chest" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="26" placeholder="26">
+                </div>
+                <div>
+                  <label class="block text-xs text-text-secondary">Length</label>
+                  <input type="text" id="size-2xl-length" class="w-full px-2 py-1 bg-surface border border-surface-light rounded text-text-primary text-sm focus:border-accent focus:outline-none" value="32" placeholder="32">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium text-text-primary mb-2">Tags</label>
+          <input type="text" id="tags" class="w-full px-4 py-3 bg-surface border border-surface-light rounded-lg" placeholder="custom, printed, quality" />
+        </div>
+          </div>
+        </div>
+
+        <div class="flex space-x-4 pt-2">
+          <button id="save" type="button" class="btn-primary px-8">Save Changes</button>
+          <a href="admin-uploads.html" class="btn-secondary px-8">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const productId = params.get('id');
+    let productData = null;
+    // Individual image slots instead of array
+    let imageSlots = {
+      main: null,    // Main image
+      thumb1: null,  // Thumbnail 1
+      thumb2: null,  // Thumbnail 2
+      thumb3: null,  // Thumbnail 3
+      thumb4: null   // Thumbnail 4
+    };
+
+    let selectedColors = [];
+    let selectedSizes = ['S','M','L','XL','XXL'];
+
+    // Setup click handlers for each image slot
+    function setupImageSlotHandlers() {
+      // Main image slot
+      document.getElementById('main-image-slot').addEventListener('click', () => {
+        document.getElementById('main-image-input').click();
+      });
+
+      document.getElementById('main-image-input').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = ev => {
+            imageSlots.main = ev.target.result;
+            renderImageSlots();
+          };
+          reader.readAsDataURL(file);
+        }
+        e.target.value = '';
+      });
+
+      // Thumbnail slots
+      ['thumb1', 'thumb2', 'thumb3', 'thumb4'].forEach((slotName, index) => {
+        const slotId = slotName + '-slot';
+        const inputId = slotName + '-input';
+
+        document.getElementById(slotId).addEventListener('click', () => {
+          document.getElementById(inputId).click();
+        });
+
+        document.getElementById(inputId).addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              imageSlots[slotName] = ev.target.result;
+              renderImageSlots();
+            };
+            reader.readAsDataURL(file);
+          }
+          e.target.value = '';
+        });
+      });
+    }
+
+    // Render all image slots
+    function renderImageSlots() {
+      // Render main image
+      renderImageSlot('main', 'main-image-slot', 'main-image-content', '📷', 'Main Image', 160);
+
+      // Render thumbnails
+      ['thumb1', 'thumb2', 'thumb3', 'thumb4'].forEach(slotName => {
+        const displayName = slotName.replace('thumb', 'Thumbnail ');
+        renderImageSlot(slotName, slotName + '-slot', slotName + '-content', '🖼️', displayName, 96);
+      });
+    }
+
+    // Render individual image slot
+    function renderImageSlot(slotName, slotId, contentId, icon, displayName, height) {
+      const slotElement = document.getElementById(slotId);
+      const contentElement = document.getElementById(contentId);
+      const imageSrc = imageSlots[slotName];
+
+      console.log(`🔍 Rendering ${slotName}:`, {
+        hasImage: !!imageSrc,
+        url: imageSrc,
+        startsWithHttp: imageSrc && imageSrc.startsWith('http'),
+        startsWithData: imageSrc && imageSrc.startsWith('data:')
+      });
+
+      if (imageSrc) {
+        // Show image with remove button
+        contentElement.innerHTML = `
+          <img src="${imageSrc}" class="w-full h-full object-cover rounded-lg" style="height: ${height}px;">
+          <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 remove-image-btn" data-slot="${slotName}">×</button>
+        `;
+
+        // Add remove button handler
+        setTimeout(() => {
+          const removeBtn = contentElement.querySelector('.remove-image-btn');
+          if (removeBtn) {
+            removeBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // Prevent slot click
+              imageSlots[slotName] = null;
+              renderImageSlots();
+            });
+          }
+        }, 10);
+      } else {
+        // Show placeholder
+        contentElement.innerHTML = `
+          <div class="text-${icon === '📷' ? '2xl' : 'xl'} mb-1">${icon}</div>
+          <div class="text-xs text-text-secondary">Click to add ${displayName.toLowerCase()}</div>
+        `;
+      }
+    }
+
+    function setupColorSelection(){
+      document.querySelectorAll('#color-options .color-swatch').forEach(el => {
+        el.addEventListener('click', () => {
+          const color = el.dataset.color;
+          const isSel = el.classList.toggle('selected');
+          if (isSel) {
+            if (!selectedColors.includes(color)) selectedColors.push(color);
+          } else {
+            selectedColors = selectedColors.filter(c => c !== color);
+          }
+        });
+      });
+    }
+
+    function setupSizeSelection(){
+      document.querySelectorAll('#size-options .size-chip').forEach(el => {
+        el.addEventListener('click', () => {
+          const size = el.dataset.size;
+          const isSel = el.classList.toggle('selected');
+          if (isSel) {
+            if (!selectedSizes.includes(size)) selectedSizes.push(size);
+          } else {
+            selectedSizes = selectedSizes.filter(s => s !== size);
+          }
+        });
+      });
+    }
+
+    async function fetchProduct(){
+      try {
+        const token = localStorage.getItem('adminToken');
+        if (!token) { location.href = 'admin-login.html'; return; }
+        const resp = await fetch(`/api/admin/products/${productId}`, { headers: { 'Authorization': 'Bearer ' + token } });
+        if (!resp.ok) throw new Error('Failed to load');
+        productData = await resp.json();
+        
+        // Debug: Log the full product data received from backend
+        console.log('🔍 Full product data received from backend:', productData);
+        console.log('🔍 Custom input fields in received data:', {
+          custom_birthday_enabled: productData.custom_birthday_enabled,
+          custom_birthday_required: productData.custom_birthday_required,
+          custom_lyrics_enabled: productData.custom_lyrics_enabled,
+          custom_lyrics_required: productData.custom_lyrics_required,
+          custom_lyrics_fields: productData.custom_lyrics_fields,
+          custom_lyrics_labels: productData.custom_lyrics_labels
+        });
+        
+        // Wait for categories to load before hydrating the form
+        await loadCategories();
+        hydrateForm();
+      } catch(e){
+        console.error('❌ Error loading product:', e);
+        document.getElementById('loading').textContent = 'Failed to load product.';
+      }
+    }
+
+    function setChecked(el, checked){ if (checked) el.classList.add('selected'); else el.classList.remove('selected'); }
+
+    function hydrateForm(){
+      const p = productData || {};
+      document.getElementById('pageTitle').textContent = `Edit Product: ${p.name || ''}`;
+      document.getElementById('name').value = p.name || '';
+      document.getElementById('category').value = p.category || '';
+      document.getElementById('price').value = p.price ?? '';
+      document.getElementById('original_price').value = p.original_price ?? '';
+      document.getElementById('description').value = p.description || '';
+      document.getElementById('stock_quantity').value = p.stock_quantity ?? 50;
+      document.getElementById('low_stock_threshold').value = p.low_stock_threshold ?? 5;
+      document.getElementById('sale_percentage').value = p.sale_percentage ?? 15;
+
+      // Tags
+      const tagsVal = Array.isArray(p.tags) ? p.tags.join(', ') : (typeof p.tags === 'string' ? p.tags : '');
+      document.getElementById('tags').value = tagsVal;
+
+                    // Specs
+        const specs = p.specifications || {};
+        console.log('🔍 Loading specifications from product:', specs);
+        console.log('🔍 Product data received:', p);
+        document.getElementById('spec_material').value = specs.material || '';
+        document.getElementById('spec_weight').value = specs.weight || '';
+        document.getElementById('spec_fit').value = specs.fit || '';
+        document.getElementById('spec_neck').value = specs.neck_style || '';
+        document.getElementById('spec_sleeve').value = specs.sleeve_length || '';
+        document.getElementById('spec_origin').value = specs.origin || '';
+        document.getElementById('spec_print_method').value = specs.print_method || '';
+        document.getElementById('spec_sustainability').value = specs.sustainability || '';
+        const brandPrefValue = (specs.brand_preference || p.brand_preference || 'Either (Gildan Softstyle 64000 or Bella+Canvas 3001)');
+        console.log('🔍 Setting brand_preference field to:', brandPrefValue);
+        console.log('🔍 specs.brand_preference:', specs.brand_preference);
+        console.log('🔍 p.brand_preference:', p.brand_preference);
+        document.getElementById('spec_brand_preference').value = brandPrefValue;
+        console.log('🔍 Field value after setting:', document.getElementById('spec_brand_preference').value);
+
+        // Load size chart data
+        if (p.size_chart) {
+          const sizeChart = typeof p.size_chart === 'string' ? JSON.parse(p.size_chart) : p.size_chart;
+          console.log('🔍 Loading size chart data:', sizeChart);
+
+          // Set garment type
+          if (sizeChart.garmentType && document.getElementById('garment-type')) {
+            document.getElementById('garment-type').value = sizeChart.garmentType;
+          }
+
+          // Set size measurements
+          if (sizeChart.sizes) {
+            Object.keys(sizeChart.sizes).forEach(size => {
+              const sizeData = sizeChart.sizes[size];
+              if (sizeData) {
+                const chestInput = document.getElementById(`size-${size.toLowerCase()}-chest`);
+                const lengthInput = document.getElementById(`size-${size.toLowerCase()}-length`);
+
+                if (chestInput) chestInput.value = sizeData.chest || '';
+                if (lengthInput) lengthInput.value = sizeData.length || '';
+              }
+            });
+          }
+        }
+
+        // Shipping information
+        document.getElementById('shipping_cost').value = p.shipping_cost ?? 4.50;
+        document.getElementById('local_pickup_enabled').checked = p.local_pickup_enabled ?? true;
+
+      // Features
+      const features = p.features || {};
+      document.getElementById('feature_double_stitched').checked = !!features.double_stitched;
+      document.getElementById('feature_fade_resistant').checked = !!features.fade_resistant;
+      document.getElementById('feature_soft_touch').checked = !!features.soft_touch;
+
+      // Custom Input Options
+      document.getElementById('custom_birthday_enabled').checked = !!p.custom_birthday_enabled;
+      document.getElementById('custom_birthday_required').checked = !!p.custom_birthday_required;
+      document.getElementById('custom_birthday_char_limit').value = p.custom_birthday_char_limit || 250;
+      
+      // Birthday fields
+      const birthdayFields = p.custom_birthday_fields || ['birthdate', 'name', 'additional_info'];
+      document.getElementById('birthday-field-birthdate').checked = birthdayFields.includes('birthdate');
+      document.getElementById('birthday-field-name').checked = birthdayFields.includes('name');
+      document.getElementById('birthday-field-additional').checked = birthdayFields.includes('additional_info');
+      
+      // Birthday labels
+      const birthdayLabels = p.custom_birthday_labels || {
+        birthdate: 'Birthdate',
+        name: 'Name',
+        additional_info: 'Any other references or information'
+      };
+      document.getElementById('birthday-label-birthdate').value = birthdayLabels.birthdate || 'Birthdate';
+      document.getElementById('birthday-label-name').value = birthdayLabels.name || 'Name';
+      document.getElementById('birthday-label-additional').value = birthdayLabels.additional_info || 'Any other references or information';
+      
+      // Show/hide birthday options
+      document.getElementById('birthday-options').classList.toggle('hidden', !p.custom_birthday_enabled);
+      document.getElementById('birthday-custom-question').classList.toggle('hidden', !p.custom_birthday_enabled);
+      document.getElementById('custom_birthday_question').value = p.custom_birthday_question || '';
+
+      // Lyrics custom input
+      document.getElementById('custom_lyrics_enabled').checked = !!p.custom_lyrics_enabled;
+      document.getElementById('custom_lyrics_required').checked = !!p.custom_lyrics_required;
+      document.getElementById('custom_lyrics_char_limit').value = p.custom_lyrics_char_limit || 250;
+      
+      // Lyrics fields
+      const lyricsFields = p.custom_lyrics_fields || ['artist_band', 'song_name', 'song_lyrics'];
+      document.getElementById('lyrics-field-artist').checked = lyricsFields.includes('artist_band');
+      document.getElementById('lyrics-field-song').checked = lyricsFields.includes('song_name');
+      document.getElementById('lyrics-field-lyrics').checked = lyricsFields.includes('song_lyrics');
+      
+      // Lyrics labels
+      const lyricsLabels = p.custom_lyrics_labels || {
+        artist_band: 'Artist or Band Name',
+        song_name: 'Song Name',
+        song_lyrics: 'Song Lyrics (Optional)'
+      };
+      document.getElementById('lyrics-label-artist').value = lyricsLabels.artist_band || 'Artist or Band Name';
+      document.getElementById('lyrics-label-song').value = lyricsLabels.song_name || 'Song Name';
+      document.getElementById('lyrics-label-lyrics').value = lyricsLabels.song_lyrics || 'Song Lyrics (Optional)';
+      
+      // Show/hide lyrics options
+      document.getElementById('lyrics-options').classList.toggle('hidden', !p.custom_lyrics_enabled);
+      document.getElementById('lyrics-custom-question').classList.toggle('hidden', !p.custom_lyrics_enabled);
+      document.getElementById('custom_lyrics_question').value = p.custom_lyrics_question || '';
+
+      // Colors
+      selectedColors = Array.isArray(p.colors) ? p.colors.slice() : [];
+      document.querySelectorAll('#color-options .color-swatch').forEach(el => {
+        setChecked(el, selectedColors.includes(el.dataset.color));
+      });
+
+      // Sizes & per-size stock
+      const sizeStock = p.size_stock || {};
+      const setIf = (id, key) => { const el = document.getElementById(id); if (el) el.value = (sizeStock[key] ?? ''); };
+      setIf('stock-s','S'); setIf('stock-m','M'); setIf('stock-l','L'); setIf('stock-xl','XL'); setIf('stock-xxl','XXL');
+      selectedSizes = Array.isArray(p.sizes) ? p.sizes.filter(sz => sz !== 'XS') : ['S','M','L','XL','XXL'];
+      document.querySelectorAll('#size-options .size-chip').forEach(el => {
+        setChecked(el, selectedSizes.includes(el.dataset.size));
+      });
+
+      // Images - Load into individual slots
+      imageSlots = {
+        main: null,
+        thumb1: null,
+        thumb2: null,
+        thumb3: null,
+        thumb4: null
+      };
+
+      // Load main image
+      if (p.image_url) {
+        console.log('🔍 Loading main image:', {
+          url: p.image_url,
+          type: typeof p.image_url,
+          startsWithHttp: p.image_url.startsWith('http'),
+          startsWithData: p.image_url.startsWith('data:'),
+          length: p.image_url.length
+        });
+        imageSlots.main = p.image_url;
+      }
+
+      // Load thumbnail images
+      if (Array.isArray(p.sub_images)) {
+        console.log('🔍 Loading sub_images array:', p.sub_images.length, 'images');
+        p.sub_images.forEach((img, index) => {
+          if (index < 4 && img) { // Only load up to 4 thumbnails
+            console.log(`🔍 Loading thumbnail ${index + 1}:`, {
+              url: img,
+              type: typeof img,
+              startsWithHttp: img.startsWith('http'),
+              startsWithData: img.startsWith('data:')
+            });
+            const slotName = `thumb${index + 1}`;
+            imageSlots[slotName] = img;
+          }
+        });
+      }
+
+      renderImageSlots();
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('form').style.display = 'block';
+    }
+
+    function buildSizeStock(){
+      const map = {};
+      [['S','stock-s'],['M','stock-m'],['L','stock-l'],['XL','stock-xl'],['XXL','stock-xxl']].forEach(([size, id]) => {
+        const val = parseInt(document.getElementById(id).value, 10);
+        if (!isNaN(val)) map[size] = val;
+      });
+      return map;
+    }
+
+    function setupCustomInputOptions() {
+      // Birthday custom input toggle
+      const birthdayEnabled = document.getElementById('custom_birthday_enabled');
+      const birthdayOptions = document.getElementById('birthday-options');
+      
+      if (birthdayEnabled && birthdayOptions) {
+        birthdayEnabled.addEventListener('change', function() {
+          birthdayOptions.classList.toggle('hidden', !this.checked);
+        });
+      }
+
+      // Lyrics custom input toggle
+      const lyricsEnabled = document.getElementById('custom_lyrics_enabled');
+      const lyricsOptions = document.getElementById('lyrics-options');
+      
+      if (lyricsEnabled && lyricsOptions) {
+        lyricsEnabled.addEventListener('change', function() {
+          lyricsOptions.classList.toggle('hidden', !this.checked);
+        });
+      }
+
+      // Custom question toggles - show when main options are enabled
+      const birthdayCustomQuestion = document.getElementById('birthday-custom-question');
+      const lyricsCustomQuestion = document.getElementById('lyrics-custom-question');
+
+      if (birthdayEnabled && birthdayCustomQuestion) {
+        birthdayEnabled.addEventListener('change', function() {
+          birthdayCustomQuestion.classList.toggle('hidden', !this.checked);
+        });
+      }
+
+      if (lyricsEnabled && lyricsCustomQuestion) {
+        lyricsEnabled.addEventListener('change', function() {
+          lyricsCustomQuestion.classList.toggle('hidden', !this.checked);
+        });
+      }
+    }
+
+    function getEnabledBirthdayFields() {
+      const fields = [];
+      if (document.getElementById('birthday-field-birthdate').checked) fields.push('birthdate');
+      if (document.getElementById('birthday-field-name').checked) fields.push('name');
+      if (document.getElementById('birthday-field-additional').checked) fields.push('additional_info');
+      return fields;
+    }
+
+    function getBirthdayLabels() {
+      return {
+        birthdate: document.getElementById('birthday-label-birthdate').value,
+        name: document.getElementById('birthday-label-name').value,
+        additional_info: document.getElementById('birthday-label-additional').value
+      };
+    }
+
+    function getEnabledLyricsFields() {
+      const fields = [];
+      if (document.getElementById('lyrics-field-artist').checked) fields.push('artist_band');
+      if (document.getElementById('lyrics-field-song').checked) fields.push('song_name');
+      if (document.getElementById('lyrics-field-lyrics').checked) fields.push('song_lyrics');
+      return fields;
+    }
+
+    function getLyricsLabels() {
+      return {
+        artist_band: document.getElementById('lyrics-label-artist').value,
+        song_name: document.getElementById('lyrics-label-song').value,
+        song_lyrics: document.getElementById('lyrics-label-lyrics').value
+      };
+    }
+
+    // Size Chart Functions
+    function getSizeChartData() {
+      return {
+        garmentType: document.getElementById('garment-type')?.value || 'adult-tshirt',
+        sizes: {
+          S: {
+            chest: document.getElementById('size-s-chest')?.value || '18',
+            length: document.getElementById('size-s-length')?.value || '28'
+          },
+          M: {
+            chest: document.getElementById('size-m-chest')?.value || '20',
+            length: document.getElementById('size-m-length')?.value || '29'
+          },
+          L: {
+            chest: document.getElementById('size-l-chest')?.value || '22',
+            length: document.getElementById('size-l-length')?.value || '30'
+          },
+          XL: {
+            chest: document.getElementById('size-xl-chest')?.value || '24',
+            length: document.getElementById('size-xl-length')?.value || '31'
+          },
+          '2XL': {
+            chest: document.getElementById('size-2xl-chest')?.value || '26',
+            length: document.getElementById('size-2xl-length')?.value || '32'
+          }
+        }
+      };
+    }
+    
+    // Load categories dynamically from database
+    async function loadCategories() {
+      try {
+        const response = await fetch('/api/admin/categories');
+        if (response.ok) {
+          const categories = await response.json();
+          updateCategoryDropdown(categories);
+        } else {
+          console.error('Failed to load categories');
+        }
+      } catch (error) {
+        console.error('Error loading categories:', error);
+      }
+    }
+    
+    // Update category dropdown with dynamic data
+    function updateCategoryDropdown(categories) {
+      const categorySelect = document.getElementById('category');
+      if (categorySelect) {
+        // Keep the first option (Select Category)
+        categorySelect.innerHTML = '<option value="">Select Category</option>';
+        
+        // Add dynamic categories
+        categories.forEach(category => {
+          if (category.name !== 'Uncategorized') {
+            const option = document.createElement('option');
+            option.value = category.name;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
+          }
+        });
+      }
+    }
+
+    document.getElementById('save').addEventListener('click', async () => {
+      try {
+        const token = localStorage.getItem('adminToken');
+        if (!token) { alert('Please login'); location.href='admin-login.html'; return; }
+
+                 const body = {
+           name: document.getElementById('name').value.trim(),
+           description: document.getElementById('description').value.trim(),
+           category: document.getElementById('category').value.trim(),
+           price: parseFloat(document.getElementById('price').value) || 0,
+           original_price: document.getElementById('original_price').value ? parseFloat(document.getElementById('original_price').value) : null,
+           stock_quantity: parseInt(document.getElementById('stock_quantity').value, 10) || 50,
+           low_stock_threshold: parseInt(document.getElementById('low_stock_threshold').value, 10) || 5,
+           sale_percentage: parseInt(document.getElementById('sale_percentage').value, 10) || 15,
+           tags: document.getElementById('tags').value.split(',').map(t => t.trim()).filter(Boolean),
+           colors: selectedColors,
+           sizes: selectedSizes,
+           size_stock: buildSizeStock(),
+           specifications: {
+             material: document.getElementById('spec_material').value.trim() || '',
+             weight: document.getElementById('spec_weight').value.trim() || '',
+             fit: document.getElementById('spec_fit').value.trim() || '',
+             neck_style: document.getElementById('spec_neck').value.trim() || '',
+             sleeve_length: document.getElementById('spec_sleeve').value.trim() || '',
+             origin: document.getElementById('spec_origin').value.trim() || '',
+             print_method: document.getElementById('spec_print_method').value.trim() || '',
+             sustainability: document.getElementById('spec_sustainability').value.trim() || '',
+             brand_preference: document.getElementById('spec_brand_preference').value.trim() || 'Either (Gildan Softstyle 64000 or Bella+Canvas 3001)'
+           },
+           brand_preference: document.getElementById('spec_brand_preference').value.trim() || 'Either (Gildan Softstyle 64000 or Bella+Canvas 3001)',
+           shipping_cost: parseFloat(document.getElementById('shipping_cost').value) || 4.50,
+           local_pickup_enabled: document.getElementById('local_pickup_enabled').checked,
+           features: {
+             double_stitched: document.getElementById('feature_double_stitched').checked,
+             fade_resistant: document.getElementById('feature_fade_resistant').checked,
+             soft_touch: document.getElementById('feature_soft_touch').checked
+           },
+                       // Custom input options
+            custom_birthday_enabled: document.getElementById('custom_birthday_enabled').checked,
+            custom_birthday_required: document.getElementById('custom_birthday_required').checked,
+            custom_birthday_fields: JSON.stringify(getEnabledBirthdayFields()),
+            custom_birthday_labels: JSON.stringify(getBirthdayLabels()),
+            custom_birthday_char_limit: parseInt(document.getElementById('custom_birthday_char_limit').value) || 250,
+            custom_birthday_question: document.getElementById('custom_birthday_question').value.trim() || '',
+            custom_lyrics_enabled: document.getElementById('custom_lyrics_enabled').checked,
+            custom_lyrics_required: document.getElementById('custom_lyrics_required').checked,
+            custom_lyrics_fields: JSON.stringify(getEnabledLyricsFields()),
+            custom_lyrics_labels: JSON.stringify(getLyricsLabels()),
+            custom_lyrics_char_limit: parseInt(document.getElementById('custom_lyrics_char_limit').value) || 250,
+            custom_lyrics_question: document.getElementById('custom_lyrics_question').value.trim() || '',
+            size_chart: getSizeChartData()
+         };
+
+        // Images: Build from individual slots
+        const imageArray = [];
+
+        // Add main image if exists
+        if (imageSlots.main) {
+          imageArray.push(imageSlots.main);
+        }
+
+        // Add thumbnail images
+        ['thumb1', 'thumb2', 'thumb3', 'thumb4'].forEach(slotName => {
+          if (imageSlots[slotName]) {
+            imageArray.push(imageSlots[slotName]);
+          }
+        });
+
+        // Check if we have any base64 images (new uploads)
+        const hasBase64 = imageArray.some(src => typeof src === 'string' && src.startsWith('data:'));
+
+        if (hasBase64) {
+          // Send base64 images for upload to Cloudinary
+          body.images = imageArray;
+        } else {
+          // Send existing URLs
+          const cleanUrl = (url) => {
+            if (!url || typeof url !== 'string') return null;
+            return url.trim().replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+          };
+
+          body.image_url = cleanUrl(imageArray[0]);
+          body.sub_images = imageArray.slice(1, 5).map(cleanUrl).filter(Boolean);
+        }
+
+                 // Debug each field individually
+         console.log('🔍 Debugging form fields:');
+         console.log('spec_material:', document.getElementById('spec_material').value);
+         console.log('spec_weight:', document.getElementById('spec_weight').value);
+         console.log('spec_fit:', document.getElementById('spec_fit').value);
+         console.log('spec_neck:', document.getElementById('spec_neck').value);
+         console.log('spec_sleeve:', document.getElementById('spec_sleeve').value);
+         console.log('spec_origin:', document.getElementById('spec_origin').value);
+         console.log('spec_print_method:', document.getElementById('spec_print_method').value);
+         console.log('spec_sustainability:', document.getElementById('spec_sustainability').value);
+         console.log('spec_brand_preference:', document.getElementById('spec_brand_preference').value);
+         console.log('spec_brand_preference type:', typeof document.getElementById('spec_brand_preference').value);
+         console.log('spec_brand_preference element exists:', !!document.getElementById('spec_brand_preference'));
+         
+         // Debug custom input fields specifically
+         console.log('🔍 Custom input fields being sent:', {
+           custom_birthday_enabled: body.custom_birthday_enabled,
+           custom_birthday_required: body.custom_birthday_required,
+           custom_lyrics_enabled: body.custom_lyrics_enabled,
+           custom_lyrics_required: body.custom_lyrics_required,
+           custom_lyrics_fields: body.custom_lyrics_fields,
+           custom_lyrics_labels: body.custom_lyrics_labels
+         });
+         
+                 console.log('🚀 Sending request body:', body);
+        console.log('🔍 Specifications being sent:', body.specifications);
+        console.log('🔍 Image URLs being sent:', {
+          image_url: body.image_url,
+          sub_images: body.sub_images,
+          imageSlots: imageSlots,
+          imageArray: imageArray,
+          hasBase64: hasBase64,
+          imageArrayTypes: imageArray.map((img, i) => ({
+            index: i,
+            type: typeof img,
+            startsWithData: img && typeof img === 'string' && img.startsWith('data:'),
+            startsWithHttp: img && typeof img === 'string' && img.startsWith('http'),
+            length: img ? img.length : 0
+          }))
+        });
+         
+         const resp = await fetch(`/api/admin/products/${productId}`, {
+           method:'PUT',
+           headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+           body: JSON.stringify(body)
+         });
+                 if (!resp.ok) {
+           const err = await resp.json().catch(()=>({error:'Failed'}));
+           console.error('❌ Server error response:', err);
+           throw new Error(err.error || `HTTP ${resp.status}: ${resp.statusText}`);
+         }
+                 alert('Product updated successfully');
+         console.log('✅ Product saved, reloading data...');
+         // Reload the product data to show updated values
+         await fetchProduct();
+      } catch(e){
+        alert('Error saving: '+ e.message);
+      }
+    });
+
+         // Categories are now loaded in fetchProduct()
+     
+     // Size Chart Presets
+     const sizePresets = {
+       'adult-tshirt': {
+         s: { chest: '18', length: '28' },
+         m: { chest: '20', length: '29' },
+         l: { chest: '22', length: '30' },
+         xl: { chest: '24', length: '31' },
+         '2xl': { chest: '26', length: '32' }
+       },
+       'adult-hoodie': {
+         s: { chest: '20', length: '27' },
+         m: { chest: '22', length: '28' },
+         l: { chest: '24', length: '29' },
+         xl: { chest: '26', length: '30' },
+         '2xl': { chest: '28', length: '31' }
+       },
+       'kids-tshirt': {
+         s: { chest: '16', length: '22' },
+         m: { chest: '17', length: '23' },
+         l: { chest: '18', length: '24' },
+         xl: { chest: '19', length: '25' },
+         '2xl': { chest: '20', length: '26' }
+       },
+       'kids-hoodie': {
+         s: { chest: '16', length: '20' },
+         m: { chest: '17', length: '21' },
+         l: { chest: '18', length: '22' },
+         xl: { chest: '19', length: '23' },
+         '2xl': { chest: '20', length: '24' }
+       }
+     };
+
+     function setupSizeChart() {
+       const garmentTypeSelect = document.getElementById('garment-type');
+       if (!garmentTypeSelect) return;
+
+       garmentTypeSelect.addEventListener('change', (e) => {
+         const preset = e.target.value;
+         if (preset === 'custom') return;
+
+         const sizes = sizePresets[preset];
+         if (sizes) {
+           // Update all size inputs
+           Object.keys(sizes).forEach(size => {
+             const chestInput = document.getElementById(`size-${size}-chest`);
+             const lengthInput = document.getElementById(`size-${size}-length`);
+
+             if (chestInput) chestInput.value = sizes[size].chest;
+             if (lengthInput) lengthInput.value = sizes[size].length;
+           });
+         }
+       });
+     }
+
+         // Wait for DOM to be fully loaded before initializing
+    document.addEventListener('DOMContentLoaded', () => {
+      setupColorSelection();
+      setupSizeSelection();
+      setupCustomInputOptions();
+      setupSizeChart();
+      setupImageSlotHandlers();
+       if (!productId) {
+         document.getElementById('loading').textContent = 'Missing product ID';
+       } else {
+         fetchProduct();
+       }
+     });
+  </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
+
+

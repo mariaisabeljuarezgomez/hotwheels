@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+/* Removed Rajdhani font import - using Inter instead */
 
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
 
@@ -580,7 +580,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-right: 1.5rem;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  font-family: Rajdhani, sans-serif;
+  font-family: Inter, sans-serif;
   font-weight: 600;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -1669,7 +1669,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .font-rajdhani{
-  font-family: Rajdhani, sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 .text-2xl{

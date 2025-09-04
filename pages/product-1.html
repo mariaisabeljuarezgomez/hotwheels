@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSP disabled for Railway deployment -->
+    <title id="page-title">Loading... - Hot Wheels Velocity</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <meta name="description" id="page-description" content="Premium Hot Wheels collectible with 360° viewer, authentication details, and collector intelligence." />
+</head>
+<body class="bg-background text-text-primary font-inter">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-md border-b border-border">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="homepage.html" class="flex items-center space-x-2">
+                        <svg class="w-10 h-10" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" stroke="url(#gradient)" stroke-width="2"/>
+                            <path d="M12 20L20 12L28 20L20 28L12 20Z" fill="url(#gradient)"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF0080"/>
+                                    <stop offset="100%" style="stop-color:#00FF88"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="font-orbitron font-bold text-xl text-accent">Hot Wheels Velocity</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <div class="relative group">
+                        <button class="flex items-center space-x-1 text-text-primary hover:text-accent transition-smooth">
+                            <span>Collections</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <!-- Mega Menu -->
+                        <div class="absolute top-full left-0 w-96 bg-surface border border-border rounded-lg shadow-premium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 mt-2">
+                            <div class="p-6 grid grid-cols-2 gap-4">
+                                <a href="collection_browser.html" class="block p-3 rounded-lg hover:bg-primary transition-smooth">
+                                    <img src="https://images.pexels.com/photos/35619/capri-ford-oldtimer-automotive.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Premium Collections" class="w-full h-20 object-cover rounded mb-2" loading="lazy" />
+                                    <h3 class="font-rajdhani font-semibold text-accent">Premium Collections</h3>
+                                    <p class="text-sm text-text-secondary">Treasure Hunts & RLC</p>
+                                </a>
+                                <a href="collection_browser.html" class="block p-3 rounded-lg hover:bg-primary transition-smooth">
+                                    <img src="https://images.pixabay.com/photo/2016/04/01/12/11/car-1300629_1280.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Vintage Vault" class="w-full h-20 object-cover rounded mb-2" loading="lazy" />
+                                    <h3 class="font-rajdhani font-semibold text-warning">Vintage Vault</h3>
+                                    <p class="text-sm text-text-secondary">Classic Redlines</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="collector_dashboard.html" class="text-text-primary hover:text-accent transition-smooth">Dashboard</a>
+                    <a href="about_hot_wheels_velocity.html" class="text-text-primary hover:text-accent transition-smooth">About</a>
+                </div>
+
+                <!-- Search & Actions -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden sm:block">
+                        <input type="search" placeholder="Search rare finds..." class="bg-surface border border-border rounded-lg px-4 py-2 pl-10 w-64 focus:border-accent focus:outline-none transition-smooth" />
+                        <svg class="absolute left-3 top-2.5 w-5 h-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <button class="relative p-2 text-text-primary hover:text-accent transition-smooth">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
+                        </svg>
+                        <span class="absolute -top-1 -right-1 bg-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 text-text-primary hover:text-accent transition-smooth">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb Navigation -->
+    <section class="pt-20 pb-4 bg-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center space-x-2 text-sm">
+                <a href="homepage.html" class="text-text-secondary hover:text-accent transition-smooth">Home</a>
+                <svg class="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <a href="collection_browser.html" class="text-text-secondary hover:text-accent transition-smooth">Collections</a>
+                <svg class="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+                <span class="text-accent" id="breadcrumb-title">Loading...</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Detail Main Section -->
+    <section class="py-8 bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Left Panel - Product Viewer -->
+                <div class="space-y-6">
+                    <!-- Main Product Viewer -->
+                    <div class="card-rare">
+                        <div class="relative bg-gradient-to-br from-primary to-secondary rounded-lg overflow-hidden">
+                            <img id="main-product-image" src="../HOT WHEELS IMAGES/hot-wheels-1.jpeg" alt="Product Main View" class="w-full h-96 object-contain" loading="lazy" />
+                            
+                            <!-- 360° Viewer Controls -->
+                            <div class="absolute top-4 right-4 bg-accent text-white px-3 py-2 rounded-lg font-rajdhani font-semibold text-sm">
+                                360° VIEW ACTIVE
+                            </div>
+                            
+                            <!-- Zoom Controls -->
+                            <div class="absolute bottom-4 right-4 flex space-x-2">
+                                <button class="w-10 h-10 bg-surface/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-accent transition-smooth">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                    </svg>
+                                </button>
+                                <button class="w-10 h-10 bg-surface/80 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-accent transition-smooth">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Viewing Mode Tabs -->
+                        <div class="flex space-x-2 mt-4">
+                            <button class="flex-1 bg-accent text-white py-2 px-4 rounded-lg font-rajdhani font-semibold text-sm">
+                                360° View
+                            </button>
+                            <button class="flex-1 bg-surface text-text-primary py-2 px-4 rounded-lg font-rajdhani font-semibold text-sm hover:bg-accent transition-smooth">
+                                Gallery
+                            </button>
+                            <button class="flex-1 bg-surface text-text-primary py-2 px-4 rounded-lg font-rajdhani font-semibold text-sm hover:bg-accent transition-smooth">
+                                Scale View
+                            </button>
+                            <button class="flex-1 bg-surface text-text-primary py-2 px-4 rounded-lg font-rajdhani font-semibold text-sm hover:bg-accent transition-smooth">
+                                AR View
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Thumbnail Gallery -->
+                    <div class="grid grid-cols-4 gap-3" id="thumbnail-gallery">
+                        <!-- Thumbnails will be populated dynamically -->
+                    </div>
+
+                    <!-- Authentication Badge -->
+                    <div class="card-premium">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-16 h-16 bg-success rounded-full flex items-center justify-center">
+                                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-orbitron font-bold text-lg text-success">Expert Authenticated</h3>
+                                <p class="text-text-secondary">Verified by Hot Wheels Authority</p>
+                                <p class="text-sm text-text-secondary">Certificate #HWV-2025-0892</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Product Information -->
+                <div class="space-y-6">
+                    <!-- Product Header -->
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="bg-warning text-primary px-3 py-1 rounded-full text-sm font-mono font-bold" id="rarity-badge">ULTRA RARE</span>
+                            <span class="bg-success text-primary px-3 py-1 rounded-full text-sm font-rajdhani font-semibold" id="condition-badge">MINT CONDITION</span>
+                        </div>
+                        <h1 class="font-orbitron font-black text-4xl mb-2" id="product-title">Loading...</h1>
+                        <p class="text-text-secondary text-lg" id="product-subtitle">Loading product details...</p>
+                    </div>
+
+                    <!-- Price Section -->
+                    <div class="card-premium">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <div class="flex items-center space-x-3">
+                                    <span class="font-orbitron font-black text-3xl text-accent" id="current-price">$299.99</span>
+                                    <span class="text-text-secondary text-lg line-through" id="original-price">$399.99</span>
+                                </div>
+                                <p class="text-success text-sm font-rajdhani font-semibold">Save $100.00 (25% OFF)</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-text-secondary text-sm">Stock Available</p>
+                                <p class="font-orbitron font-bold text-lg text-warning" id="stock-quantity">5</p>
+                            </div>
+                        </div>
+
+                        <!-- Add to Cart Section -->
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center border border-border rounded-lg">
+                                    <button class="w-10 h-10 flex items-center justify-center hover:bg-primary transition-smooth" id="decrease-qty">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                        </svg>
+                                    </button>
+                                    <span class="w-16 text-center font-rajdhani font-semibold" id="quantity">1</span>
+                                    <button class="w-10 h-10 flex items-center justify-center hover:bg-primary transition-smooth" id="increase-qty">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <button class="flex-1 bg-accent hover:bg-accent/90 text-white py-3 px-6 rounded-lg font-rajdhani font-bold text-lg transition-smooth" id="add-to-cart-btn">
+                                    Add to Cart
+                                </button>
+                            </div>
+                            <button class="w-full bg-surface hover:bg-primary border border-border text-text-primary py-3 px-6 rounded-lg font-rajdhani font-semibold transition-smooth">
+                                Add to Wishlist
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="card-premium">
+                        <h3 class="font-orbitron font-bold text-xl mb-4">Product Description</h3>
+                        <p class="text-text-secondary leading-relaxed" id="product-description">
+                            Loading product description...
+                        </p>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="card-premium">
+                        <h3 class="font-orbitron font-bold text-xl mb-4">Key Features</h3>
+                        <ul class="space-y-2" id="features-list">
+                            <!-- Features will be populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Specifications -->
+                    <div class="card-premium">
+                        <h3 class="font-orbitron font-bold text-xl mb-4">Specifications</h3>
+                        <div class="grid grid-cols-2 gap-4" id="specifications-grid">
+                            <!-- Specifications will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products Section -->
+    <section class="py-12 bg-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-orbitron font-bold text-3xl text-center mb-8">Related Collectibles</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Related products will be populated dynamically -->
+                <div class="card-premium">
+                    <img src="../HOT WHEELS IMAGES/hot-wheels-2.jpeg" alt="Related Product" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" />
+                    <h3 class="font-rajdhani font-semibold text-lg mb-2">Related Hot Wheels</h3>
+                    <p class="text-text-secondary text-sm mb-4">Premium collectible from the same series</p>
+                    <div class="flex items-center justify-between">
+                        <span class="font-orbitron font-bold text-accent">$199.99</span>
+                        <button class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm transition-smooth">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+                <div class="card-premium">
+                    <img src="../HOT WHEELS IMAGES/hot-wheels-3.jpeg" alt="Related Product" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" />
+                    <h3 class="font-rajdhani font-semibold text-lg mb-2">Related Hot Wheels</h3>
+                    <p class="text-text-secondary text-sm mb-4">Premium collectible from the same series</p>
+                    <div class="flex items-center justify-between">
+                        <span class="font-orbitron font-bold text-accent">$199.99</span>
+                        <button class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm transition-smooth">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+                <div class="card-premium">
+                    <img src="../HOT WHEELS IMAGES/hot-wheels-4.jpeg" alt="Related Product" class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" />
+                    <h3 class="font-rajdhani font-semibold text-lg mb-2">Related Hot Wheels</h3>
+                    <p class="text-text-secondary text-sm mb-4">Premium collectible from the same series</p>
+                    <div class="flex items-center justify-between">
+                        <span class="font-orbitron font-bold text-accent">$199.99</span>
+                        <button class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-lg font-rajdhani font-semibold text-sm transition-smooth">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg class="w-8 h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" stroke="url(#gradient)" stroke-width="2"/>
+                            <path d="M12 20L20 12L28 20L20 28L12 20Z" fill="url(#gradient)"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF0080"/>
+                                    <stop offset="100%" style="stop-color:#00FF88"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="font-orbitron font-bold text-lg text-accent">Hot Wheels Velocity</span>
+                    </div>
+                    <p class="text-text-secondary text-sm">The ultimate destination for premium Hot Wheels collectibles and rare finds.</p>
+                </div>
+                <div>
+                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Collections</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Premium Collections</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Vintage Vault</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">RLC Exclusives</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Treasure Hunts</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Support</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Help Center</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Authentication</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Shipping Info</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-rajdhani font-semibold text-lg mb-4">Connect</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">About Us</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Contact</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Newsletter</a></li>
+                        <li><a href="#" class="text-text-secondary hover:text-accent transition-smooth">Social Media</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-8 text-center">
+                <p class="text-text-secondary text-sm">&copy; 2025 Hot Wheels Velocity. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/analytics.js"></script>
+    <script>
+        // Product page specific JavaScript
+        let currentProduct = null;
+        let quantity = 1;
+
+        // Load product data
+        async function loadProduct() {
+            try {
+                const response = await fetch('/api/product-details/1');
+                if (!response.ok) {
+                    throw new Error('Failed to load product');
+                }
+                currentProduct = await response.json();
+                populateProductData();
+            } catch (error) {
+                console.error('Error loading product:', error);
+                // Fallback to default data
+                currentProduct = {
+                    product_id: 1,
+                    title: '2023 RLC Skyline GT-R',
+                    subtitle: 'Ultra-Rare Collectible',
+                    price: 299.99,
+                    original_price: 399.99,
+                    description: 'This stunning 2023 RLC Skyline GT-R is one of the most sought-after Hot Wheels collectibles.',
+                    detailed_description: 'The 2023 RLC Skyline GT-R represents the pinnacle of Hot Wheels collecting.',
+                    features: [
+                        'Premium die-cast construction',
+                        'Authentic Nissan Skyline GT-R styling',
+                        'Detailed interior and exterior',
+                        'Working suspension system',
+                        'Rubber tires with realistic tread',
+                        'Exclusive RLC packaging',
+                        'Certificate of authenticity'
+                    ],
+                    specifications: {
+                        scale: '1:64',
+                        material: 'Die-cast metal with plastic details',
+                        dimensions: '3.0" x 1.2" x 0.8"',
+                        weight: '2.5 oz',
+                        packaging: 'RLC Exclusive Box',
+                        year: '2023',
+                        series: 'RLC Exclusive'
+                    },
+                    images: [
+                        '../HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+                        '../HOT WHEELS IMAGES/hot-wheels-2.jpeg',
+                        '../HOT WHEELS IMAGES/hot-wheels-3.jpeg',
+                        '../HOT WHEELS IMAGES/hot-wheels-4.jpeg'
+                    ],
+                    stock_quantity: 5,
+                    is_featured: true,
+                    is_active: true
+                };
+                populateProductData();
+            }
+        }
+
+        // Populate product data in the page
+        function populateProductData() {
+            if (!currentProduct) return;
+
+            // Update page title and meta
+            document.getElementById('page-title').textContent = `${currentProduct.title} - Hot Wheels Velocity`;
+            document.getElementById('page-description').content = currentProduct.description;
+            document.getElementById('breadcrumb-title').textContent = currentProduct.title;
+
+            // Update product information
+            document.getElementById('product-title').textContent = currentProduct.title;
+            document.getElementById('product-subtitle').textContent = currentProduct.subtitle;
+            document.getElementById('current-price').textContent = `$${currentProduct.price}`;
+            document.getElementById('original-price').textContent = `$${currentProduct.original_price}`;
+            document.getElementById('stock-quantity').textContent = currentProduct.stock_quantity;
+            document.getElementById('product-description').textContent = currentProduct.description;
+
+            // Update main image
+            if (currentProduct.images && currentProduct.images.length > 0) {
+                document.getElementById('main-product-image').src = currentProduct.images[0];
+                document.getElementById('main-product-image').alt = `${currentProduct.title} - Main View`;
+            }
+
+            // Populate thumbnails
+            const thumbnailGallery = document.getElementById('thumbnail-gallery');
+            thumbnailGallery.innerHTML = '';
+            if (currentProduct.images && currentProduct.images.length > 0) {
+                currentProduct.images.forEach((image, index) => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${index === 0 ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
+                    thumbnail.innerHTML = `<img src="${image}" alt="View ${index + 1}" class="w-full h-full object-cover" loading="lazy" />`;
+                    thumbnail.addEventListener('click', () => {
+                        document.getElementById('main-product-image').src = image;
+                        // Update active thumbnail
+                        thumbnailGallery.querySelectorAll('div').forEach((div, i) => {
+                            div.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${i === index ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
+                        });
+                    });
+                    thumbnailGallery.appendChild(thumbnail);
+                });
+            }
+
+            // Populate features
+            const featuresList = document.getElementById('features-list');
+            featuresList.innerHTML = '';
+            if (currentProduct.features && Array.isArray(currentProduct.features)) {
+                currentProduct.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center space-x-2';
+                    li.innerHTML = `
+                        <svg class="w-5 h-5 text-success flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-text-secondary">${feature}</span>
+                    `;
+                    featuresList.appendChild(li);
+                });
+            }
+
+            // Populate specifications
+            const specificationsGrid = document.getElementById('specifications-grid');
+            specificationsGrid.innerHTML = '';
+            if (currentProduct.specifications && typeof currentProduct.specifications === 'object') {
+                Object.entries(currentProduct.specifications).forEach(([key, value]) => {
+                    const specItem = document.createElement('div');
+                    specItem.className = 'border-b border-border pb-2';
+                    specItem.innerHTML = `
+                        <dt class="font-rajdhani font-semibold text-accent text-sm">${key.charAt(0).toUpperCase() + key.slice(1)}</dt>
+                        <dd class="text-text-secondary text-sm">${value}</dd>
+                    `;
+                    specificationsGrid.appendChild(specItem);
+                });
+            }
+        }
+
+        // Quantity controls
+        document.getElementById('decrease-qty').addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        });
+
+        document.getElementById('increase-qty').addEventListener('click', () => {
+            if (currentProduct && quantity < currentProduct.stock_quantity) {
+                quantity++;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        });
+
+        // Add to cart functionality
+        document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+            if (currentProduct) {
+                // Add to cart logic here
+                console.log('Adding to cart:', currentProduct.title, 'Quantity:', quantity);
+                // You can integrate with your existing cart system
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProduct();
+        });
+    </script>
+</body>
+</html>

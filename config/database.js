@@ -4,7 +4,7 @@ const { mockDataHelpers } = require('../data/mockData');
 
 // Database connection configuration
 const dbConfig = {
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:sfwTRoJAaNCFHsBhFVEzCszspZjLHoac@yamabiko.proxy.rlwy.net:49347/railway',
+  connectionString: process.env.DATABASE_URL,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
   max: 20, // Maximum number of clients in the pool
   idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
@@ -102,6 +102,22 @@ const initializeDatabase = async () => {
       
       await query(schema);
       console.log('✅ Database tables initialized successfully');
+      
+      // Initialize homepage listings with default data
+      try {
+        const { initializeHomepageListings } = require('../scripts/init-homepage-listings');
+        await initializeHomepageListings();
+      } catch (error) {
+        console.log('⚠️ Homepage listings initialization skipped:', error.message);
+      }
+
+      // Initialize product details with default data
+      try {
+        const { initializeProductDetails } = require('../scripts/init-product-details');
+        await initializeProductDetails();
+      } catch (error) {
+        console.log('⚠️ Product details initialization skipped:', error.message);
+      }
     } else {
       console.log('✅ Using mock data - no database initialization needed');
     }

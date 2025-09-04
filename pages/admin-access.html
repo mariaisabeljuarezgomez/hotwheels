@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access - Hot Wheels Velocity</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-' 'unsafe-hashes' 'sha256-Oq0+h6hP4KV0xrcTNIZ9PdNc6KCP5ai/rK/EGKVj3DU=' 'sha256-bNSr/6/jTvwFmaX/OaNsDX3Ns6333tmsFTI1G6wiWqI='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com;">
+    <link rel="stylesheet" href="../css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500&family=Rajdhani:wght@600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <style>
+        body {
+            background: var(--color-background);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .access-container {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        .access-header {
+            margin-bottom: 2rem;
+        }
+        
+        .access-header h1 {
+            font-family: 'Orbitron', monospace;
+            color: var(--color-accent);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .access-header p {
+            color: var(--color-text-secondary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .access-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .access-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .access-btn.primary {
+            background: var(--color-accent);
+            color: var(--color-text-primary);
+        }
+        
+        .access-btn.primary:hover {
+            background: var(--color-text-primary);
+            color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+        
+        .access-btn.secondary {
+            background: var(--color-primary);
+            color: var(--color-text-primary);
+            border: 2px solid var(--color-accent);
+        }
+        
+        .access-btn.secondary:hover {
+            background: var(--color-accent);
+            transform: translateY(-2px);
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--color-accent);
+        }
+        
+        .credentials {
+            background: var(--color-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .credentials h3 {
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--color-accent);
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .credential-item:last-child {
+            border-bottom: none;
+        }
+        
+        .credential-label {
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+        
+        .credential-value {
+            color: var(--color-text-primary);
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="access-container">
+        <div class="access-header">
+            <h1>🔧 Admin Access</h1>
+            <p>Hot Wheels Velocity</p>
+        </div>
+        
+        <div class="credentials">
+            <h3>Login Credentials</h3>
+            <div class="credential-item">
+                <span class="credential-label">Username:</span>
+                <span class="credential-value">admin</span>
+            </div>
+            <div class="credential-item">
+                <span class="credential-label">Password:</span>
+                <span class="credential-value">hotwheels2024</span>
+            </div>
+        </div>
+        
+        <div class="access-buttons">
+            <a href="/admin-login" class="access-btn primary">
+                🔐 Login to Admin
+            </a>
+            <a href="/admin" class="access-btn secondary">
+                🏎️ Go to Dashboard
+            </a>
+        </div>
+        
+        <a href="homepage.html" class="back-link">← Back to Homepage</a>
+    </div>
+</body>
+</html>

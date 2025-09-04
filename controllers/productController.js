@@ -430,3 +430,107 @@ exports.getProductFilters = async (req, res) => {
     });
   }
 };
+
+// Create new product
+exports.createProduct = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: errors.array()
+      });
+    }
+
+    if (isUsingMockData()) {
+      const mockHelpers = getMockHelpers();
+      const productData = {
+        ...req.body,
+        id: Date.now(), // Simple ID generation for mock
+        created_at: new Date(),
+        updated_at: new Date()
+      };
+      
+      const product = new Product(productData);
+      
+      res.status(201).json({
+        success: true,
+        message: 'Product created successfully',
+        data: { product }
+      });
+    } else {
+      const { query } = require('../config/database');
+      
+      const {
+        name, sku, description, price, compare_price, cost_price,
+        stock_quantity, min_stock_level, weight, dimensions, material,
+        color, year_released, series, collection, rarity_level,
+        condition_rating, is_featured, is_active, meta_title, meta_description,
+        // New fields
+        market_value, price_change_percentage, investment_grade, last_price_update,
+        week_low, week_high, avg_sale_price, expert_authenticated, certificate_number,
+        authenticated_by, production_year, casting, spectraflame_color, tampo,
+        wheel_type, country_of_origin, condition_description, professional_grading,
+        grading_price, custom_display_case, display_case_price, insurance_valuation,
+        insurance_price, ultra_rare, mint_condition, investment_grade_tag,
+        limited_edition, original_packaging, certified_authentic
+      } = req.body;
+      
+      // Generate slug from name
+      const slug = name.toLowerCase()
+        .replace(/[^a-z0-9 -]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim('-');
+      
+      const result = await query(`
+        INSERT INTO products (
+          name, slug, description, sku, price, compare_price, cost_price,
+          stock_quantity, min_stock_level, weight, dimensions, material,
+          color, year_released, series, collection, rarity_level,
+          condition_rating, is_featured, is_active, meta_title, meta_description,
+          market_value, price_change_percentage, investment_grade, last_price_update,
+          week_low, week_high, avg_sale_price, expert_authenticated, certificate_number,
+          authenticated_by, production_year, casting, spectraflame_color, tampo,
+          wheel_type, country_of_origin, condition_description, professional_grading,
+          grading_price, custom_display_case, display_case_price, insurance_valuation,
+          insurance_price, ultra_rare, mint_condition, investment_grade_tag,
+          limited_edition, original_packaging, certified_authentic
+        ) VALUES (
+          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17,
+          $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32,
+          $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47,
+          $48, $49, $50, $51
+        ) RETURNING *
+      `, [
+        name, slug, description, sku, price, compare_price, cost_price,
+        stock_quantity, min_stock_level, weight, dimensions, material,
+        color, year_released, series, collection, rarity_level,
+        condition_rating, is_featured, is_active, meta_title, meta_description,
+        market_value, price_change_percentage, investment_grade, last_price_update,
+        week_low, week_high, avg_sale_price, expert_authenticated, certificate_number,
+        authenticated_by, production_year, casting, spectraflame_color, tampo,
+        wheel_type, country_of_origin, condition_description, professional_grading,
+        grading_price, custom_display_case, display_case_price, insurance_valuation,
+        insurance_price, ultra_rare, mint_condition, investment_grade_tag,
+        limited_edition, original_packaging, certified_authentic
+      ]);
+      
+      const product = new Product(result.rows[0]);
+      
+      res.status(201).json({
+        success: true,
+        message: 'Product created successfully',
+        data: { product }
+      });
+    }
+  } catch (error) {
+    console.error('Create product error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create product',
+      error: error.message
+    });
+  }
+};

@@ -62,6 +62,46 @@ CREATE TABLE IF NOT EXISTS products (
     is_active BOOLEAN DEFAULT TRUE,
     meta_title VARCHAR(255),
     meta_description VARCHAR(500),
+    
+    -- Current Market Value & Investment Data
+    market_value DECIMAL(10,2),
+    price_change_percentage DECIMAL(5,2),
+    investment_grade VARCHAR(10), -- 'A+', 'A', 'B+', 'B', 'C'
+    last_price_update DATE,
+    week_low DECIMAL(10,2),
+    week_high DECIMAL(10,2),
+    avg_sale_price DECIMAL(10,2),
+    
+    -- Expert Authentication
+    expert_authenticated BOOLEAN DEFAULT FALSE,
+    certificate_number VARCHAR(100),
+    authenticated_by VARCHAR(255),
+    
+    -- Detailed Specifications
+    production_year INTEGER,
+    casting VARCHAR(255),
+    spectraflame_color VARCHAR(100),
+    tampo VARCHAR(255),
+    wheel_type VARCHAR(100),
+    country_of_origin VARCHAR(100),
+    condition_description VARCHAR(100),
+    
+    -- Premium Services
+    professional_grading BOOLEAN DEFAULT FALSE,
+    grading_price DECIMAL(8,2),
+    custom_display_case BOOLEAN DEFAULT FALSE,
+    display_case_price DECIMAL(8,2),
+    insurance_valuation BOOLEAN DEFAULT FALSE,
+    insurance_price DECIMAL(8,2),
+    
+    -- Product Status Tags
+    ultra_rare BOOLEAN DEFAULT FALSE,
+    mint_condition BOOLEAN DEFAULT FALSE,
+    investment_grade_tag BOOLEAN DEFAULT FALSE,
+    limited_edition BOOLEAN DEFAULT FALSE,
+    original_packaging BOOLEAN DEFAULT FALSE,
+    certified_authentic BOOLEAN DEFAULT FALSE,
+    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -82,6 +122,120 @@ CREATE TABLE IF NOT EXISTS product_images (
     sort_order INTEGER DEFAULT 0,
     is_primary BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Homepage listings for featured and exclusive collections
+CREATE TABLE IF NOT EXISTS homepage_listings (
+    id SERIAL PRIMARY KEY,
+    listing_id VARCHAR(50) UNIQUE NOT NULL, -- featured-1, featured-2, etc.
+    section VARCHAR(20) NOT NULL, -- 'featured' or 'exclusive'
+    position INTEGER NOT NULL, -- 1, 2, 3 for ordering
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    image_url VARCHAR(500) NOT NULL,
+    tag_type VARCHAR(50) NOT NULL, -- 'ultra-rare', 'rlc-exclusive', etc.
+    tag_text VARCHAR(100), -- custom tag text if different from default
+    product_link VARCHAR(500), -- link to product detail page
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Individual product detail pages (product-1.html to product-6.html)
+CREATE TABLE IF NOT EXISTS product_details (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER UNIQUE NOT NULL, -- 1, 2, 3, 4, 5, 6
+    title VARCHAR(255) NOT NULL,
+    subtitle TEXT,
+    main_image_url VARCHAR(500) NOT NULL,
+    thumbnail_1_url VARCHAR(500),
+    thumbnail_2_url VARCHAR(500),
+    thumbnail_3_url VARCHAR(500),
+    thumbnail_4_url VARCHAR(500),
+    
+    -- Pricing & Market Data
+    current_price DECIMAL(10,2) NOT NULL,
+    price_change_percentage DECIMAL(5,2),
+    investment_grade VARCHAR(10),
+    week_low DECIMAL(10,2),
+    week_high DECIMAL(10,2),
+    avg_sale_price DECIMAL(10,2),
+    
+    -- Product Tags
+    primary_tag VARCHAR(50) NOT NULL,
+    primary_tag_text VARCHAR(100),
+    secondary_tag VARCHAR(50),
+    secondary_tag_text VARCHAR(100),
+    
+    -- Authentication
+    expert_authenticated BOOLEAN DEFAULT FALSE,
+    certificate_number VARCHAR(100),
+    authenticated_by VARCHAR(255),
+    
+    -- Specifications
+    production_year INTEGER,
+    series VARCHAR(100),
+    casting VARCHAR(255),
+    color VARCHAR(100),
+    tampo VARCHAR(255),
+    wheels VARCHAR(100),
+    country VARCHAR(100),
+    condition_rating DECIMAL(3,1),
+    condition_description VARCHAR(100),
+    
+    -- Premium Services
+    professional_grading BOOLEAN DEFAULT FALSE,
+    grading_price DECIMAL(8,2),
+    custom_display_case BOOLEAN DEFAULT FALSE,
+    display_case_price DECIMAL(8,2),
+    insurance_valuation BOOLEAN DEFAULT FALSE,
+    insurance_price DECIMAL(8,2),
+    
+    -- Historical Context
+    production_run VARCHAR(100),
+    mint_survivors VARCHAR(100),
+    designer VARCHAR(255),
+    historical_description TEXT,
+    
+    -- Expert Commentary
+    expert_quote TEXT,
+    expert_name VARCHAR(255),
+    expert_rating DECIMAL(3,1),
+    
+    -- Investment Analysis
+    five_year_growth DECIMAL(5,2),
+    liquidity VARCHAR(50),
+    market_demand VARCHAR(50),
+    risk_level VARCHAR(50),
+    
+    -- Reviews
+    review_1_author VARCHAR(255),
+    review_1_rating INTEGER,
+    review_1_text TEXT,
+    review_1_verified BOOLEAN DEFAULT FALSE,
+    review_1_date DATE,
+    
+    review_2_author VARCHAR(255),
+    review_2_rating INTEGER,
+    review_2_text TEXT,
+    review_2_verified BOOLEAN DEFAULT FALSE,
+    review_2_date DATE,
+    
+    review_3_author VARCHAR(255),
+    review_3_rating INTEGER,
+    review_3_text TEXT,
+    review_3_verified BOOLEAN DEFAULT FALSE,
+    review_3_date DATE,
+    
+    -- Apparel & Product Type
+    product_type VARCHAR(50) DEFAULT 'hot-wheels', -- 'hot-wheels', 't-shirt', 'hat', 'tumbler'
+    available_sizes JSONB, -- Array of available sizes for apparel
+    size_chart_url VARCHAR(500), -- URL to size chart for apparel
+    
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Shopping cart
@@ -155,7 +309,7 @@ CREATE TABLE IF NOT EXISTS collection_items (
     product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
     notes TEXT,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (collection_id, product_id)
+    UNIQUE(collection_id, product_id)
 );
 
 -- Reviews and ratings

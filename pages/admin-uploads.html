@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Uploads - Hot Wheels Velocity Admin</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/admin-uploads.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="admin-nav">
+        <div class="admin-nav-container">
+            <div class="admin-nav-brand">
+                <h1>🏎️ Hot Wheels Velocity</h1>
+                <span class="admin-badge">Admin Dashboard</span>
+            </div>
+            <div class="admin-nav-user">
+                <span id="admin-username">Admin User</span>
+                <button id="logout-btn" class="btn btn-outline">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Layout -->
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="admin-sidebar-nav">
+                <ul>
+                    <li><a href="/admin" class="admin-nav-link">
+                        <span class="icon">📊</span> Dashboard
+                    </a></li>
+                    <li><a href="#products" class="admin-nav-link">
+                        <span class="icon">🚗</span> Products
+                    </a></li>
+                    <li><a href="#orders" class="admin-nav-link">
+                        <span class="icon">📦</span> Orders
+                    </a></li>
+                    <li><a href="#users" class="admin-nav-link">
+                        <span class="icon">👥</span> Users
+                    </a></li>
+                    <li><a href="/category-management" class="admin-nav-link">
+                        <span class="icon">🏷️</span> Categories
+                    </a></li>
+                    <li><a href="#analytics" class="admin-nav-link">
+                        <span class="icon">📈</span> Analytics
+                    </a></li>
+                    <li><a href="#settings" class="admin-nav-link">
+                        <span class="icon">⚙️</span> Settings
+                    </a></li>
+                    <li><a href="/admin-uploads" class="admin-nav-link active">
+                        <span class="icon">📤</span> Uploads
+                    </a></li>
+                </ul>
+            </nav>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h4>Quick Actions</h4>
+                <ul>
+                    <li><a href="/admin-uploads" class="quick-action-link">Add New Product</a></li>
+                    <li><a href="#refresh" class="quick-action-link">Refresh Products</a></li>
+                    <li><a href="#export" class="quick-action-link">Export Data</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h2>Product Management</h2>
+                <p>Upload, modify, and manage all Hot Wheels product details and specifications.</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="tab-button active" data-tab="add-product">Add New Product</button>
+                <button class="tab-button" data-tab="edit-product">Edit Existing Products</button>
+            </div>
+
+            <!-- Add New Product Tab -->
+            <div id="add-product-tab" class="tab-content active">
+                <div class="upload-form-container">
+                    <h3>Add New Product</h3>
+                    
+                    <form id="new-product-form" class="product-form">
+                        <!-- Basic Product Information -->
+                        <div class="form-section">
+                            <h4>Basic Product Information</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-name">Product Name *</label>
+                                    <input type="text" id="product-name" name="name" class="form-input" placeholder="Enter product name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-sku">SKU *</label>
+                                    <input type="text" id="product-sku" name="sku" class="form-input" placeholder="Enter SKU" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-category">Category *</label>
+                                    <select id="product-category" name="category_id" class="form-select" required>
+                                        <option value="">Select Category</option>
+                                        <option value="redline">Redline Series</option>
+                                        <option value="treasure-hunt">Treasure Hunt</option>
+                                        <option value="super-treasure-hunt">Super Treasure Hunt</option>
+                                        <option value="premium">Premium Collection</option>
+                                        <option value="basic">Basic Cars</option>
+                                        <option value="special-edition">Special Edition</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-series">Series</label>
+                                    <input type="text" id="product-series" name="series" class="form-input" placeholder="e.g., Fast & Furious, Batman">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea id="product-description" name="description" class="form-textarea" rows="4" placeholder="Enter product description"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Pricing Information -->
+                        <div class="form-section">
+                            <h4>Pricing Information</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-price">Price ($) *</label>
+                                    <input type="number" id="product-price" name="price" class="form-input" step="0.01" min="0" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-original-price">Original Price ($)</label>
+                                    <input type="number" id="product-original-price" name="original_price" class="form-input" step="0.01" min="0" placeholder="0.00">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-sale-percentage">Sale Percentage (%)</label>
+                                    <input type="number" id="product-sale-percentage" name="sale_percentage" class="form-input" min="0" max="100" placeholder="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-rarity">Rarity Level</label>
+                                    <select id="product-rarity" name="rarity_level" class="form-select">
+                                        <option value="Common">Common</option>
+                                        <option value="Rare">Rare</option>
+                                        <option value="Ultra Rare">Ultra Rare</option>
+                                        <option value="Treasure Hunt">Treasure Hunt</option>
+                                        <option value="Super Treasure Hunt">Super Treasure Hunt</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hot Wheels Specific Information -->
+                        <div class="form-section">
+                            <h4>Hot Wheels Specific Information</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="car-model">Car Model</label>
+                                    <input type="text" id="car-model" name="car_model" class="form-input" placeholder="e.g., '71 Datsun 510">
+                                </div>
+                                <div class="form-group">
+                                    <label for="manufacturer">Manufacturer</label>
+                                    <input type="text" id="manufacturer" name="manufacturer" class="form-input" placeholder="e.g., Datsun, Ford, Chevrolet">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="year-released">Year Released</label>
+                                    <input type="number" id="year-released" name="year_released" class="form-input" min="1968" max="2024" placeholder="2024">
+                                </div>
+                                <div class="form-group">
+                                    <label for="scale">Scale</label>
+                                    <select id="scale" name="scale" class="form-select">
+                                        <option value="1:64">1:64 (Standard)</option>
+                                        <option value="1:43">1:43</option>
+                                        <option value="1:24">1:24</option>
+                                        <option value="1:18">1:18</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="color-variations">Available Colors</label>
+                                <input type="text" id="color-variations" name="color_variations" class="form-input" placeholder="Red, Blue, Black (comma separated)">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="special-features">Special Features</label>
+                                <input type="text" id="special-features" name="special_features" class="form-input" placeholder="Opening doors, Light-up features, Real riders (comma separated)">
+                            </div>
+                        </div>
+
+                        <!-- Product Images -->
+                        <div class="form-section">
+                            <h4>Product Images</h4>
+                            <div class="image-slots-container">
+                                <!-- Main Image Slot -->
+                                <div class="image-slot main-image-slot">
+                                    <div class="slot-label">Main Image*</div>
+                                    <div class="image-upload-area" data-slot="0">
+                                        <div class="upload-icon">📷</div>
+                                        <p>Click any slot to upload or replace</p>
+                                        <input type="file" class="slot-input" accept="image/*" style="display: none;">
+                                    </div>
+                                    <div class="image-preview" style="display: none;">
+                                        <img src="" alt="Preview">
+                                        <div class="image-actions">
+                                            <button type="button" class="btn-danger delete-image">✕</button>
+                                        </div>
+                                    </div>
+                                    <div class="slot-tip">💡 Tip: Each image slot is independent. Delete or replace any image without affecting others.</div>
+                                </div>
+
+                                <!-- Thumbnail Slots -->
+                                <div class="thumbnail-slots">
+                                    <div class="image-slot">
+                                        <div class="slot-label">Thumbnail 1</div>
+                                        <div class="image-upload-area" data-slot="1">
+                                            <div class="upload-icon">📷</div>
+                                            <p>Click to add thumbnail 1</p>
+                                            <input type="file" class="slot-input" accept="image/*" style="display: none;">
+                                        </div>
+                                        <div class="image-preview" style="display: none;">
+                                            <img src="" alt="Preview">
+                                            <div class="image-actions">
+                                                <button type="button" class="btn-danger delete-image">✕</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="image-slot">
+                                        <div class="slot-label">Thumbnail 2</div>
+                                        <div class="image-upload-area" data-slot="2">
+                                            <div class="upload-icon">📷</div>
+                                            <p>Click to add thumbnail 2</p>
+                                            <input type="file" class="slot-input" accept="image/*" style="display: none;">
+                                        </div>
+                                        <div class="image-preview" style="display: none;">
+                                            <img src="" alt="Preview">
+                                            <div class="image-actions">
+                                                <button type="button" class="btn-danger delete-image">✕</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="image-slot">
+                                        <div class="slot-label">Thumbnail 3</div>
+                                        <div class="image-upload-area" data-slot="3">
+                                            <div class="upload-icon">📷</div>
+                                            <p>Click to add thumbnail 3</p>
+                                            <input type="file" class="slot-input" accept="image/*" style="display: none;">
+                                        </div>
+                                        <div class="image-preview" style="display: none;">
+                                            <img src="" alt="Preview">
+                                            <div class="image-actions">
+                                                <button type="button" class="btn-danger delete-image">✕</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="image-slot">
+                                        <div class="slot-label">Thumbnail 4</div>
+                                        <div class="image-upload-area" data-slot="4">
+                                            <div class="upload-icon">📷</div>
+                                            <p>Click to add thumbnail 4</p>
+                                            <input type="file" class="slot-input" accept="image/*" style="display: none;">
+                                        </div>
+                                        <div class="image-preview" style="display: none;">
+                                            <img src="" alt="Preview">
+                                            <div class="image-actions">
+                                                <button type="button" class="btn-danger delete-image">✕</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Inventory Management -->
+                        <div class="form-section">
+                            <h4>Inventory Management</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="stock-quantity">Stock Quantity *</label>
+                                    <input type="number" id="stock-quantity" name="stock_quantity" class="form-input" min="0" placeholder="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="low-stock-threshold">Low Stock Threshold</label>
+                                    <input type="number" id="low-stock-threshold" name="low_stock_threshold" class="form-input" min="0" placeholder="5">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="track-inventory" name="track_inventory" checked>
+                                    Track inventory for this product
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Product Features -->
+                        <div class="form-section">
+                            <h4>Product Features</h4>
+                            <div class="features-grid">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="features" value="treasure-hunt" id="feature-treasure-hunt">
+                                    Treasure Hunt
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="features" value="super-treasure-hunt" id="feature-super-treasure-hunt">
+                                    Super Treasure Hunt
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="features" value="real-riders" id="feature-real-riders">
+                                    Real Riders
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="features" value="opening-doors" id="feature-opening-doors">
+                                    Opening Doors
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="features" value="light-up" id="feature-light-up">
+                                    Light-up Features
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="features" value="premium-finish" id="feature-premium-finish">
+                                    Premium Finish
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Current Market Value -->
+                        <div class="form-section">
+                            <h4>Current Market Value & Investment Data</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="market-value">Current Market Value ($)</label>
+                                    <input type="number" id="market-value" name="market_value" class="form-input" step="0.01" min="0" placeholder="2450.00">
+                                </div>
+                                <div class="form-group">
+                                    <label for="price-change-percentage">Price Change % (30 days)</label>
+                                    <input type="number" id="price-change-percentage" name="price_change_percentage" class="form-input" step="0.01" placeholder="18.00">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="investment-grade">Investment Grade</label>
+                                    <select id="investment-grade" name="investment_grade" class="form-select">
+                                        <option value="">Select Grade</option>
+                                        <option value="A+">A+ (Excellent)</option>
+                                        <option value="A">A (Very Good)</option>
+                                        <option value="B+">B+ (Good)</option>
+                                        <option value="B">B (Fair)</option>
+                                        <option value="C">C (Poor)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last-price-update">Last Price Update</label>
+                                    <input type="date" id="last-price-update" name="last_price_update" class="form-input">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="week-low">52-Week Low ($)</label>
+                                    <input type="number" id="week-low" name="week_low" class="form-input" step="0.01" min="0" placeholder="1890.00">
+                                </div>
+                                <div class="form-group">
+                                    <label for="week-high">52-Week High ($)</label>
+                                    <input type="number" id="week-high" name="week_high" class="form-input" step="0.01" min="0" placeholder="2650.00">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="avg-sale-price">Average Sale Price ($)</label>
+                                <input type="number" id="avg-sale-price" name="avg_sale_price" class="form-input" step="0.01" min="0" placeholder="2288.00">
+                            </div>
+                        </div>
+
+                        <!-- Expert Authentication -->
+                        <div class="form-section">
+                            <h4>Expert Authentication</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="expert-authenticated" name="expert_authenticated">
+                                        Expert Authenticated
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="certificate-number">Certificate Number</label>
+                                    <input type="text" id="certificate-number" name="certificate_number" class="form-input" placeholder="HWV-2025-0892">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="authenticated-by">Authenticated By</label>
+                                <input type="text" id="authenticated-by" name="authenticated_by" class="form-input" placeholder="Hot Wheels Authority">
+                            </div>
+                        </div>
+
+                        <!-- Detailed Specifications -->
+                        <div class="form-section">
+                            <h4>Detailed Specifications</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="production-year">Production Year</label>
+                                    <input type="number" id="production-year" name="production_year" class="form-input" min="1968" max="2024" placeholder="1968">
+                                </div>
+                                <div class="form-group">
+                                    <label for="casting">Casting</label>
+                                    <input type="text" id="casting" name="casting" class="form-input" placeholder="Custom Camaro">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="spectraflame-color">Spectraflame Color</label>
+                                    <input type="text" id="spectraflame-color" name="spectraflame_color" class="form-input" placeholder="Spectraflame Orange">
+                                </div>
+                                <div class="form-group">
+                                    <label for="tampo">Tampo/Decals</label>
+                                    <input type="text" id="tampo" name="tampo" class="form-input" placeholder="Racing Stripes">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="wheel-type">Wheel Type</label>
+                                    <input type="text" id="wheel-type" name="wheel_type" class="form-input" placeholder="Redline">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country-of-origin">Country of Origin</label>
+                                    <input type="text" id="country-of-origin" name="country_of_origin" class="form-input" placeholder="Hong Kong">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="condition-rating">Condition Rating (1-10)</label>
+                                    <input type="number" id="condition-rating" name="condition_rating" class="form-input" min="1" max="10" step="0.1" placeholder="9.5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="condition-description">Condition Description</label>
+                                    <input type="text" id="condition-description" name="condition_description" class="form-input" placeholder="Mint">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Premium Services -->
+                        <div class="form-section">
+                            <h4>Premium Services</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="professional-grading" name="professional_grading">
+                                        Professional Grading Available
+                                    </label>
+                                    <input type="number" id="grading-price" name="grading_price" class="form-input" step="0.01" min="0" placeholder="89.00" style="margin-top: 0.5rem;">
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="custom-display-case" name="custom_display_case">
+                                        Custom Display Case Available
+                                    </label>
+                                    <input type="number" id="display-case-price" name="display_case_price" class="form-input" step="0.01" min="0" placeholder="45.00" style="margin-top: 0.5rem;">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="insurance-valuation" name="insurance_valuation">
+                                    Insurance Valuation Available
+                                </label>
+                                <input type="number" id="insurance-price" name="insurance_price" class="form-input" step="0.01" min="0" placeholder="25.00" style="margin-top: 0.5rem;">
+                            </div>
+                        </div>
+
+                        <!-- Product Status Tags -->
+                        <div class="form-section">
+                            <h4>Product Status Tags</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="ultra-rare" name="ultra_rare">
+                                        Ultra Rare
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="mint-condition" name="mint_condition">
+                                        Mint Condition
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="investment-grade" name="investment_grade_tag">
+                                        Investment Grade
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="limited-edition" name="limited_edition">
+                                        Limited Edition
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="original-packaging" name="original_packaging">
+                                        Original Packaging
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="certified-authentic" name="certified_authentic">
+                                        Certified Authentic
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Status -->
+                        <div class="form-section">
+                            <h4>Product Status</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="is-featured" name="is_featured">
+                                        Featured Product
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="is-active" name="is_active" checked>
+                                        Active
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="form-section">
+                            <h4>Tags</h4>
+                            <div class="form-group">
+                                <label for="product-tags">Tags</label>
+                                <input type="text" id="product-tags" name="tags" class="form-input" placeholder="hot wheels, collectible, rare, premium (comma separated)">
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" id="clear-form" class="btn btn-secondary">Clear Form</button>
+                            <button type="submit" id="save-product" class="btn btn-primary">Save Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Edit Existing Products Tab -->
+            <div id="edit-product-tab" class="tab-content">
+                <div class="edit-products-container">
+                    <h3>Edit Existing Products</h3>
+                    
+                    <!-- Search and Filter -->
+                    <div class="search-filter-bar">
+                        <div class="search-box">
+                            <input type="text" id="product-search" placeholder="Search products..." class="form-input">
+                            <button type="button" id="search-btn" class="btn btn-primary">Search</button>
+                        </div>
+                        <div class="filter-options">
+                            <select id="category-filter" class="form-select">
+                                <option value="">All Categories</option>
+                                <option value="redline">Redline Series</option>
+                                <option value="treasure-hunt">Treasure Hunt</option>
+                                <option value="super-treasure-hunt">Super Treasure Hunt</option>
+                                <option value="premium">Premium Collection</option>
+                                <option value="basic">Basic Cars</option>
+                                <option value="special-edition">Special Edition</option>
+                            </select>
+                            <select id="rarity-filter" class="form-select">
+                                <option value="">All Rarity Levels</option>
+                                <option value="Common">Common</option>
+                                <option value="Rare">Rare</option>
+                                <option value="Ultra Rare">Ultra Rare</option>
+                                <option value="Treasure Hunt">Treasure Hunt</option>
+                                <option value="Super Treasure Hunt">Super Treasure Hunt</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Products List -->
+                    <div class="products-list" id="products-list">
+                        <div class="loading">Loading products...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <!-- Scripts -->
+    <script nonce="" src="../js/admin-uploads.js"></script>
+</body>
+</html>
