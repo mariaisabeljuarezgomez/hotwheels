@@ -33,8 +33,10 @@ class MobileOptimizer {
         const mobileMenu = document.getElementById('mobileMenu');
         
         if (mobileMenuBtn && mobileMenu) {
+            console.log('✅ Mobile menu elements found:', { mobileMenuBtn, mobileMenu });
             mobileMenuBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                console.log('🖱️ Mobile menu button clicked!');
                 this.toggleMobileMenu();
             });
 
@@ -64,9 +66,14 @@ class MobileOptimizer {
 
     toggleMobileMenu() {
         const mobileMenu = document.getElementById('mobileMenu');
+        console.log('🔄 Toggling mobile menu:', mobileMenu);
         if (mobileMenu) {
             mobileMenu.classList.toggle('active');
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            const isActive = mobileMenu.classList.contains('active');
+            console.log('📱 Mobile menu active:', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        } else {
+            console.error('❌ Mobile menu element not found!');
         }
     }
 
@@ -456,6 +463,14 @@ class MobileOptimizer {
 document.addEventListener('DOMContentLoaded', () => {
     window.mobileOptimizer = new MobileOptimizer();
 });
+
+// Fallback initialization for mobile menu
+setTimeout(() => {
+    if (window.mobileOptimizer) {
+        console.log('🔄 Reinitializing mobile menu...');
+        window.mobileOptimizer.setupMobileNavigation();
+    }
+}, 1000);
 
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {

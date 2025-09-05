@@ -33,13 +33,15 @@
         backdrop-filter: blur(20px);
         z-index: 50;
         transform: translateX(-100%);
-        transition: transform 0.3s ease-in-out;
-        opacity: 1;
-        visibility: visible;
+        transition: all 0.3s ease-in-out;
+        opacity: 0;
+        visibility: hidden;
     }
     
     .mobile-menu.active {
         transform: translateX(0);
+        opacity: 1 !important;
+        visibility: visible !important;
     }
     
     /* Mobile header improvements */
@@ -604,6 +606,17 @@
     /* Mobile cart button */
     .relative.p-2 {
         padding: 8px;
+    }
+    
+    /* Mobile cart notification badge */
+    .absolute.-top-1.-right-1 {
+        top: -2px;
+        right: -2px;
+        min-width: 18px;
+        height: 18px;
+        font-size: 10px;
+        line-height: 1;
+        padding: 2px 4px;
     }
     
     /* Mobile menu button */

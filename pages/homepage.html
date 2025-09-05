@@ -80,7 +80,7 @@
                     </button>
                     
                     <!-- Mobile Menu Button -->
-                    <button class="md:hidden p-2 text-text-primary hover:text-accent transition-smooth" id="mobileMenuBtn">
+                    <button class="md:hidden p-2 text-text-primary hover:text-accent transition-smooth" id="mobileMenuBtn" onclick="toggleMobileMenu()">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
@@ -91,7 +91,7 @@
     </header>
 
             <!-- Mobile Menu Overlay -->
-        <div class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md opacity-0 invisible transition-all duration-300" id="mobileMenu">
+        <div class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md opacity-0 invisible transition-all duration-300 mobile-menu" id="mobileMenu">
             <div class="flex flex-col items-center justify-center h-full space-y-8">
                 <a href="homepage.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">Home</a>
                 <a href="collection_browser.html" class="text-2xl font-orbitron font-bold text-accent">Collections</a>
@@ -459,12 +459,28 @@
     </footer>
 
     <!-- Scripts -->
-    <script nonce="" src="../js/main.js"></script>
-    <script nonce="" src="../js/cart.js"></script>
-    <script nonce="" src="../js/analytics.js"></script>
-    <script nonce="" src="../js/mobile.js"></script>
-    <script nonce="" src="../js/mobile-test.js"></script>
-    <script nonce="" src="../js/homepage-listings-loader.js"></script>
+            <script nonce="" src="../js/main.js"></script>
+        <script nonce="" src="../js/cart.js"></script>
+        <script nonce="" src="../js/analytics.js"></script>
+        <script nonce="" src="../js/mobile.js"></script>
+        <script nonce="" src="../js/mobile-test.js"></script>
+        <script nonce="" src="../js/homepage-listings-loader.js"></script>
+        
+        <!-- Simple mobile menu toggle function -->
+        <script>
+            function toggleMobileMenu() {
+                console.log('🔄 Simple toggle function called');
+                const mobileMenu = document.getElementById('mobileMenu');
+                if (mobileMenu) {
+                    mobileMenu.classList.toggle('active');
+                    const isActive = mobileMenu.classList.contains('active');
+                    console.log('📱 Mobile menu active:', isActive);
+                    document.body.style.overflow = isActive ? 'hidden' : '';
+                } else {
+                    console.error('❌ Mobile menu element not found!');
+                }
+            }
+        </script>
     
     <!-- Parallax Video Scrolling Effect -->
     <script nonce="">
