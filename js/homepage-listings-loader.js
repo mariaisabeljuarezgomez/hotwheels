@@ -114,6 +114,13 @@ class HomepageListingsLoader {
             children: carousel.children.length
         });
         
+        // Reinitialize mobile carousels after content is loaded
+        if (window.mobileOptimizer) {
+            setTimeout(() => {
+                window.mobileOptimizer.reinitializeCarousels();
+            }, 100);
+        }
+        
         // Check first card dimensions and visibility
         if (carousel.children.length > 0) {
             const firstCard = carousel.children[0];

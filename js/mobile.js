@@ -127,12 +127,21 @@ class MobileOptimizer {
             let currentX = 0;
             let isDragging = false;
             let scrollLeft = 0;
+            let velocity = 0;
+            let lastX = 0;
+            let lastTime = 0;
 
             carousel.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 scrollLeft = carousel.scrollLeft;
                 isDragging = true;
+                velocity = 0;
+                lastX = startX;
+                lastTime = Date.now();
                 carousel.style.scrollBehavior = 'auto';
+                
+                // Add visual feedback
+                carousel.style.cursor = 'grabbing';
             }, { passive: true });
 
             carousel.addEventListener('touchmove', (e) => {
@@ -140,13 +149,82 @@ class MobileOptimizer {
                 
                 currentX = e.touches[0].clientX;
                 const diff = startX - currentX;
+                const currentTime = Date.now();
+                
+                // Calculate velocity for momentum scrolling
+                if (currentTime - lastTime > 0) {
+                    velocity = (lastX - currentX) / (currentTime - lastTime);
+                    lastX = currentX;
+                    lastTime = currentTime;
+                }
+                
                 carousel.scrollLeft = scrollLeft + diff;
             }, { passive: true });
 
             carousel.addEventListener('touchend', () => {
                 isDragging = false;
+                carousel.style.cursor = 'grab';
                 carousel.style.scrollBehavior = 'smooth';
+                
+                // Add momentum scrolling
+                if (Math.abs(velocity) > 0.5) {
+                    const momentum = velocity * 100;
+                    carousel.scrollLeft += momentum;
+                }
+                
+                // Snap to nearest card
+                this.snapToNearestCard(carousel);
             }, { passive: true });
+
+            // Add mouse support for desktop testing
+            carousel.addEventListener('mousedown', (e) => {
+                if (this.isMobile) return;
+                
+                startX = e.clientX;
+                scrollLeft = carousel.scrollLeft;
+                isDragging = true;
+                carousel.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+
+            carousel.addEventListener('mousemove', (e) => {
+                if (!isDragging || this.isMobile) return;
+                
+                currentX = e.clientX;
+                const diff = startX - currentX;
+                carousel.scrollLeft = scrollLeft + diff;
+                e.preventDefault();
+            });
+
+            carousel.addEventListener('mouseup', () => {
+                if (this.isMobile) return;
+                
+                isDragging = false;
+                carousel.style.cursor = 'grab';
+                this.snapToNearestCard(carousel);
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                if (this.isMobile) return;
+                
+                isDragging = false;
+                carousel.style.cursor = 'grab';
+            });
+        });
+    }
+
+    snapToNearestCard(carousel) {
+        const cards = carousel.querySelectorAll('.card-premium, .card-rare, .carousel-item');
+        if (cards.length === 0) return;
+
+        const cardWidth = cards[0].offsetWidth + 16; // Include margin
+        const scrollLeft = carousel.scrollLeft;
+        const nearestIndex = Math.round(scrollLeft / cardWidth);
+        const targetScroll = nearestIndex * cardWidth;
+
+        carousel.scrollTo({
+            left: targetScroll,
+            behavior: 'smooth'
         });
     }
 
@@ -365,6 +443,12 @@ class MobileOptimizer {
         if (this.isMobile) {
             this.setupMobileOptimizations();
         }
+    }
+
+    // Method to reinitialize carousels after dynamic content is loaded
+    reinitializeCarousels() {
+        this.setupSwipeGestures();
+        console.log('🔄 Carousels reinitialized for mobile');
     }
 }
 
