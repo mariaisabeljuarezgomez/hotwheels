@@ -431,7 +431,7 @@ app.post('/api/upload-homepage-image', upload.single('image'), (req, res) => {
 // 5. UPDATE HOMEPAGE LISTING (for saving changes)
 app.post('/api/homepage-listings/update', async (req, res) => {
     try {
-        console.log('Update request received:', req.body);
+        console.log('🔄 Update request received:', req.body);
         const { query } = require('./config/database');
         const { listingId, updates } = req.body;
         
@@ -531,10 +531,23 @@ app.post('/api/homepage-listings/update', async (req, res) => {
         
         if (homepageUpdateFields.length > 0) {
             homepageValues.push(listingId);
+            homepageUpdateFields.push('updated_at = CURRENT_TIMESTAMP');
             const homepageQuery = `UPDATE homepage_listings SET ${homepageUpdateFields.join(', ')} WHERE listing_id = $${homepageValues.length}`;
-            console.log('Executing homepage query:', homepageQuery, homepageValues);
-            await query(homepageQuery, homepageValues);
-            console.log('Homepage update successful');
+            console.log('🔄 Executing homepage query:', homepageQuery);
+            console.log('📊 Query values:', homepageValues);
+            console.log('🔍 Listing ID being updated:', listingId);
+            
+            const result = await query(homepageQuery, homepageValues);
+            console.log('✅ Homepage update successful, rows affected:', result.rowCount);
+            
+            if (result.rowCount === 0) {
+                console.log('⚠️ WARNING: No rows were updated! This means the listing_id was not found.');
+                console.log('🔍 Available listing_ids in database:');
+                const checkResult = await query('SELECT listing_id FROM homepage_listings ORDER BY id');
+                checkResult.rows.forEach(row => console.log('  - ' + row.listing_id));
+            }
+        } else {
+            console.log('⚠️ No fields to update for homepage_listings');
         }
         
         // Update product_details table (only for exclusive listings with valid numeric IDs)

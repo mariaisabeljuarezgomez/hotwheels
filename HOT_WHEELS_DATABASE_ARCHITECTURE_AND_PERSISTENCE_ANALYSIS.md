@@ -613,6 +613,35 @@ The most critical lesson learned was the importance of **environment parity** an
 
 **Recent fixes have eliminated all major persistence issues**, ensuring that admin panel changes (thumbnails, toggle settings, product details) are permanently saved and survive server restarts. The platform now provides a robust, reliable foundation for e-commerce operations.
 
+### Issue 7: Frontend-Backend ID Mapping Mismatch (September 2025)
+
+**Problem**: Customer edits were not persisting despite API returning success. Investigation revealed a critical mismatch between frontend-generated `listing_id` values and actual database `listing_id` values.
+
+**Root Cause**: 
+- Frontend was generating `listing_id` as `exclusive-4`, `exclusive-5`, `exclusive-6` based on database ID
+- Database actually contained `listing_id` values as `exclusive-1`, `exclusive-2`, `exclusive-3`
+- API queries were failing with "0 rows affected" because the `listing_id` didn't exist
+
+**Evidence from Server Logs**:
+```
+🔄 Executing homepage query: UPDATE homepage_listings SET thumbnail_1_url = $1, updated_at = CURRENT_TIMESTAMP WHERE listing_id = $2
+📊 Query values: ['https://...', 'exclusive-4']
+✅ Homepage update successful, rows affected: 0  ← PROBLEM: No rows updated
+```
+
+**Solution**: 
+- Identified correct `listing_id` mapping: ID 4→exclusive-1, ID 5→exclusive-2, ID 6→exclusive-3
+- Updated API endpoint with enhanced logging to detect zero-row updates
+- Verified data persistence works correctly when using proper `listing_id` values
+
+**Verification**:
+- ✅ T-Shirt (ID 4): Thumbnails and size chart toggle persist correctly
+- ✅ Tumbler (ID 5): Thumbnails and size chart toggle persist correctly  
+- ✅ Hat (ID 6): Thumbnails and tumbler guide toggle persist correctly
+- ✅ All changes survive server restarts
+
+**Key Lesson**: Always verify that frontend-generated identifiers match actual database values. The API returning "success" doesn't guarantee data was actually modified - always check `rows affected` count.
+
 The current architecture provides a solid foundation for future enhancements while maintaining data integrity and user experience quality. The use of JSONB fields for dynamic content management has proven to be an excellent choice for the flexible requirements of an e-commerce platform.
 
 ---
