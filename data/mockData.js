@@ -26,7 +26,7 @@ const mockData = {
       rarity_level: 'Ultra Rare',
       is_featured: true,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg',
       average_rating: 4.8,
       review_count: 12
     },
@@ -45,7 +45,7 @@ const mockData = {
       rarity_level: 'Common',
       is_featured: true,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-3.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-3.jpeg',
       average_rating: 4.5,
       review_count: 8
     },
@@ -64,7 +64,7 @@ const mockData = {
       rarity_level: 'Rare',
       is_featured: true,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-5.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-5.jpeg',
       average_rating: 4.9,
       review_count: 15
     },
@@ -83,7 +83,7 @@ const mockData = {
       rarity_level: 'Common',
       is_featured: false,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-6.jpg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-6.jpg',
       average_rating: 4.3,
       review_count: 6
     },
@@ -102,7 +102,7 @@ const mockData = {
       rarity_level: 'Ultra Rare',
       is_featured: true,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-7.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-7.jpeg',
       average_rating: 5.0,
       review_count: 3
     },
@@ -121,7 +121,7 @@ const mockData = {
       rarity_level: 'Common',
       is_featured: false,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-2.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-2.jpeg',
       average_rating: 4.2,
       review_count: 9
     },
@@ -140,7 +140,7 @@ const mockData = {
       rarity_level: 'Rare',
       is_featured: true,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-4.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-4.jpeg',
       average_rating: 4.7,
       review_count: 11
     },
@@ -159,7 +159,7 @@ const mockData = {
       rarity_level: 'Common',
       is_featured: false,
       is_active: true,
-      primary_image: '../HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+      primary_image: '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg',
       average_rating: 4.1,
       review_count: 7
     }

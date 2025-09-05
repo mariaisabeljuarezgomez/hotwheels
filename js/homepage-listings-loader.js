@@ -44,7 +44,7 @@ class HomepageListingsLoader {
                 title: '1968 Redline Custom Camaro',
                 description: 'Mint condition with original blister pack',
                 price: 2450.00,
-                image_url: '../HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+                image_url: '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg',
                 tag_type: 'ultra-rare',
                 tag_text: 'ULTRA RARE',
                 product_link: 'product_detail.html?id=1'
@@ -77,7 +77,7 @@ class HomepageListingsLoader {
                 title: '1968 Redline Custom Camaro',
                 description: 'Mint condition with original blister pack',
                 price: 2450.00,
-                image_url: '../HOT WHEELS IMAGES/hot-wheels-1.jpeg',
+                image_url: '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg',
                 tag_type: 'ultra-rare',
                 tag_text: 'ULTRA RARE',
                 product_link: 'product_detail.html?id=1'
@@ -142,7 +142,7 @@ class HomepageListingsLoader {
                      alt="${listing.title}" 
                      class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" 
                      loading="lazy" 
-                     onerror="this.src='../HOT WHEELS IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
+                     onerror="this.src='../HOT_WHEELS_IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
                 <div class="absolute top-3 right-3 ${tagClass} px-2 py-1 rounded-full text-xs font-mono font-bold">
                     ${tagText}
                 </div>

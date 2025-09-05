@@ -361,13 +361,13 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- Insert product images
 INSERT INTO product_images (product_id, image_url, alt_text, is_primary, sort_order) VALUES
-(1, '../HOT WHEELS IMAGES/hot-wheels-1.jpeg', '1968 Redline Custom Camaro - Main View', true, 1),
-(1, '../HOT WHEELS IMAGES/hot-wheels-2.jpeg', '1968 Redline Custom Camaro - Side View', false, 2),
-(2, '../HOT WHEELS IMAGES/hot-wheels-3.jpeg', '2024 Nissan Skyline GT-R - Front View', true, 1),
-(2, '../HOT WHEELS IMAGES/hot-wheels-4.jpeg', '2024 Nissan Skyline GT-R - Side View', false, 2),
-(3, '../HOT WHEELS IMAGES/hot-wheels-5.jpeg', 'Treasure Hunt Batmobile - Main View', true, 1),
-(4, '../HOT WHEELS IMAGES/hot-wheels-6.jpg', 'Team Transport Porsche 911 - Main View', true, 1),
-(5, '../HOT WHEELS IMAGES/hot-wheels-7.jpeg', 'Super Treasure Hunt Lamborghini - Main View', true, 1)
+(1, '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg', '1968 Redline Custom Camaro - Main View', true, 1),
+(1, '../HOT_WHEELS_IMAGES/hot-wheels-2.jpeg', '1968 Redline Custom Camaro - Side View', false, 2),
+(2, '../HOT_WHEELS_IMAGES/hot-wheels-3.jpeg', '2024 Nissan Skyline GT-R - Front View', true, 1),
+(2, '../HOT_WHEELS_IMAGES/hot-wheels-4.jpeg', '2024 Nissan Skyline GT-R - Side View', false, 2),
+(3, '../HOT_WHEELS_IMAGES/hot-wheels-5.jpeg', 'Treasure Hunt Batmobile - Main View', true, 1),
+(4, '../HOT_WHEELS_IMAGES/hot-wheels-6.jpg', 'Team Transport Porsche 911 - Main View', true, 1),
+(5, '../HOT_WHEELS_IMAGES/hot-wheels-7.jpeg', 'Super Treasure Hunt Lamborghini - Main View', true, 1)
 ON CONFLICT DO NOTHING;
 
 -- Insert product categories

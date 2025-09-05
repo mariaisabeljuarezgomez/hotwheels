@@ -80,48 +80,16 @@ class HomepageListings {
         try {
             this.showLoading(true);
 
-            // Load both homepage listings and product details
-            const [homepageResponse, productDetailsResponse] = await Promise.all([
-                fetch('/api/homepage-listings'),
-                fetch('/api/product-details/all')
-            ]);
-
-            const [homepageResult, productDetailsResult] = await Promise.all([
-                homepageResponse.json(),
-                productDetailsResponse.json()
-            ]);
+            // Load homepage cards from new separate tables
+            const homepageResponse = await fetch('/api/homepage-cards');
+            const homepageResult = await homepageResponse.json();
 
             this.listings = {};
 
-            // Load homepage listings
+            // Load homepage cards
             if (homepageResult.success) {
-                homepageResult.data.listings.forEach(listing => {
-                    this.listings[listing.listing_id] = listing;
-                });
-            }
-
-            // Load product details and merge with homepage listings
-            if (productDetailsResult.success) {
-                productDetailsResult.data.products.forEach(product => {
-                    const listingId = `product-${product.product_id}`;
-                    if (this.listings[listingId]) {
-                        // Merge product details with existing homepage listing
-                        this.listings[listingId] = { ...this.listings[listingId], ...product };
-                    } else {
-                        // Create new listing entry for product
-                        this.listings[listingId] = {
-                            listing_id: listingId,
-                            title: product.title,
-                            description: product.subtitle || '',
-                            price: product.current_price,
-                            image_url: product.main_image_url,
-                            tag_type: product.primary_tag || 'standard',
-                            tag_text: product.primary_tag_text || '',
-                            product_link: `product_detail.html?id=${product.product_id}`,
-                            is_active: product.is_active,
-                            ...product // Include all product detail fields
-                        };
-                    }
+                homepageResult.data.cards.forEach(card => {
+                    this.listings[card.listing_id] = card;
                 });
             }
 
@@ -604,68 +572,101 @@ class HomepageListings {
 
             console.log('[saveListing] Assembled listingData object:', listingData);
 
-            // Determine which API endpoint to use based on listing type
-            let apiEndpoint, requestData;
-
-            if (this.currentListing.startsWith('product-')) {
-                // This is a product detail edit - use product details API
-                const productId = this.currentListing.split('-')[1];
-                apiEndpoint = `/api/product-details/${productId}`;
-
-                // For product details, we only send the product-specific data
-                // Collect current toggle states
-                const toggleStates = {};
-                document.querySelectorAll('input[type="checkbox"][id^="toggle-"]').forEach(toggle => {
-                    toggleStates[toggle.id] = toggle.checked;
-                });
-
-                requestData = {
-                    title: listingData.title,
-                    subtitle: listingData.subtitle,
-                    current_price: listingData.price,
-                    main_image_url: listingData.main_image_url,
-                    thumbnail_1_url: listingData.thumbnail_1_url,
-                    thumbnail_2_url: listingData.thumbnail_2_url,
-                    thumbnail_3_url: listingData.thumbnail_3_url,
-                    thumbnail_4_url: listingData.thumbnail_4_url,
-                    primary_tag: listingData.tag_type,
-                    primary_tag_text: listingData.tag_text,
-                    toggle_settings: toggleStates, // Save toggle states
-                    // Include all other product detail fields that were provided
-                    ...Object.fromEntries(
-                        Object.entries(listingData).filter(([key, value]) =>
-                            value !== undefined && value !== null &&
-                            !['listing_id', 'price', 'tag_type', 'tag_text', 'image_url', 'product_link', 'is_active'].includes(key)
-                        )
-                    )
-                };
-            } else {
-                // This is a homepage listing edit - use homepage listings API
-                apiEndpoint = '/api/homepage-listings';
-                requestData = listingData;
-            }
-
-            console.log(`[saveListing] Sending PUT request to ${apiEndpoint}...`, requestData);
-            const response = await fetch(apiEndpoint, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestData)
+            // SEPARATE DATA FLOWS - NO MORE CONFLICTS!
+            // 1. BASIC INFORMATION → homepage_listings table only
+            // 2. EXTENDED PRODUCT DETAILS → product_details table only
+            
+            const productId = this.currentListing.split('-')[1];
+            
+            // Collect current toggle states
+            const toggleStates = {};
+            document.querySelectorAll('input[type="checkbox"][id^="toggle-"]').forEach(toggle => {
+                toggleStates[toggle.id] = toggle.checked;
             });
-            console.log('[saveListing] PUT request sent. Response status:', response.status);
 
-            const result = await response.json();
-            console.log('[saveListing] Parsed JSON response:', result);
+            // 1. BASIC INFORMATION DATA (for homepage cards)
+            const homepageData = {
+                listing_id: this.currentListing,
+                title: document.getElementById('listing-title').value,
+                description: document.getElementById('listing-description').value,
+                price: parseFloat(document.getElementById('listing-price').value),
+                image_url: imageUrl, // Single image for homepage
+                tag_type: document.getElementById('listing-tag').value,
+                tag_text: document.getElementById('listing-tag-text').value || null,
+                product_link: document.getElementById('listing-link').value || null,
+                is_active: document.getElementById('listing-active').checked
+            };
 
-            if (result.success) {
-                this.showMessage('Listing updated successfully!', 'success');
-                this.closeModal();
-                this.loadListings(); // Re-fetch all listings to get the updated data
-            } else {
-                this.showMessage('Failed to update listing: ' + result.message, 'error');
-                console.error('[saveListing] Save failed. Server message:', result.message);
+            console.log('🏠 Homepage data:', homepageData);
+
+            // SEND REQUESTS TO SEPARATE TABLES - NO MORE CONFLICTS!
+            console.log('🔄 Sending requests to separate tables...');
+            
+            const promises = [];
+
+            // 1. Update homepage cards
+            promises.push(
+                fetch('/api/homepage-cards', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(homepageData)
+                }).then(res => res.json())
+            );
+
+            // 2. Update basic information
+            promises.push(
+                fetch(`/api/basic-information/${productId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(homepageData) // Same data for basic info
+                }).then(res => res.json())
+            );
+
+            // 3. Update extended details
+            promises.push(
+                fetch(`/api/extended-details/${productId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        subtitle: document.getElementById('listing-subtitle')?.value || null,
+                        original_price: document.getElementById('listing-original-price')?.value ? parseFloat(document.getElementById('listing-original-price').value) : null,
+                        stock_quantity: document.getElementById('listing-stock')?.value ? parseInt(document.getElementById('listing-stock').value) : null,
+                        detailed_description: document.getElementById('listing-detailed-description')?.value || null,
+                        toggle_settings: toggleStates
+                    })
+                }).then(res => res.json())
+            );
+
+            // 4. Update product images
+            promises.push(
+                fetch(`/api/product-images/${productId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        main_image_url: imageUrls.main_image_url,
+                        thumbnail_1_url: imageUrls.thumbnail_1_url,
+                        thumbnail_2_url: imageUrls.thumbnail_2_url,
+                        thumbnail_3_url: imageUrls.thumbnail_3_url,
+                        thumbnail_4_url: imageUrls.thumbnail_4_url
+                    })
+                }).then(res => res.json())
+            );
+
+            // Execute all requests in parallel
+            const results = await Promise.all(promises);
+            
+            console.log('📊 All responses:', results);
+
+            // Check if any failed
+            const failed = results.filter(result => !result.success);
+            if (failed.length > 0) {
+                throw new Error(`Some updates failed: ${failed.map(f => f.message).join(', ')}`);
             }
+
+            console.log('✅ All updates successful!');
+            this.showMessage('All sections updated successfully!', 'success');
+            this.closeModal();
+            this.loadListings(); // Re-fetch all listings to get the updated data
         } catch (error) {
             console.error('[saveListing] An error occurred:', error);
             this.showMessage('An unexpected error occurred: ' + error.message, 'error');

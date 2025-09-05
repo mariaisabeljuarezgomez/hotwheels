@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Create images directory if it doesn't exist
-const imagesDir = path.join(__dirname, 'HOT WHEELS IMAGES');
+const imagesDir = path.join(__dirname, 'HOT_WHEELS_IMAGES');
 if (!fs.existsSync(imagesDir)) {
     fs.mkdirSync(imagesDir);
 }
@@ -62,7 +62,7 @@ async function downloadAllImages() {
         }
     }
 
-    console.log('\n🎉 Download complete! Images saved to HOT WHEELS IMAGES folder');
+    console.log('\n🎉 Download complete! Images saved to HOT_WHEELS_IMAGES folder');
     console.log('📝 Remember: Always credit the original sources when using these images');
 }
 

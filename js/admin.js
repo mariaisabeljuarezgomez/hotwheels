@@ -236,7 +236,7 @@ class AdminDashboard {
         tbody.innerHTML = this.products.map(product => `
             <tr>
                 <td>
-                    <img src="${product.primary_image || '../HOT WHEELS IMAGES/hot-wheels-1.jpeg'}" 
+                    <img src="${product.primary_image || '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg'}" 
                          alt="${product.name}" 
                          style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;">
                 </td>
