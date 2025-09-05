@@ -98,6 +98,27 @@ const upload = multer({
 });
 
 // ========================================
+// HEALTH CHECK ENDPOINT (for Railway deployment)
+// ========================================
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        success: true, 
+        message: 'Hot Wheels Velocity API is healthy',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// Simple test endpoint
+app.get('/api/test', (req, res) => {
+    res.status(200).json({ 
+        success: true, 
+        message: 'API is working',
+        timestamp: new Date().toISOString()
+    });
+});
+
+// ========================================
 // HYBRID API ENDPOINTS
 // ========================================
 
