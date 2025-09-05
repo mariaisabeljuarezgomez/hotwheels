@@ -1031,16 +1031,16 @@
             const sizeSelector = document.getElementById('tshirt-size-selector');
             
             if (sizesContainer && sizeSelector) {
-                sizesContainer.innerHTML = '';
+            sizesContainer.innerHTML = '';
                 
                 if (sizes && Array.isArray(sizes) && sizes.length > 0) {
                     console.log('🔧 [T-shirt] Populating sizes:', sizes);
                     sizeSelector.style.display = 'block'; // Show the size selector
                     
                     sizes.forEach(size => {
-                        const sizeDiv = document.createElement('div');
+                    const sizeDiv = document.createElement('div');
                         sizeDiv.className = 'px-4 py-3 bg-gradient-to-r from-background to-surface border-2 border-border rounded-xl font-bold text-center text-white hover:border-accent hover:bg-gradient-to-r hover:from-accent/20 hover:to-accent/10 hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-accent/25';
-                        sizeDiv.textContent = size;
+                    sizeDiv.textContent = size;
                         
                         // Add click handler for size selection
                         sizeDiv.addEventListener('click', function() {
@@ -1057,8 +1057,8 @@
                             console.log('👕 [T-shirt] Size selected:', size);
                         });
                         
-                        sizesContainer.appendChild(sizeDiv);
-                    });
+                    sizesContainer.appendChild(sizeDiv);
+                });
                 } else {
                     console.log('🔧 [T-shirt] No sizes to populate or sizes is not an array:', sizes);
                     sizeSelector.style.display = 'none'; // Hide the size selector
@@ -1237,7 +1237,7 @@
             if (currentProduct.detailed_description) {
                 descriptionContainer.textContent = currentProduct.detailed_description;
             } else if (currentProduct.description) {
-                descriptionContainer.textContent = currentProduct.description;
+            descriptionContainer.textContent = currentProduct.description;
             }
         }
     }

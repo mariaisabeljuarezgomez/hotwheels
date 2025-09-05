@@ -645,12 +645,12 @@ class HomepageListings {
             console.log('[saveListing] Checking for existing images.');
             const currentListing = this.listings[this.currentListing];
             if (currentListing) {
-                // Use current listing data, which may have null values from deletions
-                imageUrls.main_image_url = currentListing.main_image_url || imageUrls.main_image_url;
-                imageUrls.thumbnail_1_url = currentListing.thumbnail_1_url || imageUrls.thumbnail_1_url;
-                imageUrls.thumbnail_2_url = currentListing.thumbnail_2_url || imageUrls.thumbnail_2_url;
-                imageUrls.thumbnail_3_url = currentListing.thumbnail_3_url || imageUrls.thumbnail_3_url;
-                imageUrls.thumbnail_4_url = currentListing.thumbnail_4_url || imageUrls.thumbnail_4_url;
+                // Use uploaded images if available, otherwise keep existing images (including nulls from deletions)
+                imageUrls.main_image_url = imageUrls.main_image_url || currentListing.main_image_url;
+                imageUrls.thumbnail_1_url = imageUrls.thumbnail_1_url || currentListing.thumbnail_1_url;
+                imageUrls.thumbnail_2_url = imageUrls.thumbnail_2_url || currentListing.thumbnail_2_url;
+                imageUrls.thumbnail_3_url = imageUrls.thumbnail_3_url || currentListing.thumbnail_3_url;
+                imageUrls.thumbnail_4_url = imageUrls.thumbnail_4_url || currentListing.thumbnail_4_url;
             }
 
             console.log('[saveListing] Final image URLs:', imageUrls);

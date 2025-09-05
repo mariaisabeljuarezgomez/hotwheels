@@ -152,83 +152,25 @@ app.put('/api/homepage-listings', async (req, res) => {
         const homepageResult = await query(`
             UPDATE homepage_listings 
             SET title = $1, description = $2, price = $3, image_url = $4, 
-                tag_type = $5, tag_text = $6, product_link = $7, is_active = $8, 
+                tag_type = $5, tag_text = $6, product_link = $7, is_active = $8,
+                subtitle = $9, main_image_url = $10, thumbnail_1_url = $11, 
+                thumbnail_2_url = $12, thumbnail_3_url = $13, thumbnail_4_url = $14,
+                detailed_description = $15, original_price = $16, stock_quantity = $17,
+                toggle_settings = $18, tumbler_guide_title = $19, tumbler_guide_data = $20,
                 updated_at = CURRENT_TIMESTAMP
-            WHERE listing_id = $9
+            WHERE listing_id = $21
             RETURNING *
-        `, [title, description, price, image_url, tag_type, tag_text, product_link, is_active, listing_id]);
+        `, [title, description, price, image_url, tag_type, tag_text, product_link, is_active,
+            subtitle, main_image_url, thumbnail_1_url, thumbnail_2_url, thumbnail_3_url, thumbnail_4_url,
+            detailed_description, original_price, stock_quantity, 
+            toggle_settings ? JSON.stringify(toggle_settings) : null,
+            req.body.tumbler_guide_title || null, req.body.tumbler_guide_data || null, listing_id]);
         
         if (homepageResult.rows.length === 0) {
             return res.status(404).json({ success: false, message: 'Listing not found' });
         }
 
-        // 2. Update product_details table (for images and extended data)
-        const productId = parseInt(listing_id.split('-')[1]);
-        if (productId) {
-            // Build dynamic update for product_details
-            const updateFields = [];
-            const queryParams = [];
-
-            // Always update these core fields
-            updateFields.push('title = $' + (queryParams.length + 1));
-            queryParams.push(title);
-
-            updateFields.push('current_price = $' + (queryParams.length + 1));
-            queryParams.push(price);
-
-            updateFields.push('updated_at = CURRENT_TIMESTAMP');
-
-            // Add other fields if provided
-            if (subtitle !== undefined) {
-                updateFields.push('subtitle = $' + (queryParams.length + 1));
-                queryParams.push(subtitle);
-            }
-            if (main_image_url !== undefined) {
-                updateFields.push('main_image_url = $' + (queryParams.length + 1));
-                queryParams.push(main_image_url);
-            }
-            if (thumbnail_1_url !== undefined) {
-                updateFields.push('thumbnail_1_url = $' + (queryParams.length + 1));
-                queryParams.push(thumbnail_1_url);
-            }
-            if (thumbnail_2_url !== undefined) {
-                updateFields.push('thumbnail_2_url = $' + (queryParams.length + 1));
-                queryParams.push(thumbnail_2_url);
-            }
-            if (thumbnail_3_url !== undefined) {
-                updateFields.push('thumbnail_3_url = $' + (queryParams.length + 1));
-                queryParams.push(thumbnail_3_url);
-            }
-            if (thumbnail_4_url !== undefined) {
-                updateFields.push('thumbnail_4_url = $' + (queryParams.length + 1));
-                queryParams.push(thumbnail_4_url);
-            }
-            if (detailed_description !== undefined) {
-                updateFields.push('historical_description = $' + (queryParams.length + 1));
-                queryParams.push(detailed_description);
-            }
-            if (original_price !== undefined) {
-                updateFields.push('week_low = $' + (queryParams.length + 1));
-                queryParams.push(original_price);
-            }
-            if (stock_quantity !== undefined) {
-                updateFields.push('week_high = $' + (queryParams.length + 1));
-                queryParams.push(stock_quantity);
-            }
-            if (toggle_settings !== undefined) {
-                updateFields.push('toggle_settings = $' + (queryParams.length + 1));
-                queryParams.push(JSON.stringify(toggle_settings));
-            }
-
-            const updateQuery = `
-                UPDATE product_details SET
-                    ${updateFields.join(', ')}
-                WHERE product_id = $${queryParams.length + 1}
-            `;
-            queryParams.push(productId);
-
-            await query(updateQuery, queryParams);
-        }
+        // All data is now updated in homepage_listings table
 
         res.json({ success: true, message: 'Listing updated successfully', data: { listing: homepageResult.rows[0] } });
     } catch (error) {
