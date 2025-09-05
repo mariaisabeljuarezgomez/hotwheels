@@ -2134,7 +2134,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Video element styling */
 .hero-video {
   width: 100%;
-  height: 100%;
+  height: 80vh; /* Make video thinner - 80% of viewport height */
   object-fit: cover;
   opacity: 0.5;
   transition: opacity 0.3s ease;
