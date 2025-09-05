@@ -91,7 +91,7 @@
     </header>
 
     <!-- Hero Section with 3D Track Animation -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
         <!-- Background Video -->
         <div class="absolute inset-0 z-0 hero-video-container">
             <video 
@@ -129,7 +129,7 @@
 
         <!-- Hero Content -->
         <div class="relative z-10 text-center max-w-4xl mx-auto px-4 hero-content-over-video">
-            <h1 class="font-orbitron font-black text-5xl md:text-7xl mb-6 bg-gradient-to-r from-accent via-success to-accent bg-clip-text text-transparent animate-pulse-slow">
+            <h1 class="font-orbitron font-black text-5xl md:text-7xl mb-6 text-white">
                 VELOCITY UNLEASHED
             </h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-8 max-w-2xl mx-auto">
@@ -461,23 +461,28 @@
             
             function updateVideoPosition() {
                 const scrolled = window.pageYOffset;
-                const rate = scrolled * -0.5; // Parallax speed (negative for opposite direction)
-                
-                // Move video up as user scrolls down
-                videoContainer.style.transform = `translateY(${rate}px)`;
-                
-                // Fade out video as user scrolls past hero section
                 const heroSection = document.querySelector('section');
                 const heroHeight = heroSection.offsetHeight;
-                const fadeStart = heroHeight * 0.5; // Start fading at 50% of hero height
-                const fadeEnd = heroHeight; // Complete fade at end of hero
                 
-                if (scrolled > fadeStart) {
-                    const fadeProgress = Math.min((scrolled - fadeStart) / (fadeEnd - fadeStart), 1);
-                    const opacity = Math.max(0.5 - (fadeProgress * 0.5), 0); // Fade from 0.5 to 0
-                    video.style.opacity = opacity;
+                // Only apply parallax effect within the hero section
+                if (scrolled < heroHeight) {
+                    const rate = scrolled * -0.3; // Slower parallax speed
+                    videoContainer.style.transform = `translateY(${rate}px)`;
+                    
+                    // Fade out video as user scrolls past 70% of hero section
+                    const fadeStart = heroHeight * 0.7;
+                    const fadeEnd = heroHeight;
+                    
+                    if (scrolled > fadeStart) {
+                        const fadeProgress = Math.min((scrolled - fadeStart) / (fadeEnd - fadeStart), 1);
+                        const opacity = Math.max(0.5 - (fadeProgress * 0.5), 0);
+                        video.style.opacity = opacity;
+                    } else {
+                        video.style.opacity = 0.5; // Default opacity
+                    }
                 } else {
-                    video.style.opacity = 0.5; // Default opacity
+                    // Hide video completely when past hero section
+                    video.style.opacity = 0;
                 }
                 
                 ticking = false;
