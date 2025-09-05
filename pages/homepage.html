@@ -445,10 +445,17 @@
     <!-- Parallax Video Scrolling Effect -->
     <script nonce="">
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎬 DOM loaded, looking for video elements...');
             const videoContainer = document.querySelector('.hero-video-container');
             const video = document.querySelector('.hero-video-container video');
             
-            if (!videoContainer || !video) return;
+            console.log('🎬 Video container found:', videoContainer);
+            console.log('🎬 Video element found:', video);
+            
+            if (!videoContainer || !video) {
+                console.log('❌ Video elements not found!');
+                return;
+            }
             
             let ticking = false;
             
@@ -494,10 +501,17 @@
                 console.log('🎬 Hero background video loaded successfully');
             });
             
-            video.addEventListener('error', function() {
-                console.log('⚠️ Hero background video failed to load, using fallback');
+            video.addEventListener('error', function(e) {
+                console.log('⚠️ Hero background video failed to load:', e);
+                console.log('Video src:', video.src);
+                console.log('Video sources:', video.querySelectorAll('source'));
                 // The fallback div will be shown automatically
             });
+            
+            // Additional debugging
+            console.log('🎬 Video element found:', video);
+            console.log('🎬 Video sources:', video.querySelectorAll('source'));
+            console.log('🎬 Video container:', videoContainer);
         });
     </script>
 <!-- DHWS data injector removed for Railway deployment -->
