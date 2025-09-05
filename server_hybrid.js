@@ -71,6 +71,7 @@ app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/pages', express.static(path.join(__dirname, 'pages')));
 app.use('/HOT_WHEELS_IMAGES', express.static(path.join(__dirname, 'HOT_WHEELS_IMAGES')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/video', express.static(path.join(__dirname, 'video')));
 
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
