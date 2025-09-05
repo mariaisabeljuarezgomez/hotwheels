@@ -92,8 +92,25 @@
 
     <!-- Hero Section with 3D Track Animation -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- Animated Background -->
-        <div class="absolute inset-0 bg-gradient-to-br from-background via-primary to-secondary">
+        <!-- Background Video -->
+        <div class="absolute inset-0 z-0 hero-video-container">
+            <video 
+                class="w-full h-full object-cover opacity-50 hero-video" 
+                autoplay 
+                muted 
+                loop 
+                playsinline
+                poster="HOT_WHEELS_IMAGES/hot-wheels-poster.jpg"
+            >
+                <source src="video/hero-background.mp4" type="video/mp4">
+                <source src="video/hero-background.webm" type="video/webm">
+                <!-- Fallback for browsers that don't support video -->
+                <div class="w-full h-full bg-gradient-to-br from-background via-primary to-secondary"></div>
+            </video>
+        </div>
+
+        <!-- Animated Background Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-br from-background/30 via-primary/20 to-secondary/30 z-1">
             <!-- Track Animation Elements -->
             <div class="absolute inset-0">
                 <svg class="w-full h-full opacity-20" viewBox="0 0 1200 800" fill="none">
@@ -112,7 +129,7 @@
         </div>
 
         <!-- Hero Content -->
-        <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
+        <div class="relative z-10 text-center max-w-4xl mx-auto px-4 hero-content-over-video">
             <h1 class="font-orbitron font-black text-5xl md:text-7xl mb-6 bg-gradient-to-r from-accent via-success to-accent bg-clip-text text-transparent animate-pulse-slow">
                 VELOCITY UNLEASHED
             </h1>
@@ -425,6 +442,65 @@
     <script nonce="" src="../js/cart.js"></script>
     <script nonce="" src="../js/analytics.js"></script>
     <script nonce="" src="../js/homepage-listings-loader.js"></script>
+    
+    <!-- Parallax Video Scrolling Effect -->
+    <script nonce="">
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoContainer = document.querySelector('.hero-video-container');
+            const video = document.querySelector('.hero-video-container video');
+            
+            if (!videoContainer || !video) return;
+            
+            let ticking = false;
+            
+            function updateVideoPosition() {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.5; // Parallax speed (negative for opposite direction)
+                
+                // Move video up as user scrolls down
+                videoContainer.style.transform = `translateY(${rate}px)`;
+                
+                // Fade out video as user scrolls past hero section
+                const heroSection = document.querySelector('section');
+                const heroHeight = heroSection.offsetHeight;
+                const fadeStart = heroHeight * 0.5; // Start fading at 50% of hero height
+                const fadeEnd = heroHeight; // Complete fade at end of hero
+                
+                if (scrolled > fadeStart) {
+                    const fadeProgress = Math.min((scrolled - fadeStart) / (fadeEnd - fadeStart), 1);
+                    const opacity = Math.max(0.5 - (fadeProgress * 0.5), 0); // Fade from 0.5 to 0
+                    video.style.opacity = opacity;
+                } else {
+                    video.style.opacity = 0.5; // Default opacity
+                }
+                
+                ticking = false;
+            }
+            
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateVideoPosition);
+                    ticking = true;
+                }
+            }
+            
+            // Listen for scroll events
+            window.addEventListener('scroll', requestTick);
+            
+            // Initial call
+            updateVideoPosition();
+            
+            // Handle video loading
+            video.addEventListener('loadeddata', function() {
+                console.log('🎬 Hero background video loaded successfully');
+            });
+            
+            video.addEventListener('error', function() {
+                console.log('⚠️ Hero background video failed to load, using fallback');
+                // The fallback div will be shown automatically
+            });
+        });
+    </script>
 <!-- DHWS data injector removed for Railway deployment -->
 </body>
 </html>
