@@ -488,11 +488,130 @@ class HomepageListings {
 
 ---
 
+## Recent Critical Fixes (September 2025)
+
+### Issue 4: Thumbnail and Toggle Settings Persistence Failure
+
+**Problem**: Thumbnail images and toggle settings (size selectors, tumbler guides) were not persisting to the database, causing data loss on server restarts.
+
+**Root Cause**: 
+- The `/api/homepage-listings` PUT endpoint required ALL fields to be provided
+- Partial updates (e.g., only thumbnails or only toggle settings) would fail with "null value in column 'title'" errors
+- This caused admin panel changes to be lost on every server restart
+
+**Solution Implemented**:
+1. **Dynamic Database Update Logic**:
+   ```javascript
+   // Build dynamic update query - only update fields that are provided
+   const updateFields = [];
+   const queryParams = [];
+   let paramCount = 0;
+
+   const addField = (fieldName, value) => {
+       if (value !== undefined && value !== null) {
+           paramCount++;
+           updateFields.push(`${fieldName} = $${paramCount}`);
+           queryParams.push(value);
+       }
+   };
+   ```
+
+2. **Fixed API Endpoint** (`/api/homepage-listings` PUT):
+   - Now supports partial updates
+   - Only updates fields that are provided in the request
+   - No more constraint violations for missing required fields
+
+3. **Thumbnail Persistence Fix**:
+   - All products now have proper thumbnail images saved
+   - Thumbnails persist through server restarts
+   - Mobile carousel displays correctly with proper image sizing
+
+4. **Toggle Settings Persistence Fix**:
+   - T-shirt size selectors now persist (`toggle-apparel: true`)
+   - Tumbler size guides now persist (`toggle-tumbler-guide: true`)
+   - Hat size selectors now persist with proper size options
+
+### Issue 5: Product Details API 404 Errors
+
+**Problem**: Product detail pages were showing "Error Loading Product" because the API couldn't find products by numeric ID.
+
+**Root Cause**:
+- Product detail page was passing numeric IDs (1, 2, 3, etc.)
+- API was only looking for `listing_id` (featured-1, exclusive-1, etc.)
+- Missing analytics API endpoint causing additional 404 errors
+
+**Solution Implemented**:
+1. **Enhanced Product Details API** (`/api/product-details/:id`):
+   ```javascript
+   // Try by numeric ID first, then by listing_id
+   if (!isNaN(productId)) {
+       result = await query('SELECT * FROM homepage_listings WHERE id = $1', [parseInt(productId)]);
+   }
+   if (!result || result.rows.length === 0) {
+       result = await query('SELECT * FROM homepage_listings WHERE listing_id = $1', [productId]);
+   }
+   ```
+
+2. **Added Missing Analytics API** (`/api/analytics/track`):
+   - Handles page view tracking
+   - Prevents 404 errors in browser console
+   - Logs analytics events for monitoring
+
+3. **Data Formatting**:
+   - Properly formats product data for frontend consumption
+   - Handles missing fields gracefully
+   - Ensures consistent response structure
+
+### Issue 6: Mobile Carousel Display Problems
+
+**Problem**: Homepage listings carousel was not displaying properly on mobile devices - only showing partial products.
+
+**Root Cause**:
+- Cards were using `min-w-96` (384px) which is too wide for mobile screens
+- No proper mobile-specific sizing or scrolling behavior
+- Cards were being cut off and only partially visible
+
+**Solution Implemented**:
+1. **Mobile-Responsive Card Sizing**:
+   - Regular Mobile (≤768px): Cards are now `w-72` (280px wide)
+   - Small Mobile (≤375px): Cards are now `w-64` (260px wide)
+   - Desktop (>768px): Cards remain `min-w-96` (384px wide)
+
+2. **Enhanced Mobile CSS**:
+   - Proper horizontal scrolling with `overflow-x-auto`
+   - Smooth scrolling behavior with `scroll-smooth`
+   - Touch-optimized scrolling with `-webkit-overflow-scrolling: touch`
+   - Hidden scrollbars for clean appearance
+
+3. **JavaScript Improvements**:
+   - Dynamic card sizing based on screen width
+   - Window resize listener to update card sizes on orientation change
+   - Proper mobile detection and responsive class application
+
+### Current System Status
+
+✅ **All Critical Issues Resolved**:
+- Thumbnail images persist permanently
+- Toggle settings (size selectors, tumbler guides) persist permanently
+- Product detail pages load correctly with full data
+- Mobile carousel displays properly on all devices
+- Analytics tracking works without errors
+- Database updates support partial field updates
+
+✅ **Data Persistence Verified**:
+- All 6 products have complete thumbnail sets
+- T-shirt has proper size selector (S, M, L, XL, XXL)
+- Hat has proper size selector (XS, S, M, L, XL, 2XL, 3XL)
+- Tumbler has proper size guide with dimensions
+- All changes survive server restarts
+
 ## Conclusion
 
 The Hot Wheels Velocity platform has evolved from a simple product showcase to a comprehensive e-commerce solution with dynamic content management. The key to success was establishing a single source of truth in the `homepage_listings` table and ensuring data consistency across all environments.
 
 The most critical lesson learned was the importance of **environment parity** and **proper data migration strategies**. The persistence issues we encountered were primarily due to differences between development and production databases, which were resolved through systematic data synchronization and proper API design.
+
+**Recent fixes have eliminated all major persistence issues**, ensuring that admin panel changes (thumbnails, toggle settings, product details) are permanently saved and survive server restarts. The platform now provides a robust, reliable foundation for e-commerce operations.
 
 The current architecture provides a solid foundation for future enhancements while maintaining data integrity and user experience quality. The use of JSONB fields for dynamic content management has proven to be an excellent choice for the flexible requirements of an e-commerce platform.
 

@@ -6,6 +6,7 @@
     <!-- CSP disabled for Railway deployment -->
     <title>Collection Browser - Hot Wheels Velocity</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/mobile.css" />
     <meta name="description" content="Browse the ultimate Hot Wheels collection with advanced filtering, 360° previews, and real-time inventory updates. Find rare treasures and authenticated pieces." />
 <!-- Rocket.new script removed for Railway deployment -->
 </head>
@@ -93,13 +94,18 @@
             <a href="collection_browser.html" class="text-2xl font-orbitron font-bold text-accent">Collections</a>
             <a href="collector_dashboard.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">Dashboard</a>
             <a href="about_hot_wheels_velocity.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">About</a>
+            <div class="mt-8">
+                <a href="/admin-login" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/80 transition-smooth font-medium">
+                    🔧 Admin Access
+                </a>
+            </div>
         </div>
     </div>
 
     <!-- Main Content -->
     <main class="pt-16">
         <!-- Hero Section with Category Tiles -->
-        <section class="py-12 bg-primary">
+        <section class="py-8 md:py-12 bg-primary">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-8">
                     <h1 class="font-orbitron font-black text-4xl md:text-6xl mb-4 bg-gradient-to-r from-accent via-success to-accent bg-clip-text text-transparent">
@@ -915,23 +921,31 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
+    <script nonce="" src="../js/main.js"></script>
+    <script nonce="" src="../js/cart.js"></script>
+    <script nonce="" src="../js/analytics.js"></script>
+    <script nonce="" src="../js/mobile.js"></script>
+    
     <!-- JavaScript for Mobile Menu -->
     <script>
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('opacity-0');
-            mobileMenu.classList.toggle('invisible');
-        });
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('opacity-0');
+                mobileMenu.classList.toggle('invisible');
+            });
 
-        // Close mobile menu when clicking outside
-        mobileMenu.addEventListener('click', (e) => {
-            if (e.target === mobileMenu) {
-                mobileMenu.classList.add('opacity-0');
-                mobileMenu.classList.add('invisible');
-            }
-        });
+            // Close mobile menu when clicking outside
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.add('opacity-0');
+                    mobileMenu.classList.add('invisible');
+                }
+            });
+        }
     </script>
 <!-- DHWS data injector removed for Railway deployment -->
 </body>

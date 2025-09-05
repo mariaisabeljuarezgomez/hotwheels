@@ -197,25 +197,74 @@ npm    <title>Hot Wheels Velocity - Premium Collector's Universe</title>
             100% { width: 100%; }
         }
         
-        /* Responsive design */
-        @media (max-width: 768px) {
+        /* Mobile-first responsive design */
+        @media (max-width: 640px) {
             .redirect-container {
-                padding: 40px 20px;
+                padding: 30px 15px;
+                margin: 15px;
+                border-radius: 16px;
+            }
+            
+            .logo {
+                font-size: 1.75rem;
+                letter-spacing: 1px;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+            }
+            
+            .hot-wheels-logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .tagline {
+                font-size: 0.875rem;
+                letter-spacing: 0.5px;
+            }
+            
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .loading-text {
+                font-size: 1rem;
+            }
+            
+            .car-animation {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+            .redirect-container {
+                padding: 50px 30px;
                 margin: 20px;
             }
             
             .logo {
-                font-size: 2rem;
+                font-size: 2.25rem;
             }
             
             .logo-icon {
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
             }
             
             .hot-wheels-logo {
-                width: 50px;
-                height: 50px;
+                width: 55px;
+                height: 55px;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .redirect-container {
+                padding: 60px 40px;
+                margin: 0;
             }
         }
     </style>

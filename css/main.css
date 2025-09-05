@@ -2172,6 +2172,189 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.2rem;
 }
 
+/* ========================================
+   MOBILE-FIRST RESPONSIVE DESIGN
+   ======================================== */
+
+/* Mobile-first approach - base styles for mobile */
+@media (max-width: 640px) {
+  /* Typography scaling for mobile */
+  .text-5xl { font-size: 2.5rem; line-height: 1.1; }
+  .text-4xl { font-size: 2rem; line-height: 1.2; }
+  .text-3xl { font-size: 1.75rem; line-height: 1.3; }
+  .text-2xl { font-size: 1.5rem; line-height: 1.4; }
+  .text-xl { font-size: 1.25rem; line-height: 1.5; }
+  
+  /* Mobile navigation improvements */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(20px);
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .mobile-menu.active {
+    transform: translateX(0);
+  }
+  
+  /* Mobile hero section */
+  .hero-content h1 {
+    font-size: 2.5rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .hero-content p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Mobile button improvements */
+  .btn-primary {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    min-height: 48px; /* Touch-friendly */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Mobile card improvements */
+  .card-premium {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Mobile grid improvements */
+  .grid-cols-1 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Mobile spacing */
+  .py-20 { padding-top: 3rem; padding-bottom: 3rem; }
+  .py-16 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .py-12 { padding-top: 2rem; padding-bottom: 2rem; }
+  .py-8 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  
+  /* Mobile container padding */
+  .px-4 { padding-left: 1rem; padding-right: 1rem; }
+  
+  /* Mobile search improvements */
+  .search-input {
+    width: 100%;
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Mobile image optimizations */
+  img {
+    max-width: 100%;
+    height: auto;
+    loading: lazy;
+  }
+  
+  /* Mobile video adjustments */
+  .hero-video {
+    object-position: center center;
+    height: 100vh;
+  }
+  
+  /* Mobile carousel improvements */
+  .carousel-container {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .carousel-item {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 280px;
+  }
+  
+  /* Mobile form improvements */
+  input, textarea, select {
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.75rem;
+  }
+  
+  /* Mobile touch targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Mobile modal improvements */
+  .modal {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+  
+  /* Mobile table improvements */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Mobile footer improvements */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 3.5rem !important;
+  }
+  
+  .hero-content p {
+    font-size: 1.25rem !important;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .btn-primary {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 1025px) {
+  .hero-content h1 {
+    font-size: 4.5rem !important;
+  }
+  
+  .hero-content p {
+    font-size: 1.5rem !important;
+  }
+  
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 /* Responsive video adjustments */
 @media (max-width: 768px) {
   .hero-video {

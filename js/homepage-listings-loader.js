@@ -11,6 +11,11 @@ class HomepageListingsLoader {
     async init() {
         await this.loadListings();
         this.updateHomepage();
+        
+        // Listen for window resize to update card sizes
+        window.addEventListener('resize', () => {
+            this.updateHomepage();
+        });
     }
 
     async loadListings() {
@@ -128,7 +133,29 @@ class HomepageListingsLoader {
 
     createListingCard(listing, sectionName, index) {
         const card = document.createElement('div');
-        card.className = sectionName === 'featured' ? 'card-rare min-w-96 group cursor-pointer' : 'card-premium min-w-96 group cursor-pointer';
+        // Use responsive classes for mobile optimization
+        const isMobile = window.innerWidth <= 768;
+        const isSmallMobile = window.innerWidth <= 375;
+        
+        let cardClasses;
+        if (isSmallMobile) {
+            // Extra small mobile screens
+            cardClasses = sectionName === 'featured' 
+                ? 'card-rare w-64 min-w-64 group cursor-pointer carousel-item' 
+                : 'card-premium w-64 min-w-64 group cursor-pointer carousel-item';
+        } else if (isMobile) {
+            // Regular mobile screens
+            cardClasses = sectionName === 'featured' 
+                ? 'card-rare w-72 min-w-72 group cursor-pointer carousel-item' 
+                : 'card-premium w-72 min-w-72 group cursor-pointer carousel-item';
+        } else {
+            // Desktop screens
+            cardClasses = sectionName === 'featured' 
+                ? 'card-rare min-w-96 group cursor-pointer' 
+                : 'card-premium min-w-96 group cursor-pointer';
+        }
+        
+        card.className = cardClasses;
         
         
         const tagClass = this.getTagClass(listing.tag_type);

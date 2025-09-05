@@ -123,6 +123,21 @@ app.get('/api/test', (req, res) => {
 // HYBRID API ENDPOINTS
 // ========================================
 
+// 0. ANALYTICS API
+app.post('/api/analytics/track', async (req, res) => {
+    try {
+        const { name, data, timestamp, url, userAgent } = req.body;
+        console.log('📊 Analytics Event:', { name, data, timestamp, url, userAgent });
+        
+        // For now, just log the analytics data
+        // In production, you would save this to a database
+        res.json({ success: true, message: 'Analytics event tracked' });
+    } catch (error) {
+        console.error('Analytics tracking error:', error);
+        res.status(500).json({ success: false, message: 'Failed to track analytics', error: error.message });
+    }
+});
+
 // 1. HOMEPAGE LISTINGS (using existing table but with JOIN for images)
 app.get('/api/homepage-listings', async (req, res) => {
     try {
@@ -148,23 +163,59 @@ app.put('/api/homepage-listings', async (req, res) => {
             toggle_settings, detailed_description, original_price, stock_quantity
         } = req.body;
 
-        // 1. Update homepage_listings table
+        // Build dynamic update query - only update fields that are provided
+        const updateFields = [];
+        const queryParams = [];
+        let paramCount = 0;
+
+        // Helper function to add field to update
+        const addField = (fieldName, value) => {
+            if (value !== undefined && value !== null) {
+                paramCount++;
+                updateFields.push(`${fieldName} = $${paramCount}`);
+                queryParams.push(value);
+            }
+        };
+
+        // Add fields to update
+        addField('title', title);
+        addField('description', description);
+        addField('price', price);
+        addField('image_url', image_url);
+        addField('tag_type', tag_type);
+        addField('tag_text', tag_text);
+        addField('product_link', product_link);
+        addField('is_active', is_active);
+        addField('subtitle', subtitle);
+        addField('main_image_url', main_image_url);
+        addField('thumbnail_1_url', thumbnail_1_url);
+        addField('thumbnail_2_url', thumbnail_2_url);
+        addField('thumbnail_3_url', thumbnail_3_url);
+        addField('thumbnail_4_url', thumbnail_4_url);
+        addField('detailed_description', detailed_description);
+        addField('original_price', original_price);
+        addField('stock_quantity', stock_quantity);
+        addField('toggle_settings', toggle_settings ? JSON.stringify(toggle_settings) : null);
+        addField('tumbler_guide_title', req.body.tumbler_guide_title);
+        addField('tumbler_guide_data', req.body.tumbler_guide_data ? JSON.stringify(req.body.tumbler_guide_data) : null);
+        
+        // Always update the timestamp
+        updateFields.push('updated_at = CURRENT_TIMESTAMP');
+
+        if (updateFields.length === 1) { // Only timestamp update
+            return res.status(400).json({ success: false, message: 'No fields to update' });
+        }
+
+        // Add listing_id as the WHERE parameter
+        paramCount++;
+        queryParams.push(listing_id);
+
         const homepageResult = await query(`
             UPDATE homepage_listings 
-            SET title = $1, description = $2, price = $3, image_url = $4, 
-                tag_type = $5, tag_text = $6, product_link = $7, is_active = $8,
-                subtitle = $9, main_image_url = $10, thumbnail_1_url = $11, 
-                thumbnail_2_url = $12, thumbnail_3_url = $13, thumbnail_4_url = $14,
-                detailed_description = $15, original_price = $16, stock_quantity = $17,
-                toggle_settings = $18, tumbler_guide_title = $19, tumbler_guide_data = $20,
-                updated_at = CURRENT_TIMESTAMP
-            WHERE listing_id = $21
+            SET ${updateFields.join(', ')}
+            WHERE listing_id = $${paramCount}
             RETURNING *
-        `, [title, description, price, image_url, tag_type, tag_text, product_link, is_active,
-            subtitle, main_image_url, thumbnail_1_url, thumbnail_2_url, thumbnail_3_url, thumbnail_4_url,
-            detailed_description, original_price, stock_quantity, 
-            toggle_settings ? JSON.stringify(toggle_settings) : null,
-            req.body.tumbler_guide_title || null, req.body.tumbler_guide_data || null, listing_id]);
+        `, queryParams);
         
         if (homepageResult.rows.length === 0) {
             return res.status(404).json({ success: false, message: 'Listing not found' });
@@ -187,15 +238,55 @@ app.get('/api/product-details/:id', async (req, res) => {
         
         console.log('🔍 Product detail request for ID:', productId);
         
-        // Get from homepage_listings using the listing_id
-        let result = await query('SELECT * FROM homepage_listings WHERE listing_id = $1', [productId]);
+        // Try to get from homepage_listings using both id and listing_id
+        let result;
         
-        if (result.rows.length === 0) {
+        // First try by numeric ID (primary key)
+        if (!isNaN(productId)) {
+            result = await query('SELECT * FROM homepage_listings WHERE id = $1', [parseInt(productId)]);
+        }
+        
+        // If not found by ID, try by listing_id
+        if (!result || result.rows.length === 0) {
+            result = await query('SELECT * FROM homepage_listings WHERE listing_id = $1', [productId]);
+        }
+        
+        if (!result || result.rows.length === 0) {
+            console.log('❌ Product not found for ID:', productId);
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
 
-        console.log('✅ Found product:', result.rows[0].title);
-        res.json({ success: true, data: { product: result.rows[0] } });
+        const product = result.rows[0];
+        console.log('✅ Found product:', product.title);
+        
+        // Format the response to match what the frontend expects
+        const formattedProduct = {
+            product_id: product.id.toString(),
+            listing_id: product.listing_id,
+            title: product.title,
+            subtitle: product.subtitle || '',
+            current_price: parseFloat(product.price),
+            original_price: parseFloat(product.original_price || product.price),
+            main_image_url: product.main_image_url || product.image_url || '',
+            thumbnail_1_url: product.thumbnail_1_url || '',
+            thumbnail_2_url: product.thumbnail_2_url || '',
+            thumbnail_3_url: product.thumbnail_3_url || '',
+            thumbnail_4_url: product.thumbnail_4_url || '',
+            description: product.description || '',
+            detailed_description: product.detailed_description || product.description || '',
+            specifications: product.specifications || {},
+            available_sizes: product.available_sizes || '[]',
+            toggle_settings: product.toggle_settings || {},
+            tumbler_guide_title: product.tumbler_guide_title || '',
+            tumbler_guide_data: product.tumbler_guide_data || {},
+            product_type: product.product_type || 'hot-wheels',
+            stock_quantity: product.stock_quantity || 0,
+            tag_type: product.tag_type || '',
+            tag_text: product.tag_text || '',
+            is_active: product.is_active
+        };
+        
+        res.json({ success: true, data: { product: formattedProduct } });
     } catch (error) {
         console.error('Get product details error:', error);
         res.status(500).json({ success: false, message: 'Failed to get product details', error: error.message });

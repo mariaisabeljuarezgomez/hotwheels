@@ -6,6 +6,7 @@
     <!-- CSP disabled for Railway deployment -->
     <title>Hot Wheels Velocity - Premium Collector's Universe</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/mobile.css" />
     <meta name="description" content="Hot Wheels Velocity - The ultimate premium collector-focused eCommerce platform for die-cast enthusiasts. Discover rare treasures, manage your collection, and connect with fellow collectors." />
 <!-- Rocket.new script removed for Railway deployment -->
 </head>
@@ -80,7 +81,7 @@
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button class="md:hidden p-2 text-text-primary hover:text-accent transition-smooth">
+                <button class="md:hidden p-2 text-text-primary hover:text-accent transition-smooth" id="mobileMenuBtn">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -88,6 +89,21 @@
             </div>
         </nav>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="fixed inset-0 z-40 bg-background/95 backdrop-blur-md opacity-0 invisible transition-all duration-300" id="mobileMenu">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="homepage.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">Home</a>
+            <a href="collection_browser.html" class="text-2xl font-orbitron font-bold text-accent">Collections</a>
+            <a href="collector_dashboard.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">Dashboard</a>
+            <a href="about_hot_wheels_velocity.html" class="text-2xl font-orbitron font-bold text-text-primary hover:text-accent transition-smooth">About</a>
+            <div class="mt-8">
+                <a href="/admin-login" class="bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/80 transition-smooth font-medium">
+                    🔧 Admin Access
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section with 3D Track Animation -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -128,22 +144,22 @@
 
         <!-- Hero Content -->
         <div class="relative z-10 text-center max-w-4xl mx-auto px-4 hero-content-over-video">
-            <h1 class="font-orbitron font-black text-5xl md:text-7xl mb-6 text-white">
+            <h1 class="font-orbitron font-black text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-6 text-white">
                 VELOCITY UNLEASHED
             </h1>
-            <p class="text-xl md:text-2xl text-text-secondary mb-8 max-w-2xl mx-auto">
+            <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-text-secondary mb-6 md:mb-8 max-w-2xl mx-auto px-2">
                 Where collectors accelerate their passion. Discover rare treasures, authenticate your finds, and connect with the ultimate Hot Wheels universe.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="collection_browser.html" class="btn-primary text-lg px-8 py-4 inline-flex items-center space-x-2">
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                <a href="collection_browser.html" class="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 inline-flex items-center justify-center space-x-2 w-full sm:w-auto">
                     <span>Explore Collections</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                     </svg>
                 </a>
-                <a href="collector_dashboard.html" class="bg-transparent border-2 border-accent text-accent hover:bg-accent hover:text-white font-rajdhani font-semibold px-8 py-4 rounded-lg transition-smooth inline-flex items-center space-x-2">
+                <a href="collector_dashboard.html" class="bg-transparent border-2 border-accent text-accent hover:bg-accent hover:text-white font-rajdhani font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-smooth inline-flex items-center justify-center space-x-2 w-full sm:w-auto">
                     <span>Start Collecting</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                     </svg>
                 </a>
@@ -153,16 +169,16 @@
     </section>
 
     <!-- Featured Treasures Carousel -->
-    <section class="py-20 bg-primary">
+    <section class="py-12 md:py-20 bg-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="font-orbitron font-bold text-4xl mb-4 text-accent">Featured Treasures</h2>
-                <p class="text-text-secondary text-lg">Rare finds with authenticated provenance and 360° previews</p>
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="font-orbitron font-bold text-2xl sm:text-3xl md:text-4xl mb-3 md:mb-4 text-accent">Featured Treasures</h2>
+                <p class="text-text-secondary text-base sm:text-lg">Rare finds with authenticated provenance and 360° previews</p>
             </div>
 
             <!-- Carousel Container -->
             <div class="relative overflow-hidden">
-                <div class="flex space-x-6 pb-4" id="treasureCarousel">
+                <div class="flex space-x-4 md:space-x-6 pb-4 carousel-container overflow-x-auto scroll-smooth" id="treasureCarousel">
                     <!-- Dynamic content loaded by homepage-listings-loader.js -->
                 </div>
             </div>
@@ -170,16 +186,16 @@
     </section>
 
     <!-- Our Exclusive Collection -->
-    <section class="py-20 bg-secondary">
+    <section class="py-12 md:py-20 bg-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="font-orbitron font-bold text-4xl mb-4 text-accent">Our Exclusive Collection</h2>
-                <p class="text-text-secondary text-lg">Rare finds with authenticated provenance and 360° previews</p>
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="font-orbitron font-bold text-2xl sm:text-3xl md:text-4xl mb-3 md:mb-4 text-accent">Our Exclusive Collection</h2>
+                <p class="text-text-secondary text-base sm:text-lg">Rare finds with authenticated provenance and 360° previews</p>
             </div>
 
             <!-- Carousel Container -->
             <div class="relative overflow-hidden">
-                <div class="flex space-x-6 pb-4" id="exclusiveCarousel">
+                <div class="flex space-x-4 md:space-x-6 pb-4 carousel-container overflow-x-auto scroll-smooth" id="exclusiveCarousel">
                     <!-- Dynamic content loaded by homepage-listings-loader.js -->
                 </div>
             </div>
@@ -187,14 +203,14 @@
     </section>
 
     <!-- Collector Activity Feed -->
-    <section class="py-20 bg-primary">
+    <section class="py-12 md:py-20 bg-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="font-orbitron font-bold text-4xl mb-4">Live Collector Activity</h2>
-                <p class="text-text-secondary text-lg">Real-time updates from the Hot Wheels community</p>
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="font-orbitron font-bold text-2xl sm:text-3xl md:text-4xl mb-3 md:mb-4">Live Collector Activity</h2>
+                <p class="text-text-secondary text-base sm:text-lg">Real-time updates from the Hot Wheels community</p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 <!-- Activity Card 1 -->
                 <div class="card-premium">
                     <div class="flex items-center space-x-3 mb-4">
@@ -258,12 +274,12 @@
     </section>
 
     <!-- Track Your Passion Section -->
-    <section class="py-20 bg-primary">
+    <section class="py-12 md:py-20 bg-primary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                 <div>
-                    <h2 class="font-orbitron font-bold text-4xl mb-6">Track Your Passion</h2>
-                    <p class="text-text-secondary text-lg mb-8">
+                    <h2 class="font-orbitron font-bold text-2xl sm:text-3xl md:text-4xl mb-4 md:mb-6">Track Your Passion</h2>
+                    <p class="text-text-secondary text-base sm:text-lg mb-6 md:mb-8">
                         Transform your collection into a digital garage with advanced management tools, value tracking, and personalized recommendations.
                     </p>
                     
@@ -362,9 +378,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-background border-t border-border py-12">
+    <footer class="bg-background border-t border-border py-8 md:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 footer-grid">
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
                         <svg class="w-8 h-8" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -434,6 +450,8 @@
     <script nonce="" src="../js/main.js"></script>
     <script nonce="" src="../js/cart.js"></script>
     <script nonce="" src="../js/analytics.js"></script>
+    <script nonce="" src="../js/mobile.js"></script>
+    <script nonce="" src="../js/mobile-test.js"></script>
     <script nonce="" src="../js/homepage-listings-loader.js"></script>
     
     <!-- Parallax Video Scrolling Effect -->
