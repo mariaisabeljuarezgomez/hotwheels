@@ -11,6 +11,7 @@ const compression = require('compression');
 const path = require('path');
 const session = require('express-session');
 const rateLimit = require('express-rate-limit');
+const multer = require('multer');
 
 // Import database and models
 const { initializeDatabase } = require('./config/database');
@@ -71,6 +72,31 @@ app.use('/pages', express.static(path.join(__dirname, 'pages')));
 app.use('/HOT_WHEELS_IMAGES', express.static(path.join(__dirname, 'HOT_WHEELS_IMAGES')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'HOT_WHEELS_IMAGES'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB limit
+  },
+  fileFilter: function (req, file, cb) {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'), false);
+    }
+  }
+});
+
 // ========================================
 // HYBRID API ENDPOINTS
 // ========================================
@@ -80,11 +106,8 @@ app.get('/api/homepage-listings', async (req, res) => {
     try {
         const { query } = require('./config/database');
         const result = await query(`
-            SELECT hl.*,
-                   pd.main_image_url, pd.thumbnail_1_url, pd.thumbnail_2_url,
-                   pd.thumbnail_3_url, pd.thumbnail_4_url
+            SELECT hl.*
             FROM homepage_listings hl
-            LEFT JOIN product_details pd ON hl.listing_id = 'exclusive-' || pd.product_id::text
             ORDER BY hl.section, hl.position
         `);
         res.json({ success: true, data: { listings: result.rows } });
@@ -195,14 +218,19 @@ app.put('/api/homepage-listings', async (req, res) => {
 // 2. PRODUCT DETAILS API (for product detail page)
 app.get('/api/product-details/:id', async (req, res) => {
     try {
-        const productId = parseInt(req.params.id);
+        const productId = req.params.id;
         const { query } = require('./config/database');
-        const result = await query('SELECT * FROM product_details WHERE product_id = $1', [productId]);
+        
+        console.log('🔍 Product detail request for ID:', productId);
+        
+        // Get from homepage_listings using the listing_id
+        let result = await query('SELECT * FROM homepage_listings WHERE listing_id = $1', [productId]);
         
         if (result.rows.length === 0) {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
 
+        console.log('✅ Found product:', result.rows[0].title);
         res.json({ success: true, data: { product: result.rows[0] } });
     } catch (error) {
         console.error('Get product details error:', error);
@@ -308,6 +336,227 @@ app.get('/api/product-details/all', async (req, res) => {
     }
 });
 
+// 4. IMAGE UPLOAD ENDPOINTS
+app.post('/api/upload-image', upload.single('image'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'No image file provided' });
+        }
+
+        const imageUrl = `/HOT_WHEELS_IMAGES/${req.file.filename}`;
+        
+        res.json({
+            success: true,
+            data: { imageUrl: imageUrl }
+        });
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        res.status(500).json({ success: false, message: 'Failed to upload image' });
+    }
+});
+
+app.post('/api/upload-homepage-image', upload.single('image'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: 'No image file provided' });
+        }
+
+        const imageUrl = `/HOT_WHEELS_IMAGES/${req.file.filename}`;
+        
+        res.json({
+            success: true,
+            data: { imageUrl: imageUrl }
+        });
+    } catch (error) {
+        console.error('Error uploading homepage image:', error);
+        res.status(500).json({ success: false, message: 'Failed to upload image' });
+    }
+});
+
+// 5. UPDATE HOMEPAGE LISTING (for saving changes)
+app.post('/api/homepage-listings/update', async (req, res) => {
+    try {
+        console.log('Update request received:', req.body);
+        const { query } = require('./config/database');
+        const { listingId, updates } = req.body;
+        
+        if (!listingId || !updates) {
+            return res.status(400).json({ success: false, message: 'Missing listingId or updates' });
+        }
+        
+        // Update homepage_listings table
+        const homepageUpdateFields = [];
+        const homepageValues = [];
+        let paramCount = 1;
+        
+        if (updates.title !== undefined) {
+            homepageUpdateFields.push(`title = $${paramCount++}`);
+            homepageValues.push(updates.title);
+        }
+        if (updates.description !== undefined) {
+            homepageUpdateFields.push(`description = $${paramCount++}`);
+            homepageValues.push(updates.description);
+        }
+        if (updates.price !== undefined) {
+            homepageUpdateFields.push(`price = $${paramCount++}`);
+            homepageValues.push(updates.price);
+        }
+        if (updates.image_url !== undefined) {
+            homepageUpdateFields.push(`image_url = $${paramCount++}`);
+            homepageValues.push(updates.image_url);
+        }
+        if (updates.main_image_url !== undefined) {
+            homepageUpdateFields.push(`main_image_url = $${paramCount++}`);
+            homepageValues.push(updates.main_image_url);
+        }
+        if (updates.thumbnail_1_url !== undefined) {
+            homepageUpdateFields.push(`thumbnail_1_url = $${paramCount++}`);
+            homepageValues.push(updates.thumbnail_1_url);
+        }
+        if (updates.thumbnail_2_url !== undefined) {
+            homepageUpdateFields.push(`thumbnail_2_url = $${paramCount++}`);
+            homepageValues.push(updates.thumbnail_2_url);
+        }
+        if (updates.thumbnail_3_url !== undefined) {
+            homepageUpdateFields.push(`thumbnail_3_url = $${paramCount++}`);
+            homepageValues.push(updates.thumbnail_3_url);
+        }
+        if (updates.thumbnail_4_url !== undefined) {
+            homepageUpdateFields.push(`thumbnail_4_url = $${paramCount++}`);
+            homepageValues.push(updates.thumbnail_4_url);
+        }
+        if (updates.product_type !== undefined) {
+            homepageUpdateFields.push(`product_type = $${paramCount++}`);
+            homepageValues.push(updates.product_type);
+        }
+        if (updates.available_sizes !== undefined) {
+            homepageUpdateFields.push(`available_sizes = $${paramCount++}`);
+            homepageValues.push(JSON.stringify(updates.available_sizes));
+        }
+        if (updates.toggle_settings !== undefined) {
+            homepageUpdateFields.push(`toggle_settings = $${paramCount++}`);
+            homepageValues.push(JSON.stringify(updates.toggle_settings));
+        }
+        if (updates.tumbler_guide_title !== undefined) {
+            homepageUpdateFields.push(`tumbler_guide_title = $${paramCount++}`);
+            homepageValues.push(updates.tumbler_guide_title);
+        }
+        if (updates.tumbler_guide_data !== undefined) {
+            homepageUpdateFields.push(`tumbler_guide_data = $${paramCount++}`);
+            homepageValues.push(updates.tumbler_guide_data);
+        }
+        if (updates.specifications !== undefined) {
+            homepageUpdateFields.push(`specifications = $${paramCount++}`);
+            homepageValues.push(JSON.stringify(updates.specifications));
+        }
+        if (updates.historical_description !== undefined) {
+            homepageUpdateFields.push(`historical_description = $${paramCount++}`);
+            homepageValues.push(updates.historical_description);
+        }
+        if (updates.expert_quote !== undefined) {
+            homepageUpdateFields.push(`expert_quote = $${paramCount++}`);
+            homepageValues.push(updates.expert_quote);
+        }
+        if (updates.subtitle !== undefined) {
+            homepageUpdateFields.push(`subtitle = $${paramCount++}`);
+            homepageValues.push(updates.subtitle);
+        }
+        if (updates.detailed_description !== undefined) {
+            homepageUpdateFields.push(`detailed_description = $${paramCount++}`);
+            homepageValues.push(updates.detailed_description);
+        }
+        if (updates.original_price !== undefined) {
+            homepageUpdateFields.push(`original_price = $${paramCount++}`);
+            homepageValues.push(updates.original_price);
+        }
+        if (updates.stock_quantity !== undefined) {
+            homepageUpdateFields.push(`stock_quantity = $${paramCount++}`);
+            homepageValues.push(updates.stock_quantity);
+        }
+        
+        if (homepageUpdateFields.length > 0) {
+            homepageValues.push(listingId);
+            const homepageQuery = `UPDATE homepage_listings SET ${homepageUpdateFields.join(', ')} WHERE listing_id = $${homepageValues.length}`;
+            console.log('Executing homepage query:', homepageQuery, homepageValues);
+            await query(homepageQuery, homepageValues);
+            console.log('Homepage update successful');
+        }
+        
+        // Update product_details table (only for exclusive listings with valid numeric IDs)
+        let productId = null;
+        if (listingId.startsWith('exclusive-')) {
+            const extractedId = listingId.replace('exclusive-', '');
+            if (!isNaN(extractedId) && extractedId !== '') {
+                productId = extractedId;
+            }
+        }
+        // Skip product_details update for featured listings as they don't have corresponding product records
+        
+        const productUpdateFields = [];
+        const productValues = [];
+        paramCount = 1;
+        
+        if (updates.main_image_url !== undefined) {
+            productUpdateFields.push(`main_image_url = $${paramCount++}`);
+            productValues.push(updates.main_image_url);
+        }
+        if (updates.thumbnail_1_url !== undefined) {
+            productUpdateFields.push(`thumbnail_1_url = $${paramCount++}`);
+            productValues.push(updates.thumbnail_1_url);
+        }
+        if (updates.thumbnail_2_url !== undefined) {
+            productUpdateFields.push(`thumbnail_2_url = $${paramCount++}`);
+            productValues.push(updates.thumbnail_2_url);
+        }
+        if (updates.thumbnail_3_url !== undefined) {
+            productUpdateFields.push(`thumbnail_3_url = $${paramCount++}`);
+            productValues.push(updates.thumbnail_3_url);
+        }
+        if (updates.thumbnail_4_url !== undefined) {
+            productUpdateFields.push(`thumbnail_4_url = $${paramCount++}`);
+            productValues.push(updates.thumbnail_4_url);
+        }
+        if (updates.toggle_settings !== undefined) {
+            productUpdateFields.push(`toggle_settings = $${paramCount++}`);
+            productValues.push(JSON.stringify(updates.toggle_settings));
+        }
+        
+        if (productUpdateFields.length > 0 && productId && !isNaN(productId)) {
+            productValues.push(productId);
+            const productQuery = `UPDATE product_details SET ${productUpdateFields.join(', ')} WHERE product_id = $${productValues.length}`;
+            console.log('Executing product query:', productQuery, productValues);
+            await query(productQuery, productValues);
+            console.log('Product update successful');
+        } else if (productUpdateFields.length > 0) {
+            console.log('Skipping product_details update - no valid productId for listing:', listingId);
+        }
+        
+        res.json({
+            success: true,
+            message: 'Listing updated successfully'
+        });
+    } catch (error) {
+        console.error('Error updating listing:', error);
+        console.error('Error details:', {
+            message: error.message,
+            stack: error.stack,
+            listingId: req.body?.listingId,
+            updates: req.body?.updates
+        });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to update listing',
+            error: error.message 
+        });
+    }
+});
+
+// Test endpoint
+app.post('/api/test-update', (req, res) => {
+    console.log('Test update received:', req.body);
+    res.json({ success: true, message: 'Test endpoint working', received: req.body });
+});
+
 // ========================================
 // ROUTES
 // ========================================
@@ -317,14 +566,87 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Admin login page
+app.get('/admin-login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'admin-login.html'));
+});
+
+// Admin main page
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'admin.html'));
+});
+
 // Admin dashboard
 app.get('/homepage-listings', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'homepage-listings.html'));
 });
 
+// Admin uploads page
+app.get('/admin-uploads', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'admin-uploads.html'));
+});
+
 // Product detail page
 app.get('/pages/product_detail.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'product_detail.html'));
+});
+
+// Additional admin pages
+app.get('/admin-access', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'admin-access.html'));
+});
+
+app.get('/category-management', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'category-management.html'));
+});
+
+// Customer pages
+app.get('/checkout_experience', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'checkout_experience.html'));
+});
+
+app.get('/collection_browser', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'collection_browser.html'));
+});
+
+app.get('/collector_dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'collector_dashboard.html'));
+});
+
+app.get('/homepage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'homepage.html'));
+});
+
+app.get('/about_hot_wheels_velocity', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'about_hot_wheels_velocity.html'));
+});
+
+app.get('/product-1', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'product-1.html'));
+});
+
+// Temporary endpoint to add missing columns
+app.post('/api/add-columns', async (req, res) => {
+    try {
+        const alterQuery = `
+            ALTER TABLE homepage_listings 
+            ADD COLUMN IF NOT EXISTS product_type VARCHAR(50),
+            ADD COLUMN IF NOT EXISTS available_sizes JSONB,
+            ADD COLUMN IF NOT EXISTS toggle_settings JSONB,
+            ADD COLUMN IF NOT EXISTS specifications JSONB,
+            ADD COLUMN IF NOT EXISTS historical_description TEXT,
+            ADD COLUMN IF NOT EXISTS expert_quote TEXT,
+            ADD COLUMN IF NOT EXISTS subtitle VARCHAR(255);
+        `;
+        
+        await query(alterQuery);
+        console.log('✅ Added missing columns to homepage_listings');
+        
+        res.json({ success: true, message: 'Columns added successfully' });
+    } catch (error) {
+        console.error('❌ Error adding columns:', error);
+        res.status(500).json({ success: false, message: 'Failed to add columns', error: error.message });
+    }
 });
 
 // ========================================

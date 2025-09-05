@@ -5,9 +5,15 @@ const { Pool } = require('pg');
 const dbConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  max: 20, // Maximum number of clients in the pool
+  max: 10, // Maximum number of clients in the pool
+  min: 2, // Minimum number of clients in the pool
   idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
-  connectionTimeoutMillis: 2000, // Return an error after 2 seconds if connection could not be established
+  connectionTimeoutMillis: 30000, // Return an error after 30 seconds if connection could not be established
+  acquireTimeoutMillis: 30000, // Return an error after 30 seconds if a client could not be acquired
+  createTimeoutMillis: 30000, // Return an error after 30 seconds if a client could not be created
+  destroyTimeoutMillis: 5000, // Return an error after 5 seconds if a client could not be destroyed
+  reapIntervalMillis: 1000, // How often to check for idle clients to destroy
+  createRetryIntervalMillis: 200, // How long to idle before retrying creation
 };
 
 // Create connection pool
@@ -40,17 +46,34 @@ const testConnection = async () => {
 };
 
 // Database query helper function
-const query = async (text, params) => {
-  
+const query = async (text, params, retries = 3) => {
   const start = Date.now();
-  try {
-    const res = await pool.query(text, params);
-    const duration = Date.now() - start;
-    console.log('📊 Database query executed:', { text: text.substring(0, 50) + '...', duration, rows: res.rowCount });
-    return res;
-  } catch (error) {
-    console.error('❌ Database query error:', error);
-    throw error;
+  
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const res = await pool.query(text, params);
+      const duration = Date.now() - start;
+      console.log('📊 Database query executed:', { text: text.substring(0, 50) + '...', duration, rows: res.rowCount });
+      return res;
+    } catch (error) {
+      console.error(`❌ Database query error (attempt ${attempt}/${retries}):`, error.message);
+      
+      if (attempt === retries) {
+        throw error;
+      }
+      
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+      
+      // Try to reconnect if connection was lost
+      if (error.message.includes('Connection terminated') || error.message.includes('timeout')) {
+        try {
+          await testConnection();
+        } catch (reconnectError) {
+          console.error('❌ Failed to reconnect:', reconnectError.message);
+        }
+      }
+    }
   }
 };
 

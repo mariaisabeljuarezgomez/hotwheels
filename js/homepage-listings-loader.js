@@ -15,8 +15,11 @@ class HomepageListingsLoader {
 
     async loadListings() {
         try {
-            const response = await fetch('/api/homepage-listings');
+            console.log('🔄 Loading homepage listings...');
+            const response = await fetch(`/api/homepage-listings?t=${Date.now()}`);
             const result = await response.json();
+            
+            console.log('📊 API Response:', result);
             
             if (result.success) {
                 // Group listings by section
@@ -26,6 +29,11 @@ class HomepageListingsLoader {
                 // Sort by position
                 this.listings.featured.sort((a, b) => a.position - b.position);
                 this.listings.exclusive.sort((a, b) => a.position - b.position);
+                
+                console.log('✅ Loaded listings:', {
+                    featured: this.listings.featured,
+                    exclusive: this.listings.exclusive
+                });
             } else {
                 console.warn('Failed to load homepage listings:', result.message);
                 this.useFallbackData();
@@ -37,75 +45,28 @@ class HomepageListingsLoader {
     }
 
     useFallbackData() {
-        // Fallback to static data if API fails
-        this.listings.featured = [
-            {
-                listing_id: 'featured-1',
-                title: '1968 Redline Custom Camaro',
-                description: 'Mint condition with original blister pack',
-                price: 2450.00,
-                image_url: '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg',
-                tag_type: 'ultra-rare',
-                tag_text: 'ULTRA RARE',
-                product_link: 'product_detail.html?id=1'
-            },
-            {
-                listing_id: 'featured-2',
-                title: '2023 RLC Exclusive McLaren',
-                description: 'Limited edition with certificate',
-                price: 89.00,
-                image_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&h=300',
-                tag_type: 'rlc-exclusive',
-                tag_text: 'RLC EXCLUSIVE',
-                product_link: 'product_detail.html?id=1'
-            },
-            {
-                listing_id: 'featured-3',
-                title: '2024 Treasure Hunt Mustang',
-                description: 'Super Treasure Hunt variant',
-                price: 156.00,
-                image_url: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-                tag_type: 'treasure-hunt',
-                tag_text: 'TREASURE HUNT',
-                product_link: 'product_detail.html?id=1'
-            }
-        ];
-
-        this.listings.exclusive = [
-            {
-                listing_id: 'exclusive-1',
-                title: '1968 Redline Custom Camaro',
-                description: 'Mint condition with original blister pack',
-                price: 2450.00,
-                image_url: '../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg',
-                tag_type: 'ultra-rare',
-                tag_text: 'ULTRA RARE',
-                product_link: 'product_detail.html?id=1'
-            },
-            {
-                listing_id: 'exclusive-2',
-                title: '2023 RLC Exclusive McLaren',
-                description: 'Limited edition with certificate',
-                price: 89.00,
-                image_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&h=300',
-                tag_type: 'rlc-exclusive',
-                tag_text: 'RLC EXCLUSIVE',
-                product_link: 'product_detail.html?id=1'
-            },
-            {
-                listing_id: 'exclusive-3',
-                title: '2024 Treasure Hunt Mustang',
-                description: 'Super Treasure Hunt variant',
-                price: 156.00,
-                image_url: 'https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
-                tag_type: 'treasure-hunt',
-                tag_text: 'TREASURE HUNT',
-                product_link: 'product_detail.html?id=1'
-            }
-        ];
+        // Only use fallback if API completely fails - don't show hardcoded data
+        console.warn('Using fallback data - API failed');
+        this.listings.featured = [];
+        this.listings.exclusive = [];
     }
 
     updateHomepage() {
+        console.log('🔄 Updating homepage with listings:', {
+            featured: this.listings.featured,
+            exclusive: this.listings.exclusive
+        });
+        
+        // Debug featured section specifically
+        console.log(`🔍 FEATURED SECTION DEBUG:`, {
+            count: this.listings.featured.length,
+            listings: this.listings.featured.map(l => ({
+                id: l.id,
+                listing_id: l.listing_id,
+                title: l.title,
+                image_url: l.image_url
+            }))
+        });
         this.updateSection('featured', this.listings.featured);
         this.updateSection('exclusive', this.listings.exclusive);
     }
@@ -114,6 +75,13 @@ class HomepageListingsLoader {
         const carouselId = sectionName === 'featured' ? 'treasureCarousel' : 'exclusiveCarousel';
         const carousel = document.getElementById(carouselId);
         
+        console.log(`🔄 Updating ${sectionName} section:`, {
+            carouselId,
+            carousel,
+            listingsCount: listings.length,
+            listings: listings
+        });
+        
         if (!carousel) {
             console.warn(`Carousel not found: ${carouselId}`);
             return;
@@ -121,28 +89,60 @@ class HomepageListingsLoader {
 
         // Clear existing content
         carousel.innerHTML = '';
+        console.log(`✅ Cleared ${sectionName} carousel content`);
 
         // Add listings
         listings.forEach((listing, index) => {
+            console.log(`🔄 Creating card ${index + 1} for ${sectionName}:`, listing);
             const card = this.createListingCard(listing, sectionName, index);
             carousel.appendChild(card);
+            console.log(`✅ Added card ${index + 1} to ${sectionName} carousel`);
         });
+        
+        console.log(`✅ Finished updating ${sectionName} section`);
+        console.log(`🔍 Final carousel content:`, carousel.innerHTML.substring(0, 200) + '...');
+        console.log(`🔍 Carousel dimensions:`, {
+            width: carousel.offsetWidth,
+            height: carousel.offsetHeight,
+            scrollWidth: carousel.scrollWidth,
+            clientWidth: carousel.clientWidth,
+            children: carousel.children.length
+        });
+        
+        // Check first card dimensions and visibility
+        if (carousel.children.length > 0) {
+            const firstCard = carousel.children[0];
+            console.log(`🔍 First card details:`, {
+                element: firstCard,
+                className: firstCard.className,
+                offsetWidth: firstCard.offsetWidth,
+                offsetHeight: firstCard.offsetHeight,
+                offsetTop: firstCard.offsetTop,
+                offsetLeft: firstCard.offsetLeft,
+                computedStyle: window.getComputedStyle(firstCard).display,
+                visibility: window.getComputedStyle(firstCard).visibility,
+                opacity: window.getComputedStyle(firstCard).opacity
+            });
+        }
     }
 
     createListingCard(listing, sectionName, index) {
         const card = document.createElement('div');
-        card.className = sectionName === 'featured' ? 'card-rare min-w-80 group cursor-pointer' : 'card-premium min-w-80 group cursor-pointer';
+        card.className = sectionName === 'featured' ? 'card-rare min-w-96 group cursor-pointer' : 'card-premium min-w-96 group cursor-pointer';
+        
         
         const tagClass = this.getTagClass(listing.tag_type);
         const tagText = listing.tag_text || this.getDefaultTagText(listing.tag_type);
         
         card.innerHTML = `
             <div class="relative mb-4 overflow-hidden rounded-lg">
-                <img src="${listing.image_url}" 
-                     alt="${listing.title}" 
-                     class="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500" 
-                     loading="lazy" 
-                     onerror="this.src='../HOT_WHEELS_IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
+                <div class="aspect-[3/5] w-full">
+                    <img src="${listing.image_url}" 
+                         alt="${listing.title}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500" 
+                         loading="lazy" 
+                         onerror="this.src='../HOT_WHEELS_IMAGES/hot-wheels-2.jpeg'; this.onerror=null;" />
+                </div>
                 <div class="absolute top-3 right-3 ${tagClass} px-2 py-1 rounded-full text-xs font-mono font-bold">
                     ${tagText}
                 </div>

@@ -120,13 +120,35 @@ CREATE TABLE IF NOT EXISTS homepage_listings (
     description TEXT NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     image_url VARCHAR(500) NOT NULL,
+    main_image_url VARCHAR(500),
+    thumbnail_1_url VARCHAR(500),
+    thumbnail_2_url VARCHAR(500),
+    thumbnail_3_url VARCHAR(500),
+    thumbnail_4_url VARCHAR(500),
     tag_type VARCHAR(50) NOT NULL, -- 'ultra-rare', 'rlc-exclusive', etc.
     tag_text VARCHAR(100), -- custom tag text if different from default
     product_link VARCHAR(500), -- link to product detail page
+    product_type VARCHAR(50), -- 'hot-wheels', 't-shirt', 'hat', 'tumbler'
+    available_sizes JSONB, -- Array of available sizes for apparel
+    toggle_settings JSONB, -- Settings for toggles (colors, sizes, etc.)
+    tumbler_guide_title VARCHAR(255), -- Title for tumbler size guide
+    tumbler_guide_data JSONB, -- Tumbler size guide data (sizes and dimensions)
+    specifications JSONB, -- Product specifications
+    historical_description TEXT, -- Historical context
+    expert_quote TEXT, -- Expert commentary
+    subtitle VARCHAR(255), -- Product subtitle
+    detailed_description TEXT, -- Detailed product description
+    original_price DECIMAL(10,2), -- Original price before discount
+    stock_quantity INTEGER, -- Stock quantity
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Add tumbler guide fields to existing homepage_listings table
+ALTER TABLE homepage_listings 
+ADD COLUMN IF NOT EXISTS tumbler_guide_title VARCHAR(255),
+ADD COLUMN IF NOT EXISTS tumbler_guide_data JSONB;
 
 -- Individual product detail pages (product-1.html to product-6.html)
 CREATE TABLE IF NOT EXISTS product_details (
@@ -378,3 +400,25 @@ INSERT INTO product_categories (product_id, category_id) VALUES
 (4, 5), -- Porsche 911 -> Team Transport
 (5, 4)  -- Lamborghini -> Treasure Hunts
 ON CONFLICT DO NOTHING;
+
+-- Insert sample homepage listings with section data
+INSERT INTO homepage_listings (listing_id, section, position, title, description, price, image_url, tag_type, tag_text, product_link, product_type, available_sizes, toggle_settings, specifications, historical_description, expert_quote, subtitle, main_image_url, thumbnail_1_url, thumbnail_2_url, thumbnail_3_url, thumbnail_4_url) VALUES
+('featured-1', 'featured', 1, 'Hot Wheels 2025 Formula 1 Race Team Sergio Perez Oracle Red Bull F1 Racing', 'The 2025 Hot Wheels Premium Formula 1 2024 Oracle Red Bull Racing – RB20 (#11) is a 1:64 scale die-cast car by Hot Wheels, featuring a sleek blue F1-style design. This model is part of the Formula 1 series and showcases the Red Bull Racing team with driver Sergio Perez. It is a highly detailed and accurate replica of the 2024 season RB20 car, making it a perfect piece for collectors and Formula 1 racing fans.', 25.00, '/HOT_WHEELS_IMAGES/image-1757053736878-157461431.jpg', 'rlc-exclusive', 'Formula 1 2024 Oracle Red Bull Racing', 'product_detail.html?id=featured-1', 'hot-wheels', '["1:64 Scale"]', '{"colors": ["Red", "Blue"], "sizes": ["1:64 Scale"]}', '{"Scale": "1:64", "Material": "Die-cast", "Brand": "Hot Wheels", "Series": "Formula 1", "Year": "2025"}', 'This is a detailed historical description for the Hot Wheels Formula 1 car.', 'An exceptional piece for any F1 collector!', '2025 Oracle Red Bull Racing', '/HOT_WHEELS_IMAGES/image-1757053736878-157461431.jpg', '/HOT_WHEELS_IMAGES/image-1757053736878-157461431.jpg', '/HOT_WHEELS_IMAGES/image-1757053736896-189403107.jpg', '/HOT_WHEELS_IMAGES/image-1757053736906-677945102.jpg', '/HOT_WHEELS_IMAGES/image-1757053736920-348577233.jpg'),
+('featured-2', 'featured', 2, '2023 RLC Exclusive McLaren', 'Limited edition with certificate', 89.00, '/uploads/homepage-images/homepage-undefined-1756958044320-867261409.jpg', 'rlc-exclusive', 'RLC EXCLUSIVE', 'product_detail.html?id=featured-2', 'hot-wheels', '["1:64 Scale"]', '{"colors": ["Orange", "Black"], "sizes": ["1:64 Scale"]}', '{"Scale": "1:64", "Material": "Die-cast", "Brand": "Hot Wheels", "Series": "RLC Exclusive", "Year": "2023"}', 'This McLaren represents the pinnacle of Hot Wheels collecting.', 'A must-have for any serious collector.', '2023 RLC Exclusive McLaren', NULL, NULL, NULL, NULL, NULL),
+('featured-3', 'featured', 3, '2024 Treasure Hunt Mustang', 'Super Treasure Hunt variant', 156.00, '/uploads/homepage-images/homepage-undefined-1756958068486-246628207.jpg', 'treasure-hunt', 'TREASURE HUNT', 'product_detail.html?id=featured-3', 'hot-wheels', '["1:64 Scale"]', '{"colors": ["Spectraflame", "Chrome"], "sizes": ["1:64 Scale"]}', '{"Scale": "1:64", "Material": "Die-cast", "Brand": "Hot Wheels", "Series": "Treasure Hunt", "Year": "2024"}', 'The legendary Mustang in Treasure Hunt form.', 'Rare and highly sought after.', '2024 Treasure Hunt Mustang', NULL, NULL, NULL, NULL, NULL),
+('exclusive-1', 'exclusive', 1, 'Hot Wheels x Kenny Scharf Black T-Shirt', 'This heavyweight Hot Wheels x Kenny Scharf Black T-shirt is one of the most comfortable shirts around, and made with special attention to durability and longevity.', 70.00, '/HOT_WHEELS_IMAGES/homepage-undefined-1757001557783-440192252.jpg', 'premium', 'BLACK T SHIRT', 'product_detail.html?id=exclusive-1', 't-shirt', '["S", "M", "L", "XL", "XXL"]', '{"colors": ["Black", "White"], "sizes": ["S", "M", "L", "XL"]}', '{"Material": "100% Cotton", "Weight": "Heavyweight", "Brand": "Hot Wheels x Kenny Scharf", "Style": "T-Shirt"}', 'A collaboration between Hot Wheels and renowned artist Kenny Scharf.', 'Art meets automotive culture in this exclusive design.', 'Hot Wheels x Kenny Scharf', NULL, NULL, NULL, NULL, NULL),
+('exclusive-2', 'exclusive', 2, 'Hot Wheels x Kenny Scharf White Tumbler', 'Enjoy hot or cold drinks on the go with our stylish stainless steel Hot Wheels x Kenny Scharf White Tumbler. This reusable tumbler with a metal straw is a perfect combo for hot or cold drinks at any time of the day. This exclusive design is only available through Mattel Creations.', 45.00, '/uploads/homepage-images/homepage-undefined-1756958159145-849427263.jpg', 'premium', 'RLC EXCLUSIVE', 'product_detail.html?id=exclusive-2', 'tumbler', '["One Size"]', '{"colors": ["White", "Black"], "sizes": ["One Size"]}', '{"Material": "Stainless Steel", "Capacity": "20oz", "Brand": "Hot Wheels x Kenny Scharf", "Style": "Tumbler with Straw"}', 'Perfect for the Hot Wheels collector on the go.', 'Style meets functionality.', 'Hot Wheels x Kenny Scharf Tumbler', NULL, NULL, NULL, NULL, NULL),
+('exclusive-3', 'exclusive', 3, 'Hot Wheels x Kenny Scharf Black Embroidered Dad Hat', 'Upgrade your style with our Hot Wheels x Kenny Scharf Black Embroidered Dad Hat, the perfect blend of classic design and modern comfort. This hat features a sleek, low-profile fit that sits comfortably on your head, making it ideal for everyday wear.', 50.00, '/uploads/homepage-images/homepage-undefined-1756958270026-271653793.jpg', 'premium', 'TREASURE HUNT', 'product_detail.html?id=exclusive-3', 'hat', '["One Size Fits Most"]', '{"colors": ["Black", "White"], "sizes": ["One Size Fits Most"]}', '{"Material": "Cotton", "Style": "Dad Hat", "Brand": "Hot Wheels x Kenny Scharf", "Embroidered": "Yes"}', 'The perfect cap for the Hot Wheels enthusiast.', 'Comfort and style combined.', 'Hot Wheels x Kenny Scharf Dad Hat', NULL, NULL, NULL, NULL, NULL)
+ON CONFLICT (listing_id) DO UPDATE SET
+    product_type = EXCLUDED.product_type,
+    available_sizes = EXCLUDED.available_sizes,
+    toggle_settings = EXCLUDED.toggle_settings,
+    specifications = EXCLUDED.specifications,
+    historical_description = EXCLUDED.historical_description,
+    expert_quote = EXCLUDED.expert_quote,
+    subtitle = EXCLUDED.subtitle,
+    main_image_url = EXCLUDED.main_image_url,
+    thumbnail_1_url = EXCLUDED.thumbnail_1_url,
+    thumbnail_2_url = EXCLUDED.thumbnail_2_url,
+    thumbnail_3_url = EXCLUDED.thumbnail_3_url,
+    thumbnail_4_url = EXCLUDED.thumbnail_4_url;

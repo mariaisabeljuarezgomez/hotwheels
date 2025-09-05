@@ -7,6 +7,43 @@
     <title id="page-title">Loading... - Hot Wheels Velocity</title>
     <link rel="stylesheet" href="../css/main.css" />
     <meta name="description" content="Premium 1968 Redline Custom Camaro with 360° viewer, authentication details, and collector intelligence. Ultra-rare mint condition with original blister pack." />
+    <style>
+        /* T-shirt Size Selector Styling */
+        #tshirt-size-selector {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.1) 0%, rgba(255, 20, 147, 0.05) 100%);
+            border: 1px solid rgba(255, 20, 147, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        
+        #tshirt-sizes .size-active {
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%) !important;
+            border-color: #ff1493 !important;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.5) !important;
+            transform: scale(1.05) !important;
+        }
+        
+        #tshirt-sizes > div {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #tshirt-sizes > div::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        #tshirt-sizes > div:hover::before {
+            left: 100%;
+        }
+    </style>
 <!-- Rocket.new script removed for Railway deployment -->
 </head>
 <body class="bg-background text-text-primary font-inter">
@@ -116,11 +153,24 @@
                     <!-- Main Product Viewer -->
                     <div class="card-rare">
                         <div class="relative bg-gradient-to-br from-primary to-secondary rounded-lg overflow-hidden">
-                            <img id="main-product-image" src="../HOT_WHEELS_IMAGES/hot-wheels-1.jpeg" alt="Product Main View" class="w-full h-96 object-contain" loading="lazy" style="max-width: 100%; height: auto; object-fit: contain;" />
+                            <img id="main-product-image" src="" alt="Product Main View" class="w-full h-96 object-contain" loading="lazy" style="max-width: 100%; height: auto; object-fit: contain; background: #1a1a1a;" />
+                            <div id="image-loading" class="absolute inset-0 flex items-center justify-center bg-primary text-white">
+                                <div class="text-center">
+                                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+                                    <p>Loading image...</p>
+                                </div>
+                            </div>
                             
                             <!-- 360° Viewer Controls -->
                             <div class="absolute top-4 right-4 bg-accent text-white px-3 py-2 rounded-lg font-rajdhani font-semibold text-sm">
                                 360° VIEW ACTIVE
+                            </div>
+                            
+                            <!-- Refresh Button -->
+                            <div class="absolute top-4 left-4">
+                                <button onclick="loadProduct()" class="bg-surface/80 backdrop-blur-sm text-white px-3 py-2 rounded-lg font-rajdhani font-semibold text-sm hover:bg-accent transition-smooth">
+                                    🔄 Refresh
+                                </button>
                             </div>
                             
                             <!-- Zoom Controls -->
@@ -158,6 +208,41 @@
                     <!-- Thumbnail Gallery -->
                     <div class="grid grid-cols-4 gap-3" id="thumbnail-gallery">
                         <!-- Thumbnails will be populated dynamically -->
+                    </div>
+
+                    <!-- T-shirt Size Selector (only for T-shirts) -->
+                    <div id="tshirt-size-selector" class="mt-6" style="display: none;">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                            <span class="w-2 h-6 bg-accent mr-3 rounded"></span>
+                            Select Size
+                        </h3>
+                        <div id="tshirt-sizes" class="grid grid-cols-5 gap-3">
+                            <!-- Sizes will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Tumbler Size Guide (for tumblers) -->
+                    <div id="tumbler-size-guide" class="mt-6" style="display: none;">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center">
+                            <span class="w-2 h-6 bg-accent mr-3 rounded"></span>
+                            <span id="tumbler-guide-title">Size guide</span>
+                        </h3>
+                        <div class="bg-gradient-to-r from-surface to-background border border-accent/30 rounded-xl p-6">
+                            <div class="overflow-x-auto">
+                                <table id="tumbler-size-table" class="w-full text-white">
+                                    <thead>
+                                        <tr class="border-b border-accent/30">
+                                            <th class="text-left py-3 px-4 font-bold text-accent">SIZE</th>
+                                            <th class="text-left py-3 px-4 font-bold text-accent">WIDTH (inches)</th>
+                                            <th class="text-left py-3 px-4 font-bold text-accent">LENGTH (inches)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tumbler-size-tbody">
+                                        <!-- Size data will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Authentication Badge -->
@@ -290,25 +375,6 @@
                     </div>
 
                     <!-- T-Shirt Sizes & Colors (only for T-shirts) -->
-                    <div class="card-premium" id="tshirt-section" style="display: none;">
-                        <h3 class="font-orbitron font-bold text-xl mb-4">Available Options</h3>
-                        
-                        <!-- Colors -->
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-lg mb-3">Colors</h4>
-                            <div class="flex flex-wrap gap-3" id="tshirt-colors">
-                                <!-- JS will populate this -->
-                            </div>
-                        </div>
-                        
-                        <!-- Sizes -->
-                        <div>
-                            <h4 class="font-semibold text-lg mb-3">Sizes</h4>
-                            <div class="flex flex-wrap gap-3" id="tshirt-sizes">
-                                <!-- JS will populate this -->
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Additional Services -->
                     <div class="card-premium">
@@ -719,7 +785,7 @@
     function getProductId() {
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-        return id ? parseInt(id) : 1;
+        return id || 'featured-1';
     }
 
     // Load product data
@@ -729,7 +795,7 @@
             const productId = getProductId();
             console.log('📋 Product ID:', productId);
 
-            const response = await fetch(`/api/product-details/${productId}`);
+            const response = await fetch(`/api/product-details/${productId}?t=${Date.now()}`);
             console.log('🌐 API Response status:', response.status);
 
             if (!response.ok) {
@@ -740,6 +806,23 @@
             console.log('📦 Raw API data:', data);
 
             currentProduct = data.data.product;
+            console.log('📦 Current product data:', currentProduct);
+                    console.log('🖼️ Image fields:', {
+            main_image_url: currentProduct.main_image_url,
+            image_url: currentProduct.image_url,
+            thumbnail_1_url: currentProduct.thumbnail_1_url,
+            thumbnail_2_url: currentProduct.thumbnail_2_url,
+            thumbnail_3_url: currentProduct.thumbnail_3_url,
+            thumbnail_4_url: currentProduct.thumbnail_4_url
+        });
+        
+        console.log('🔧 Section data fields:', {
+            product_type: currentProduct.product_type,
+            specifications: currentProduct.specifications,
+            toggle_settings: currentProduct.toggle_settings,
+            available_sizes: currentProduct.available_sizes,
+            subtitle: currentProduct.subtitle
+        });
 
             // Convert string prices to numbers for proper formatting
             if (currentProduct.current_price) {
@@ -787,35 +870,99 @@
         // Update product information
         document.getElementById('product-title').textContent = currentProduct.title;
         document.getElementById('product-subtitle').textContent = currentProduct.subtitle;
-        const price = currentProduct.current_price || 0;
+        const price = currentProduct.price || currentProduct.current_price || 0;
         document.getElementById('current-price').textContent = `$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
         // Update Buy Now button
         document.getElementById('buy-now-button').textContent = `Buy Now - $${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-        // Update main image
+        // Update main image - try multiple image fields
+        let imageUrl = null;
         if (currentProduct.main_image_url) {
-            document.getElementById('main-product-image').src = currentProduct.main_image_url;
-            document.getElementById('main-product-image').alt = `${currentProduct.title} - Main View`;
-            console.log('🖼️ Main image updated:', currentProduct.main_image_url);
+            imageUrl = currentProduct.main_image_url;
+            console.log('🖼️ Using main_image_url:', imageUrl);
+        } else if (currentProduct.image_url) {
+            imageUrl = currentProduct.image_url;
+            console.log('🖼️ Using image_url:', imageUrl);
+        }
+        
+        console.log('🖼️ Final image URL selected:', imageUrl);
+        
+        if (imageUrl) {
+            const imgElement = document.getElementById('main-product-image');
+            const loadingElement = document.getElementById('image-loading');
+            if (imgElement) {
+                // Add cache-busting parameter to image URL
+                const cacheBustedUrl = `${imageUrl}?t=${Date.now()}`;
+                console.log('🖼️ Original image URL:', imageUrl);
+                console.log('🖼️ Cache-busted URL:', cacheBustedUrl);
+                console.log('🖼️ Full URL would be:', window.location.origin + cacheBustedUrl);
+                
+                // Test if the image exists by trying to fetch it
+                fetch(cacheBustedUrl)
+                    .then(response => {
+                        console.log('🖼️ Image fetch response:', response.status, response.statusText);
+                        if (!response.ok) {
+                            console.error('❌ Image fetch failed:', response.status, response.statusText);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ Image fetch error:', error);
+                    });
+                
+                // Show loading spinner
+                if (loadingElement) loadingElement.style.display = 'flex';
+                
+                // Use the dynamic image URL from database
+                imgElement.src = cacheBustedUrl;
+                imgElement.alt = `${currentProduct.title} - Main View`;
+                
+                // Hide loading spinner when image loads
+                imgElement.onload = function() {
+                    if (loadingElement) loadingElement.style.display = 'none';
+                    console.log('✅ Main image loaded successfully');
+                };
+                
+                // Hide loading spinner if image fails to load
+                imgElement.onerror = function() {
+                    if (loadingElement) loadingElement.style.display = 'none';
+                    console.error('❌ Failed to load image:', cacheBustedUrl);
+                };
+                
+                console.log('✅ Main image updated successfully');
+            } else {
+                console.error('❌ Image element not found!');
+            }
+        } else {
+            console.warn('⚠️ No image URL found for product:', currentProduct);
         }
 
         // Populate thumbnails
         const thumbnailGallery = document.getElementById('thumbnail-gallery');
         thumbnailGallery.innerHTML = '';
         const thumbnails = [
-            currentProduct.main_image_url,
             currentProduct.thumbnail_1_url,
             currentProduct.thumbnail_2_url,
             currentProduct.thumbnail_3_url,
             currentProduct.thumbnail_4_url
         ].filter(Boolean); // Filter out null/undefined URLs
 
+        console.log('🖼️ Thumbnail URLs:', thumbnails);
+        console.log('🖼️ Thumbnail gallery element:', thumbnailGallery);
+        console.log('🖼️ Thumbnail gallery found:', !!thumbnailGallery);
+        console.log('🖼️ Thumbnail gallery parent:', thumbnailGallery?.parentElement);
+
         thumbnails.forEach((imageUrl, i) => {
+            console.log(`🖼️ Creating thumbnail ${i + 1} with URL:`, imageUrl);
             const thumbnail = document.createElement('div');
             thumbnail.className = `aspect-square bg-surface rounded-lg overflow-hidden border ${i === 0 ? 'border-2 border-accent' : 'border-border hover:border-accent'} transition-smooth cursor-pointer`;
             const altText = `${currentProduct.title} - View ${i + 1}`;
             thumbnail.innerHTML = `<img src="${imageUrl}" alt="${altText}" class="w-full h-full object-cover" loading="lazy" />`;
+            
+            // Test if image loads
+            const img = thumbnail.querySelector('img');
+            img.onload = () => console.log(`✅ Thumbnail ${i + 1} image loaded successfully`);
+            img.onerror = () => console.log(`❌ Thumbnail ${i + 1} image failed to load:`, imageUrl);
             
             thumbnail.addEventListener('click', () => {
                 document.getElementById('main-product-image').src = imageUrl;
@@ -824,7 +971,10 @@
                 });
             });
             thumbnailGallery.appendChild(thumbnail);
+            console.log(`✅ Thumbnail ${i + 1} added to gallery`);
         });
+
+        console.log('🖼️ Final thumbnail gallery HTML:', thumbnailGallery.innerHTML);
 
         // Populate specifications
         const specsContainer = document.getElementById('product-specifications');
@@ -841,36 +991,141 @@
             }
         }
 
-        // Populate T-shirt section (only for T-shirts)
-        const tshirtSection = document.getElementById('tshirt-section');
-        if (currentProduct.productType === 't-shirt') {
-            tshirtSection.style.display = 'block';
+        // Show T-shirt size selector if toggle is enabled (for any product type)
+        const toggleSettings = currentProduct.toggle_settings || {};
+        const isApparelToggleOn = toggleSettings['toggle-apparel'] === true;
+        const isTumblerToggleOn = toggleSettings['toggle-tumbler-guide'] === true;
+        
+        if (isApparelToggleOn) {
+            console.log('👕 [Size Chart] Apparel toggle is ON - showing size selector');
             
-            // Populate colors
-            const colorsContainer = document.getElementById('tshirt-colors');
-            colorsContainer.innerHTML = '';
-            if (currentProduct.colors && currentProduct.colors.length > 0) {
-                currentProduct.colors.forEach(color => {
-                    const colorDiv = document.createElement('div');
-                    colorDiv.className = 'px-4 py-2 bg-accent text-white rounded-lg font-semibold';
-                    colorDiv.textContent = color;
-                    colorsContainer.appendChild(colorDiv);
-                });
+            // Get colors and sizes from toggle_settings
+            const colors = toggleSettings.colors || [];
+            
+            // Parse available_sizes if it's a JSON string
+            let sizes = [];
+            console.log('🔧 [T-shirt] toggleSettings.sizes:', toggleSettings.sizes);
+            console.log('🔧 [T-shirt] currentProduct.available_sizes:', currentProduct.available_sizes);
+            
+            if (toggleSettings.sizes && Array.isArray(toggleSettings.sizes)) {
+                sizes = toggleSettings.sizes;
+                console.log('🔧 [T-shirt] Using toggleSettings.sizes:', sizes);
+            } else if (currentProduct.available_sizes) {
+                try {
+                    sizes = typeof currentProduct.available_sizes === 'string' 
+                        ? JSON.parse(currentProduct.available_sizes) 
+                        : currentProduct.available_sizes;
+                    console.log('🔧 [T-shirt] Parsed available_sizes:', sizes);
+                } catch (e) {
+                    console.error('Error parsing available_sizes:', e);
+                    sizes = [];
+                }
             }
             
-            // Populate sizes
+            console.log('🔧 [T-shirt] Final sizes array:', sizes, 'Type:', typeof sizes, 'Is Array:', Array.isArray(sizes));
+            
+            // Colors are not displayed in the new design - only sizes
+            
+            // Populate sizes in the new location below thumbnails
             const sizesContainer = document.getElementById('tshirt-sizes');
-            sizesContainer.innerHTML = '';
-            if (currentProduct.sizes && currentProduct.sizes.length > 0) {
-                currentProduct.sizes.forEach(size => {
-                    const sizeDiv = document.createElement('div');
-                    sizeDiv.className = 'px-4 py-2 bg-background border border-border rounded-lg font-semibold hover:border-accent transition-smooth cursor-pointer';
-                    sizeDiv.textContent = size;
-                    sizesContainer.appendChild(sizeDiv);
-                });
+            const sizeSelector = document.getElementById('tshirt-size-selector');
+            
+            if (sizesContainer && sizeSelector) {
+                sizesContainer.innerHTML = '';
+                
+                if (sizes && Array.isArray(sizes) && sizes.length > 0) {
+                    console.log('🔧 [T-shirt] Populating sizes:', sizes);
+                    sizeSelector.style.display = 'block'; // Show the size selector
+                    
+                    sizes.forEach(size => {
+                        const sizeDiv = document.createElement('div');
+                        sizeDiv.className = 'px-4 py-3 bg-gradient-to-r from-background to-surface border-2 border-border rounded-xl font-bold text-center text-white hover:border-accent hover:bg-gradient-to-r hover:from-accent/20 hover:to-accent/10 hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-accent/25';
+                        sizeDiv.textContent = size;
+                        
+                        // Add click handler for size selection
+                        sizeDiv.addEventListener('click', function() {
+                            // Remove active class from all sizes
+                            sizesContainer.querySelectorAll('.size-active').forEach(el => {
+                                el.classList.remove('size-active', 'border-accent', 'bg-gradient-to-r', 'from-accent', 'to-accent/80');
+                                el.classList.add('border-border', 'bg-gradient-to-r', 'from-background', 'to-surface');
+                            });
+                            
+                            // Add active class to clicked size
+                            this.classList.add('size-active', 'border-accent', 'bg-gradient-to-r', 'from-accent', 'to-accent/80');
+                            this.classList.remove('border-border', 'bg-gradient-to-r', 'from-background', 'to-surface');
+                            
+                            console.log('👕 [T-shirt] Size selected:', size);
+                        });
+                        
+                        sizesContainer.appendChild(sizeDiv);
+                    });
+                } else {
+                    console.log('🔧 [T-shirt] No sizes to populate or sizes is not an array:', sizes);
+                    sizeSelector.style.display = 'none'; // Hide the size selector
+                }
             }
         } else {
-            tshirtSection.style.display = 'none';
+            console.log('👕 [Size Chart] Apparel toggle is OFF - hiding size selector');
+            const sizeSelector = document.getElementById('tshirt-size-selector');
+            if (sizeSelector) {
+                sizeSelector.style.display = 'none';
+            }
+        }
+
+        // Show Tumbler Size Guide if toggle is enabled
+        if (isTumblerToggleOn) {
+            console.log('🥤 [Tumbler Guide] Tumbler guide toggle is ON - showing size guide');
+            
+            const tumblerGuide = document.getElementById('tumbler-size-guide');
+            const tumblerTitle = document.getElementById('tumbler-guide-title');
+            const tumblerTbody = document.getElementById('tumbler-size-tbody');
+            
+            if (tumblerGuide && tumblerTitle && tumblerTbody) {
+                // Set title
+                tumblerTitle.textContent = toggleSettings.tumbler_guide_title || 'Size guide';
+                
+                // Parse size guide data
+                let sizeGuideData = {};
+                try {
+                    if (toggleSettings.tumbler_guide_data) {
+                        sizeGuideData = typeof toggleSettings.tumbler_guide_data === 'string' 
+                            ? JSON.parse(toggleSettings.tumbler_guide_data) 
+                            : toggleSettings.tumbler_guide_data;
+                    } else {
+                        // Default fallback data
+                        sizeGuideData = {"20oz": {"width": "2 7/8", "length": "8 3/8"}};
+                    }
+                } catch (e) {
+                    console.error('Error parsing tumbler guide data:', e);
+                    sizeGuideData = {"20oz": {"width": "2 7/8", "length": "8 3/8"}};
+                }
+                
+                // Clear existing rows
+                tumblerTbody.innerHTML = '';
+                
+                // Populate table with size data
+                Object.entries(sizeGuideData).forEach(([size, dimensions]) => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-accent/20 hover:bg-accent/5 transition-colors';
+                    
+                    row.innerHTML = `
+                        <td class="py-3 px-4 font-bold text-accent">${size}</td>
+                        <td class="py-3 px-4">${dimensions.width}</td>
+                        <td class="py-3 px-4">${dimensions.length}</td>
+                    `;
+                    
+                    tumblerTbody.appendChild(row);
+                });
+                
+                tumblerGuide.style.display = 'block';
+                console.log('🥤 [Tumbler Guide] Size guide populated with data:', sizeGuideData);
+            }
+        } else {
+            console.log('🥤 [Tumbler Guide] Tumbler guide toggle is OFF - hiding size guide');
+            const tumblerGuide = document.getElementById('tumbler-size-guide');
+            if (tumblerGuide) {
+                tumblerGuide.style.display = 'none';
+            }
         }
 
         // Populate Extended Product Details (show when market value section is disabled)
@@ -912,7 +1167,7 @@
         }
         
         // Hide/Show Specifications section based on data
-        const hasSpecificationsData = currentProduct.specifications && currentProduct.specifications.length > 0;
+        const hasSpecificationsData = currentProduct.specifications && Object.keys(currentProduct.specifications).length > 0;
         const specificationsSection = [...document.querySelectorAll('.card-premium h3')].find(h => h.textContent.includes('Specifications'))?.closest('.card-premium');
         
         if (specificationsSection) {
@@ -937,13 +1192,15 @@
             premiumServicesSection.style.display = hasPremiumServicesData ? 'block' : 'none';
         }
         
-        // Show Extended Product Details when market value is hidden
-        if (!hasMarketValueData && (currentProduct.historical_description || currentProduct.expert_quote || currentProduct.subtitle)) {
+        // Show Extended Product Details when we have the data (regardless of market value)
+        if (currentProduct.detailed_description || currentProduct.historical_description || currentProduct.expert_quote || currentProduct.subtitle) {
             extendedDetailsSection.style.display = 'block';
             
-            // Populate description
+            // Populate description - prioritize detailed_description
             const descriptionElement = document.getElementById('extended-description');
-            if (currentProduct.historical_description) {
+            if (currentProduct.detailed_description) {
+                descriptionElement.textContent = currentProduct.detailed_description;
+            } else if (currentProduct.historical_description) {
                 descriptionElement.textContent = currentProduct.historical_description;
             } else if (currentProduct.expert_quote) {
                 descriptionElement.textContent = currentProduct.expert_quote;
@@ -953,9 +1210,11 @@
                 descriptionElement.textContent = 'No detailed description available.';
             }
             
-            // Populate original price (use current price as fallback)
+            // Populate original price (use original_price field)
             const originalPriceElement = document.getElementById('extended-original-price');
-            if (currentProduct.current_price) {
+            if (currentProduct.original_price) {
+                originalPriceElement.textContent = `$${parseFloat(currentProduct.original_price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            } else if (currentProduct.current_price) {
                 originalPriceElement.textContent = `$${parseFloat(currentProduct.current_price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             } else {
                 originalPriceElement.textContent = 'Price not specified';
@@ -974,8 +1233,12 @@
 
         // Populate description in "Historical Context"
         const descriptionContainer = document.querySelector('.card-premium .text-text-secondary');
-        if (descriptionContainer && currentProduct.description) {
-            descriptionContainer.textContent = currentProduct.description;
+        if (descriptionContainer) {
+            if (currentProduct.detailed_description) {
+                descriptionContainer.textContent = currentProduct.detailed_description;
+            } else if (currentProduct.description) {
+                descriptionContainer.textContent = currentProduct.description;
+            }
         }
     }
 

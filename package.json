@@ -2,10 +2,10 @@
   "name": "hot-wheels-velocity",
   "version": "1.0.0",
   "description": "Premium Hot Wheels collector platform",
-  "main": "server.js",
+  "main": "server_hybrid.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server_hybrid.js",
+    "dev": "node server_hybrid.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

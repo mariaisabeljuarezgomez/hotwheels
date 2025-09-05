@@ -878,6 +878,10 @@ h1, h2, h3, h4, h5, h6 {
   aspect-ratio: 1 / 1;
 }
 
+.aspect-\[3\/5\]{
+  aspect-ratio: 3 / 5;
+}
+
 .h-10{
   height: 2.5rem;
 }
@@ -1008,6 +1012,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .min-w-80{
   min-width: 20rem;
+}
+
+.min-w-96{
+  min-width: 24rem;
 }
 
 .max-w-2xl{

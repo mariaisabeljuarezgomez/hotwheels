@@ -458,6 +458,63 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <!-- Tumbler Size Guide -->
+                            <div class="form-group" id="tumbler-size-guide" style="display: none;">
+                                <label class="text-lg font-bold text-accent mb-3">Tumbler Size Guide</label>
+                                <div class="bg-surface p-4 rounded-lg border border-border">
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Size Guide Title</label>
+                                        <input type="text" id="tumbler-guide-title" class="form-input" value="Size guide" placeholder="Size guide">
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Size Guide Data (JSON)</label>
+                                        <textarea id="tumbler-guide-data" class="form-input h-32" placeholder='{"20oz": {"width": "2 7/8", "length": "8 3/8"}}'>{"20oz": {"width": "2 7/8", "length": "8 3/8"}}</textarea>
+                                        <p class="text-xs text-text-secondary mt-1">Enter size guide data as JSON. Format: {"size": {"width": "dimension", "length": "dimension"}}</p>
+                                    </div>
+                                    
+                                    <div class="flex space-x-2">
+                                        <button type="button" id="preview-tumbler-guide" class="btn btn-secondary text-sm">Preview Guide</button>
+                                        <button type="button" id="reset-tumbler-guide" class="btn btn-outline text-sm">Reset to Default</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tumbler Size Guide -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h4>Tumbler Size Guide</h4>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="toggle-tumbler-guide" class="toggle-input">
+                                <label for="toggle-tumbler-guide" class="toggle-label">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="section-content" id="tumbler-guide-content" style="display: none;">
+                            <div class="form-group" id="tumbler-size-guide">
+                                <label class="text-lg font-bold text-accent mb-3">Tumbler Size Guide</label>
+                                <div class="bg-surface p-4 rounded-lg border border-border">
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Size Guide Title</label>
+                                        <input type="text" id="tumbler-guide-title" class="form-input" value="Size guide" placeholder="Size guide">
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-text-primary mb-2">Size Guide Data (JSON)</label>
+                                        <textarea id="tumbler-guide-data" class="form-input h-32" placeholder='{"20oz": {"width": "2 7/8", "length": "8 3/8"}}'>{"20oz": {"width": "2 7/8", "length": "8 3/8"}}</textarea>
+                                        <p class="text-xs text-text-secondary mt-1">Enter size guide data as JSON. Format: {"size": {"width": "dimension", "length": "dimension"}}</p>
+                                    </div>
+                                    
+                                    <div class="flex space-x-2">
+                                        <button type="button" id="preview-tumbler-guide" class="btn btn-secondary text-sm">Preview Guide</button>
+                                        <button type="button" id="reset-tumbler-guide" class="btn btn-outline text-sm">Reset to Default</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -483,10 +540,8 @@
                                     <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                 </div>
                                 <div class="image-preview" style="display: none;">
-                                    <img alt="Preview">
-                                    <div class="image-actions">
-                                        <button type="button" class="btn-danger delete-image">✕</button>
-                                    </div>
+                                    <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    <button type="button" class="delete-image-btn" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
                                 </div>
                             </div>
 
@@ -500,10 +555,8 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img alt="Preview">
-                                        <div class="image-actions">
-                                            <button type="button" class="btn-danger delete-image">✕</button>
-                                        </div>
+                                        <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                        <button type="button" class="delete-image-btn" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
                                     </div>
                                 </div>
 
@@ -515,10 +568,8 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img alt="Preview">
-                                        <div class="image-actions">
-                                            <button type="button" class="btn-danger delete-image">✕</button>
-                                        </div>
+                                        <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                        <button type="button" class="delete-image-btn" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
                                     </div>
                                 </div>
 
@@ -530,10 +581,8 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img alt="Preview">
-                                        <div class="image-actions">
-                                            <button type="button" class="btn-danger delete-image">✕</button>
-                                        </div>
+                                        <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                        <button type="button" class="delete-image-btn" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
                                     </div>
                                 </div>
 
@@ -545,10 +594,8 @@
                                         <input type="file" class="slot-input" accept="image/*" style="display: none;">
                                     </div>
                                     <div class="image-preview" style="display: none;">
-                                        <img alt="Preview">
-                                        <div class="image-actions">
-                                            <button type="button" class="btn-danger delete-image">✕</button>
-                                        </div>
+                                        <img src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                        <button type="button" class="delete-image-btn" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">×</button>
                                     </div>
                                 </div>
                             </div>
@@ -968,7 +1015,7 @@
 
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" id="cancel-edit">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-primary" id="save-listing-btn">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -984,6 +1031,6 @@
     <div id="message-container" class="message-container"></div>
 
     <!-- Scripts -->
-    <script nonce="" src="../js/homepage-listings-hybrid.js"></script>
+    <script nonce="" src="../js/homepage-listings-hybrid.js?t=1736065000000"></script>
 </body>
 </html>
