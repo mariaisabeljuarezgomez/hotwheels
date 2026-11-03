@@ -137,13 +137,13 @@
   },
   {
     "id": "featured-3",
-    "name": "Honda S2000 — gold, carded edition",
+    "name": "Custom ’72 Datsun 240Z — carded edition",
     "category": "Japanese Classics",
     "priceCents": 3999,
     "images": [
       "/storefront/media/featured-3-0.webp"
     ],
-    "description": "The gold-finish Honda S2000 in its collector card presentation. The open-top shape and bright wheels make a strong Japanese roadster display, with the package forming part of this carded example.",
+    "description": "A metallic-green Custom ’72 Datsun 240Z in its red collector-card presentation. Wide fenders, a long hood and bright wheels give this Japanese coupe a distinctive display stance. The model name is visible on the original package.",
     "options": [
       "Standard"
     ],
@@ -159,11 +159,11 @@
     "scale": "1:64",
     "packaging": "Retail package shown in original photographs",
     "highlights": [
-      "Carded gold roadster",
-      "Collector presentation",
-      "Distinct from the loose display example"
+      "Metallic-green Japanese coupe",
+      "Red collector-card presentation",
+      "Custom ’72 Datsun 240Z package label"
     ],
-    "series": "Hot Wheels Collectors"
+    "series": "Red Line Club"
   },
   {
     "id": "exclusive-1",
@@ -817,13 +817,13 @@
   },
   {
     "id": "vw-sp2",
-    "name": "Volkswagen SP2",
+    "name": "Volkswagen Air-Cooled — white custom edition",
     "category": "European Icons",
     "priceCents": 1499,
     "images": [
       "/storefront/media/vw-sp2-0.webp"
     ],
-    "description": "A silver Volkswagen SP2 with racing-style graphics, photographed on its Air-Cooled card. A low-profile coupe for collectors who enjoy the less obvious European shapes.",
+    "description": "A white Volkswagen custom with gold-tone wheels and dark racing-style graphics, shown on its Air-Cooled card. This archive example is identified at the brand and series level; the exact casting name should be checked before it becomes a sale listing.",
     "options": [
       "Standard"
     ],
@@ -835,9 +835,9 @@
     "packaging": "Carded retail example shown in photographs",
     "condition": "Packaging shown; card edges, blister and model condition not graded.",
     "highlights": [
-      "Air-Cooled presentation",
-      "1:64 display example",
-      "Original archive photography"
+      "Air-Cooled card presentation",
+      "White body and gold-tone wheels",
+      "Exact casting to be confirmed"
     ],
     "sourceImages": [
       "HOT_WHEELS_IMAGES/IMG_74381deb.jpg"
