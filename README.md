@@ -1,4 +1,4 @@
-# Velocity collector showroom
+# Tim’s Diecast Garage — customer showroom
 
 A working customer demonstration built from the original Hot Wheels Velocity project. Original pages, database schema, admin prototypes and media remain in the repository; they are intentionally not exposed by the new server.
 
@@ -42,3 +42,7 @@ This is a clearly labeled non-indexed showroom, not a live trading store. No mon
 The original backend has database dependencies and unauthenticated editing routes. Do not expose it publicly. `package.legacy.json` records its original dependencies for a separate migration; these unused packages are excluded from the active runtime.
 
 For an actual store, implement authenticated inventory administration, durable order storage, server-side payment creation/capture, signed idempotent webhooks, transactional notifications and refund/fulfillment tests before taking orders.
+
+## Confirmed demo identity
+
+Owner: Tim. Location: Arizona, United States. Currency: US dollars (USD). Proposed creative name: Tim’s Diecast Garage, with the descriptor Hot Wheels & collector cars. This is a working concept name, not a claim of registered business or trademark clearance. No payment provider is selected; checkout remains a demonstration. Support email, full legal business identity and sales policies remain unconfirmed.
