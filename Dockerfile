@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 COPY server.js ./
+COPY lib ./lib
+COPY admin ./admin
 COPY storefront ./storefront
 COPY HOT_WHEELS_IMAGES ./HOT_WHEELS_IMAGES
 COPY video ./video
