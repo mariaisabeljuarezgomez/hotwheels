@@ -9,3 +9,6 @@
 
 /* Reserve the first viewport while catalog data arrives so the footer never jumps. */
 main{min-height:calc(100svh - 126px)}.loading{visibility:hidden}
+
+/* Tim’s Arizona garage identity. */
+.footer-top .brand{max-width:360px;line-height:1.05;font-size:30px}.footer-top .brand .dot{flex:none}@media(max-width:700px){.footer-top .brand{font-size:28px;max-width:300px}.brand small{letter-spacing:1.7px}.notice{letter-spacing:.7px}}
