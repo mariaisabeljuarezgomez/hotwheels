@@ -1,201 +1,44 @@
-# 🏎️ Hot Wheels Velocity
+# Velocity collector showroom
 
-The ultimate premium collector-focused eCommerce platform for Hot Wheels enthusiasts. Discover rare treasures, authenticate your finds, and connect with the worldwide collector community.
+A working customer demonstration built from the original Hot Wheels Velocity project. Original pages, database schema, admin prototypes and media remain in the repository; they are intentionally not exposed by the new server.
 
-## 🚀 Features
+## Run
 
-- **Premium Collections** - Curated selection of rare Hot Wheels vehicles
-- **360° Product Views** - Interactive product visualization
-- **Authentication Services** - Expert verification and grading
-- **Collector Dashboard** - Track your collection value and performance
-- **Live Activity Feed** - Real-time updates from the collector community
-- **Advanced Search & Filtering** - Find exactly what you're looking for
-- **Mobile-First Design** - Optimized for all devices
-- **PWA Ready** - Installable web app experience
+Use Node.js 24 (22 or newer is supported).
 
-## 📋 Prerequisites
-
-- Node.js (v14.x or higher)
-- npm or yarn
-
-## 🛠️ Installation & Setup
-
-1. **Clone the repository:**
-```bash
-git clone <repository-url>
-cd hot-wheels-velocity
+```sh
+npm ci
+npm start
 ```
 
-2. **Install dependencies:**
-```bash
-npm install
+Open http://localhost:3000, or set PORT to an unused port. No database, account or payment credentials are needed. The existing Railway service follows master and uses `/health`.
+
+## Included
+
+- Responsive collector showroom, searchable/filterable/sortable catalog and eight sample products.
+- Original photographs optimized into WebP; optional, compressed silent cut of the original film.
+- Product galleries, apparel options, persistent device-local shortlist and bag.
+- Preview checkout with server-authoritative sample subtotals in integer cents.
+- About, collecting guide, FAQ/contact, privacy, terms, shipping, returns, cookies, accessibility and 404 pages.
+- Security headers, restricted static mounts, API rate limits and request validation.
+- Legacy URL redirects; no public admin, upload, schema-edit, email or payment APIs.
+
+## Verify
+
+```sh
+npm run check
+npm test
+npx playwright install chromium
+npm run test:browser
+npm audit --omit=dev
 ```
 
-3. **Build the CSS:**
-```bash
-npm run build:css
-```
+Browser evidence is written to the ignored `.qa` folder. Set VERIFY_BASE_URL to repeat browser checks against a deployment. The suite checks 320, 375, 390, 430, 768 and 1440 widths, overflow, accessibility, broken images, runtime errors, search, gallery, shortlist, bag and subtotal verification.
 
-4. **Start development server:**
-```bash
-npm run dev
-```
+## Commercial launch gate
 
-## 📁 Project Structure
+This is a clearly labeled non-indexed showroom, not a live trading store. No money, personal details, orders or reservations are collected. Sample prices, stock, editions and condition require seller confirmation. Seller identity, country, customer support, media rights, currency, tax/shipping/returns and approved policies are required before enabling real commerce. Legal pages describe the preview and contain clearly identified commercial drafts; they are not jurisdiction-specific legal advice.
 
-```
-hot-wheels-velocity/
-├── index.html                    # Landing page with redirect
-├── css/
-│   ├── main.css                 # Compiled Tailwind CSS
-│   └── tailwind.css            # Tailwind source with custom styles
-├── pages/                       # Main application pages
-│   ├── homepage.html            # Main homepage
-│   ├── collection_browser.html  # Product catalog & search
-│   ├── product_detail.html      # Individual product pages
-│   ├── collector_dashboard.html # User dashboard
-│   ├── checkout_experience.html # Checkout flow
-│   └── about_hot_wheels_velocity.html # About page
-├── public/                      # Static assets
-│   ├── favicon.ico             # Site favicon
-│   ├── manifest.json           # PWA manifest
-│   └── dhws-data-injector.js   # Data injection script
-├── HOT WHEELS IMAGES/          # Product images
-├── package.json                # Dependencies & scripts
-├── tailwind.config.js          # Tailwind configuration
-└── README.md                   # This file
-```
+The original backend has database dependencies and unauthenticated editing routes. Do not expose it publicly. `package.legacy.json` records its original dependencies for a separate migration; these unused packages are excluded from the active runtime.
 
-## 🎨 Design System
-
-### Color Palette
-- **Primary**: `#1A1A1A` - Premium foundation
-- **Secondary**: `#2D2D2D` - Subtle elevation
-- **Accent**: `#FF0080` - Electric excitement
-- **Success**: `#00FF88` - Collector victory
-- **Warning**: `#FFD700` - Premium alerts
-- **Error**: `#FF4444` - Helpful guidance
-
-### Typography
-- **Headings**: Orbitron (display font)
-- **Body**: Inter (sans-serif)
-- **Monospace**: JetBrains Mono
-- **Accent**: Rajdhani (military/technical)
-
-## 🧩 Key Components
-
-- **Card System**: Premium, Rare, and Standard card variants
-- **Navigation**: Fixed header with mega menu
-- **Product Viewer**: 360° interactive viewing
-- **Search Interface**: Advanced filtering system
-- **Dashboard**: Collection management tools
-- **Checkout Flow**: Multi-step purchase process
-
-## 📦 Build Commands
-
-```bash
-# Build CSS for production
-npm run build:css
-
-# Watch for CSS changes during development
-npm run dev
-
-# Full development workflow
-npm run watch:css
-```
-
-## 📱 Responsive Breakpoints
-
-- `sm`: 640px+ (mobile landscape)
-- `md`: 768px+ (tablet)
-- `lg`: 1024px+ (desktop)
-- `xl`: 1280px+ (large desktop)
-
-## 📸 Image Usage & Licensing
-
-This project uses royalty-free images from:
-
-- **Unsplash** - Free high-resolution photos ([unsplash.com](https://unsplash.com))
-- **Pexels** - Free stock photos ([pexels.com](https://pexels.com))
-- **Pixabay** - Public domain images ([pixabay.com](https://pixabay.com))
-
-### Download Images
-```bash
-# Download standard images
-node download-images.js
-
-# Download premium high-resolution images
-node download-images.js premium
-```
-
-### Important Notes:
-- ⚖️ **Always credit sources** when using images commercially
-- 🚫 **Never download copyrighted images** from official brand websites
-- 📝 **Check licensing terms** for each image source
-- 🔄 **Use fallback images** for better user experience
-
-### Image Fallback Strategy
-All product images include `onerror` handlers that automatically switch to backup images if the primary source fails to load.
-
-## 🔧 Technologies Used
-
-- **HTML5** - Semantic markup
-- **Tailwind CSS** - Utility-first styling
-- **JavaScript** - Interactive functionality
-- **PWA Features** - Offline capability
-- **Responsive Images** - Optimized loading
-
-## 🚀 Deployment
-
-### Railway Deployment (Recommended)
-
-This project is configured for easy Railway deployment:
-
-1. **Push to GitHub** (already done)
-2. **Connect to Railway:**
-   - Go to [railway.app](https://railway.app)
-   - Connect your GitHub repository
-   - Railway auto-detects the configuration
-3. **Deploy automatically** - Railway handles build and deployment
-
-**Railway Configuration Files:**
-- `railway.json` - Railway deployment config
-- `nixpacks.toml` - Railway build configuration
-- `Dockerfile` - Docker deployment option
-
-### Manual Deployment
-
-For other hosting providers:
-
-1. Build production assets: `npm run build`
-2. Upload all files to your hosting provider
-3. Ensure the `public/` directory is accessible
-
-### Local Development
-
-1. **Environment Setup:**
-   ```bash
-   # Copy environment template
-   cp env.template .env.local
-   # Edit .env.local with your settings
-   ```
-
-2. **Run locally:**
-   ```bash
-   npm install
-   npm run dev        # Development with CSS watching
-   npm run serve      # Production-like serving
-   ```
-
-## 🙏 Acknowledgments
-
-- **Rocket.new** - Platform for rapid development
-- **Tailwind CSS** - Utility-first CSS framework
-- **Hot Wheels Community** - Inspiration and expertise
-- **PWA Standards** - Modern web app capabilities
-
----
-
-**Built with ❤️ for the Hot Wheels collecting community**
-
-*Hot Wheels Velocity - Where collectors accelerate their passion*
+For an actual store, implement authenticated inventory administration, durable order storage, server-side payment creation/capture, signed idempotent webhooks, transactional notifications and refund/fulfillment tests before taking orders.

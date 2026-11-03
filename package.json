@@ -2,30 +2,26 @@
   "name": "hot-wheels-velocity",
   "version": "1.0.0",
   "description": "Premium Hot Wheels collector platform",
-  "main": "server_hybrid.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server_hybrid.js",
-    "dev": "node server_hybrid.js"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check server.js && node --check storefront/app.js",
+    "test:browser": "node scripts/verify-showroom.js"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "compression": "^1.7.4",
-    "connect-pg-simple": "^9.0.1",
-    "cors": "^2.8.5",
+    "compression": "1.8.2",
     "dotenv": "^16.6.1",
-    "express": "^4.18.2",
-    "express-rate-limit": "^7.1.5",
-    "express-session": "^1.17.3",
-    "express-validator": "^7.0.1",
-    "helmet": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.8",
-    "pg": "^8.11.3",
-    "stripe": "^14.14.0",
-    "uuid": "^9.0.1"
+    "express": "5.3.0",
+    "express-rate-limit": "8.7.3",
+    "helmet": "8.3.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1"
   }
 }
