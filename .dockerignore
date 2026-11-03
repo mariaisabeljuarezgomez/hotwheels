@@ -1,0 +1,6 @@
+node_modules
+.git
+.env*
+PRIVATE_SITE_OPERATIONS.md
+.qa
+outputs

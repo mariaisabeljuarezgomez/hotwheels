@@ -1,0 +1,170 @@
+[
+  {
+    "id": "featured-2",
+    "name": "McLaren collector edition",
+    "category": "Premium",
+    "priceCents": 8900,
+    "images": [
+      "/storefront/media/featured-2-0.webp",
+      "/storefront/media/featured-2-1.webp",
+      "/storefront/media/featured-2-2.webp",
+      "/storefront/media/featured-2-3.webp"
+    ],
+    "description": "A sculptural silhouette, metallic finish and dramatic opening doors. A centerpiece for a considered collection.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/image-1757092838846-470399478.webp",
+      "HOT_WHEELS_IMAGES/image-1757092838858-237884866.webp",
+      "HOT_WHEELS_IMAGES/image-1757092838836-653228795.jpeg",
+      "HOT_WHEELS_IMAGES/image-1757092838866-958833777.webp"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "featured-1",
+    "name": "Oracle Red Bull Racing RB20",
+    "category": "Motorsport",
+    "priceCents": 2500,
+    "images": [
+      "/storefront/media/featured-1-0.webp",
+      "/storefront/media/featured-1-1.webp",
+      "/storefront/media/featured-1-2.webp"
+    ],
+    "description": "Bring the starting grid to your shelf. The original project\u2019s Formula 1 selection, presented in its retail packaging.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_971778d9.jpg",
+      "HOT_WHEELS_IMAGES/IMG_9717cefe.jpg",
+      "HOT_WHEELS_IMAGES/IMG_97181695.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "gold-roadster",
+    "name": "Gold-finish roadster",
+    "category": "Premium",
+    "priceCents": 4900,
+    "images": [
+      "/storefront/media/gold-roadster-0.webp",
+      "/storefront/media/gold-roadster-1.webp",
+      "/storefront/media/gold-roadster-2.webp",
+      "/storefront/media/gold-roadster-3.webp"
+    ],
+    "description": "A low-slung profile and a striking gold finish. Explore the original studio photographs from every angle.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/image-1757093084484-787769079.jpg",
+      "HOT_WHEELS_IMAGES/image-1757093084526-14069110.jpg",
+      "HOT_WHEELS_IMAGES/image-1757093084547-626544883.jpg",
+      "HOT_WHEELS_IMAGES/image-1757093084566-218967153.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "car-culture",
+    "name": "Car Culture collector set",
+    "category": "Car Culture",
+    "priceCents": 3500,
+    "images": [
+      "/storefront/media/car-culture-0.webp"
+    ],
+    "description": "An original-project Car Culture selection for collectors who enjoy a little variety in the garage.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_88679198.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "featured-3",
+    "name": "Mustang collector edition",
+    "category": "Mainline",
+    "priceCents": 15600,
+    "images": [
+      "/storefront/media/featured-3-0.webp"
+    ],
+    "description": "A familiar muscle-car silhouette from the original project photo archive. Exact edition and condition require seller verification.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0452a2f4.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "exclusive-1",
+    "name": "Kenny Scharf graphic tee",
+    "category": "Apparel",
+    "priceCents": 7000,
+    "images": [
+      "/storefront/media/exclusive-1-0.webp",
+      "/storefront/media/exclusive-1-1.webp",
+      "/storefront/media/exclusive-1-2.webp"
+    ],
+    "description": "Wear your die-cast obsession. A black graphic T-shirt from the original Hot Wheels x Kenny Scharf selection.",
+    "options": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-back-68251b235d3ac.jpg",
+      "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-front-and-back-68251b235e167.jpg",
+      "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-right-68251b235b49a.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "exclusive-2",
+    "name": "Kenny Scharf travel tumbler",
+    "category": "Accessories",
+    "priceCents": 4500,
+    "images": [
+      "/storefront/media/exclusive-2-0.webp",
+      "/storefront/media/exclusive-2-1.webp",
+      "/storefront/media/exclusive-2-2.webp"
+    ],
+    "description": "A graphic stainless-steel tumbler with a straw, drawn from the original project\u2019s lifestyle collection.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-front-6825132499c72.jpg",
+      "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-back-682513249a572.jpg",
+      "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-left-682513249a665.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  },
+  {
+    "id": "exclusive-3",
+    "name": "Embroidered dad hat",
+    "category": "Accessories",
+    "priceCents": 5000,
+    "images": [
+      "/storefront/media/exclusive-3-0.webp",
+      "/storefront/media/exclusive-3-1.webp",
+      "/storefront/media/exclusive-3-2.webp"
+    ],
+    "description": "A relaxed black cap with embroidered detailing. An everyday nod to collector culture.",
+    "options": [
+      "Standard"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/image-1757086322156-749211256.jpg",
+      "HOT_WHEELS_IMAGES/image-1757086322165-602772375.jpg",
+      "HOT_WHEELS_IMAGES/image-1757086322173-669445939.jpg"
+    ],
+    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+  }
+]
