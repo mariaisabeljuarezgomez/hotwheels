@@ -6,3 +6,6 @@
 .wrap{margin-inline:auto;margin-block:0}.prose{margin-inline:auto}.hero h1{font-size:clamp(50px,6vw,88px)}.hero-copy{width:56%}.concept-tile{display:flex;align-items:center;justify-content:center}.concept-mark{font-size:100px;color:var(--accent);font-weight:900;font-style:italic}.detail-save{position:static;flex:none}.description{margin-top:25px}@media(max-width:700px){.hero-copy{width:100%}.hero h1{font-size:48px}.hero-art{bottom:5px;height:340px}.hero{min-height:740px}.hero .buttons{max-width:350px}.hero-copy{padding-top:40px}.hero-copy p{max-width:320px}.hero-meta{bottom:18px}.hero-index{bottom:18px}}@media(max-width:360px){.hero h1{font-size:42px}.hero{min-height:710px}.hero-art{height:300px}}
 
 .detail-main{height:auto;aspect-ratio:1;max-height:680px}@media(max-width:700px){.detail-main{height:auto;aspect-ratio:1;max-height:none}}
+
+/* Reserve the first viewport while catalog data arrives so the footer never jumps. */
+main{min-height:calc(100svh - 126px)}.loading{visibility:hidden}
