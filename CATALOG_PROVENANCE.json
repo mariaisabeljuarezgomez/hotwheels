@@ -1,0 +1,507 @@
+[
+  {
+    "id": "featured-2",
+    "name": "McLaren F1 — gold collector edition",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FEATURED-2",
+    "category": "Premium",
+    "scale": "1:64",
+    "priceCents": 8900,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/image-1757092838846-470399478.webp",
+      "HOT_WHEELS_IMAGES/image-1757092838858-237884866.webp",
+      "HOT_WHEELS_IMAGES/image-1757092838836-653228795.jpeg",
+      "HOT_WHEELS_IMAGES/image-1757092838866-958833777.webp"
+    ]
+  },
+  {
+    "id": "featured-1",
+    "name": "Oracle Red Bull Racing RB20",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FEATURED-1",
+    "category": "Formula 1",
+    "scale": "1:64",
+    "priceCents": 2500,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_971778d9.jpg",
+      "HOT_WHEELS_IMAGES/IMG_9717cefe.jpg",
+      "HOT_WHEELS_IMAGES/IMG_97181695.jpg"
+    ]
+  },
+  {
+    "id": "gold-roadster",
+    "name": "Honda S2000 — gold, loose display",
+    "brand": "Hot Wheels",
+    "sku": "TDG-GOLD-ROADSTER",
+    "category": "Japanese Classics",
+    "scale": "1:64",
+    "priceCents": 2999,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/image-1757093084484-787769079.jpg",
+      "HOT_WHEELS_IMAGES/image-1757093084526-14069110.jpg",
+      "HOT_WHEELS_IMAGES/image-1757093084547-626544883.jpg",
+      "HOT_WHEELS_IMAGES/image-1757093084566-218967153.jpg"
+    ]
+  },
+  {
+    "id": "car-culture",
+    "name": "'73 Honda Civic Custom & Aero Lift",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CAR-CULTURE",
+    "category": "Team Transport",
+    "scale": "1:64",
+    "priceCents": 2499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_88679198.jpg"
+    ]
+  },
+  {
+    "id": "featured-3",
+    "name": "Honda S2000 — gold, carded edition",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FEATURED-3",
+    "category": "Japanese Classics",
+    "scale": "1:64",
+    "priceCents": 3999,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0452a2f4.jpg"
+    ]
+  },
+  {
+    "id": "exclusive-1",
+    "name": "Kenny Scharf graphic tee",
+    "brand": "Hot Wheels",
+    "sku": "TDG-EXCLUSIVE-1",
+    "category": "Apparel",
+    "scale": "Not applicable",
+    "priceCents": 7000,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-back-68251b235d3ac.jpg",
+      "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-front-and-back-68251b235e167.jpg",
+      "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-right-68251b235b49a.jpg"
+    ]
+  },
+  {
+    "id": "exclusive-2",
+    "name": "Kenny Scharf travel tumbler",
+    "brand": "Hot Wheels",
+    "sku": "TDG-EXCLUSIVE-2",
+    "category": "Accessories",
+    "scale": "Not applicable",
+    "priceCents": 4500,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-front-6825132499c72.jpg",
+      "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-back-682513249a572.jpg",
+      "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-left-682513249a665.jpg"
+    ]
+  },
+  {
+    "id": "exclusive-3",
+    "name": "Embroidered dad hat",
+    "brand": "Hot Wheels",
+    "sku": "TDG-EXCLUSIVE-3",
+    "category": "Accessories",
+    "scale": "Not applicable",
+    "priceCents": 5000,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/image-1757086322156-749211256.jpg",
+      "HOT_WHEELS_IMAGES/image-1757086322165-602772375.jpg",
+      "HOT_WHEELS_IMAGES/image-1757086322173-669445939.jpg"
+    ]
+  },
+  {
+    "id": "ryu-nsx",
+    "name": "Ryu’s 1994 NSX",
+    "brand": "Hot Wheels",
+    "sku": "TDG-RYU-NSX",
+    "category": "Japanese Classics",
+    "scale": "1:64",
+    "priceCents": 4499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/03A4B3A4-D226-4842-9473-F556CEBF536B_ff9bb9eb-d57f-468e-91d7-0382ea32fc69afe0.jpg"
+    ]
+  },
+  {
+    "id": "amc-javelin",
+    "name": "’71 AMC Javelin — 50th Favorites",
+    "brand": "Hot Wheels",
+    "sku": "TDG-AMC-JAVELIN",
+    "category": "American Muscle",
+    "scale": "1:64",
+    "priceCents": 1599,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/FullSizeRender_65c00846-3dae-4247-a3a9-a15497bc78b220de.jpg"
+    ]
+  },
+  {
+    "id": "bmw-m3-silver",
+    "name": "1992 BMW M3 — Silver Series",
+    "brand": "Hot Wheels",
+    "sku": "TDG-BMW-M3-SILVER",
+    "category": "European Icons",
+    "scale": "1:64",
+    "priceCents": 899,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/FullSizeRender_70e395fd-3df5-42c3-ae1c-f617b1aef0b79b56.jpg"
+    ]
+  },
+  {
+    "id": "defender-90",
+    "name": "Land Rover Defender 90 Pickup",
+    "brand": "Hot Wheels",
+    "sku": "TDG-DEFENDER-90",
+    "category": "Off Road",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/FullSizeRender_89dfd994-f27a-4d12-85b9-3980805060f2c976.jpg"
+    ]
+  },
+  {
+    "id": "chevelle-wagon",
+    "name": "’70 Chevelle SS Wagon",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CHEVELLE-WAGON",
+    "category": "American Muscle",
+    "scale": "1:64",
+    "priceCents": 1299,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_00155fa2.jpg"
+    ]
+  },
+  {
+    "id": "offroad-camaro",
+    "name": "’67 Off Road Camaro",
+    "brand": "Hot Wheels",
+    "sku": "TDG-OFFROAD-CAMARO",
+    "category": "Off Road",
+    "scale": "1:64",
+    "priceCents": 1199,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_00882696.jpg"
+    ]
+  },
+  {
+    "id": "chevrolet-ss",
+    "name": "Chevrolet SS — HW Workshop",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CHEVROLET-SS",
+    "category": "American Muscle",
+    "scale": "1:64",
+    "priceCents": 699,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_014895ed.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0148c828.jpg"
+    ]
+  },
+  {
+    "id": "mustang-rtr",
+    "name": "2024 Ford Mustang RTR Spec 5-FD",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MUSTANG-RTR",
+    "category": "Motorsport",
+    "scale": "1:64",
+    "priceCents": 1299,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_89881600.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0278e31b.jpg",
+      "HOT_WHEELS_IMAGES/IMG_898821b0.jpg"
+    ]
+  },
+  {
+    "id": "sauber-f1",
+    "name": "Kick Sauber F1 Team",
+    "brand": "Hot Wheels",
+    "sku": "TDG-SAUBER-F1",
+    "category": "Formula 1",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_02858d9b.jpg",
+      "HOT_WHEELS_IMAGES/IMG_02880cde.jpg"
+    ]
+  },
+  {
+    "id": "williams-f1",
+    "name": "Williams Racing FW46",
+    "brand": "Hot Wheels",
+    "sku": "TDG-WILLIAMS-F1",
+    "category": "Formula 1",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_02898d9b.jpg",
+      "HOT_WHEELS_IMAGES/IMG_029078ae.jpg"
+    ]
+  },
+  {
+    "id": "mclaren-f1-team",
+    "name": "McLaren Formula 1 Team",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MCLAREN-F1-TEAM",
+    "category": "Formula 1",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_029178ae.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0292ff1e.jpg"
+    ]
+  },
+  {
+    "id": "lamborghini-revuelto",
+    "name": "2023 Lamborghini Revuelto",
+    "brand": "Hot Wheels",
+    "sku": "TDG-LAMBORGHINI-REVUELTO",
+    "category": "Supercars",
+    "scale": "1:43",
+    "priceCents": 2499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0293b442.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0293d116.jpg"
+    ]
+  },
+  {
+    "id": "toyota-gr-supra",
+    "name": "Toyota Supra GR Pandem Widebody",
+    "brand": "Hot Wheels",
+    "sku": "TDG-TOYOTA-GR-SUPRA",
+    "category": "Japanese Classics",
+    "scale": "1:43",
+    "priceCents": 2499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0294c0e1.jpg"
+    ]
+  },
+  {
+    "id": "mustang-gtd",
+    "name": "2025 Ford Mustang GTD",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MUSTANG-GTD",
+    "category": "American Muscle",
+    "scale": "1:43",
+    "priceCents": 2499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_02978d9b.jpg"
+    ]
+  },
+  {
+    "id": "bmw-m3-large",
+    "name": "BMW M3 — large-scale white edition",
+    "brand": "Hot Wheels",
+    "sku": "TDG-BMW-M3-LARGE",
+    "category": "European Icons",
+    "scale": "1:43",
+    "priceCents": 2499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0298.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0298eede.jpg"
+    ]
+  },
+  {
+    "id": "super-van",
+    "name": "Super Van — Led Zeppelin II",
+    "brand": "Hot Wheels",
+    "sku": "TDG-SUPER-VAN",
+    "category": "Pop Culture",
+    "scale": "1:64",
+    "priceCents": 1299,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_03896097.jpg"
+    ]
+  },
+  {
+    "id": "mazda-cosmo",
+    "name": "’68 Mazda Cosmo Sport",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MAZDA-COSMO",
+    "category": "Japanese Classics",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0414c3c0.jpg"
+    ]
+  },
+  {
+    "id": "mazda-rx7",
+    "name": "Mazda RX7 FC Pandem",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MAZDA-RX7",
+    "category": "Japanese Classics",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_7149_6a614466-8b15-45ee-9184-02b1b100506c1061.jpg"
+    ]
+  },
+  {
+    "id": "vw-sp2",
+    "name": "Volkswagen SP2",
+    "brand": "Hot Wheels",
+    "sku": "TDG-VW-SP2",
+    "category": "European Icons",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_74381deb.jpg"
+    ]
+  },
+  {
+    "id": "ford-gt40",
+    "name": "Ford GT40 — National Icons",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FORD-GT40",
+    "category": "Motorsport",
+    "scale": "1:64",
+    "priceCents": 899,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_86082279.jpg"
+    ]
+  },
+  {
+    "id": "subaru-brz",
+    "name": "Pandem Subaru BRZ",
+    "brand": "Hot Wheels",
+    "sku": "TDG-SUBARU-BRZ",
+    "category": "Japanese Classics",
+    "scale": "1:64",
+    "priceCents": 1299,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_899379cf.jpg"
+    ]
+  },
+  {
+    "id": "lamborghini-lm002",
+    "name": "Lamborghini LM002",
+    "brand": "Hot Wheels",
+    "sku": "TDG-LAMBORGHINI-LM002",
+    "category": "Off Road",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_93901d8b.jpg"
+    ]
+  },
+  {
+    "id": "copo-camaro",
+    "name": "’14 COPO Camaro",
+    "brand": "Hot Wheels",
+    "sku": "TDG-COPO-CAMARO",
+    "category": "American Muscle",
+    "scale": "1:64",
+    "priceCents": 599,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_9541019f.jpg"
+    ]
+  },
+  {
+    "id": "corvette-color",
+    "name": "Corvette — blue Color Shifters",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CORVETTE-COLOR",
+    "category": "Color Shifters",
+    "scale": "Small scale; confirm exact scale",
+    "priceCents": 799,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_9823974f.jpg"
+    ]
+  },
+  {
+    "id": "porsche-color",
+    "name": "Porsche 911 — Color Shifters",
+    "brand": "Hot Wheels",
+    "sku": "TDG-PORSCHE-COLOR",
+    "category": "Color Shifters",
+    "scale": "Small scale; confirm exact scale",
+    "priceCents": 799,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_9824148d.jpg"
+    ]
+  },
+  {
+    "id": "ford-lightning",
+    "name": "Ford F-150 SVT Lightning",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FORD-LIGHTNING",
+    "category": "American Muscle",
+    "scale": "1:64",
+    "priceCents": 1599,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_995061c3.jpg"
+    ]
+  },
+  {
+    "id": "grave-digger",
+    "name": "Grave Digger — Monster Jam",
+    "brand": "Hot Wheels",
+    "sku": "TDG-GRAVE-DIGGER",
+    "category": "Monster Jam",
+    "scale": "1:64",
+    "priceCents": 1299,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_05056ca1.jpg",
+      "HOT_WHEELS_IMAGES/IMG_05057050.jpg"
+    ]
+  },
+  {
+    "id": "higher-education",
+    "name": "Higher Education — Monster Jam",
+    "brand": "Hot Wheels",
+    "sku": "TDG-HIGHER-EDUCATION",
+    "category": "Monster Jam",
+    "scale": "1:64",
+    "priceCents": 1299,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_05102188.jpg",
+      "HOT_WHEELS_IMAGES/IMG_05102c1c.jpg"
+    ]
+  },
+  {
+    "id": "cadillac-godfather",
+    "name": "1955 Cadillac Fleetwood Series 60",
+    "brand": "GreenLight",
+    "sku": "TDG-CADILLAC-GODFATHER",
+    "category": "Screen Classics",
+    "scale": "1:64",
+    "priceCents": 1499,
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_03051d3c.jpg"
+    ]
+  }
+]

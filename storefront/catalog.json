@@ -1,7 +1,7 @@
 [
   {
     "id": "featured-2",
-    "name": "McLaren collector edition",
+    "name": "McLaren F1 — gold collector edition",
     "category": "Premium",
     "priceCents": 8900,
     "images": [
@@ -20,19 +20,32 @@
       "HOT_WHEELS_IMAGES/image-1757092838836-653228795.jpeg",
       "HOT_WHEELS_IMAGES/image-1757092838866-958833777.webp"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FEATURED-2",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Loose display example; paint, wheels and moving parts to be inspected.",
+    "scale": "1:64",
+    "packaging": "Collector box shown in gallery",
+    "highlights": [
+      "Gold-tone finish",
+      "Opening-door display in gallery",
+      "Collector presentation box"
+    ],
+    "series": "Hot Wheels Collectors"
   },
   {
     "id": "featured-1",
     "name": "Oracle Red Bull Racing RB20",
-    "category": "Motorsport",
+    "category": "Formula 1",
     "priceCents": 2500,
     "images": [
       "/storefront/media/featured-1-0.webp",
       "/storefront/media/featured-1-1.webp",
       "/storefront/media/featured-1-2.webp"
     ],
-    "description": "Bring the starting grid to your shelf. The original project\u2019s Formula 1 selection, presented in its retail packaging.",
+    "description": "Bring the starting grid to your shelf. The original project’s Formula 1 selection, presented in its retail packaging.",
     "options": [
       "Standard"
     ],
@@ -41,13 +54,26 @@
       "HOT_WHEELS_IMAGES/IMG_9717cefe.jpg",
       "HOT_WHEELS_IMAGES/IMG_97181695.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FEATURED-1",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Unopened packaging shown; card and blister wear to be inspected before sale.",
+    "scale": "1:64",
+    "packaging": "Retail package shown in original photographs",
+    "highlights": [
+      "Blue team livery",
+      "Formula 1 retail card",
+      "1:64-scale display piece"
+    ],
+    "series": "Formula 1"
   },
   {
     "id": "gold-roadster",
-    "name": "Gold-finish roadster",
-    "category": "Premium",
-    "priceCents": 4900,
+    "name": "Honda S2000 — gold, loose display",
+    "category": "Japanese Classics",
+    "priceCents": 2999,
     "images": [
       "/storefront/media/gold-roadster-0.webp",
       "/storefront/media/gold-roadster-1.webp",
@@ -64,13 +90,26 @@
       "HOT_WHEELS_IMAGES/image-1757093084547-626544883.jpg",
       "HOT_WHEELS_IMAGES/image-1757093084566-218967153.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-GOLD-ROADSTER",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Loose display example; no condition grade assigned.",
+    "scale": "1:64",
+    "packaging": "Loose display example",
+    "highlights": [
+      "Gold-tone roadster",
+      "Open-top profile",
+      "Original studio views"
+    ],
+    "series": "Collector edition"
   },
   {
     "id": "car-culture",
-    "name": "Car Culture collector set",
-    "category": "Car Culture",
-    "priceCents": 3500,
+    "name": "'73 Honda Civic Custom & Aero Lift",
+    "category": "Team Transport",
+    "priceCents": 2499,
     "images": [
       "/storefront/media/car-culture-0.webp"
     ],
@@ -81,24 +120,50 @@
     "sourceImages": [
       "HOT_WHEELS_IMAGES/IMG_88679198.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CAR-CULTURE",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Unopened packaging shown; card and blister wear to be inspected before sale.",
+    "scale": "1:64",
+    "packaging": "Retail package shown in original photographs",
+    "highlights": [
+      "Vehicle and transporter set",
+      "White and red racing graphics",
+      "Retail display packaging"
+    ],
+    "series": "Team Transport"
   },
   {
     "id": "featured-3",
-    "name": "Mustang collector edition",
-    "category": "Mainline",
-    "priceCents": 15600,
+    "name": "Honda S2000 — gold, carded edition",
+    "category": "Japanese Classics",
+    "priceCents": 3999,
     "images": [
       "/storefront/media/featured-3-0.webp"
     ],
-    "description": "A familiar muscle-car silhouette from the original project photo archive. Exact edition and condition require seller verification.",
+    "description": "The gold-finish Honda S2000 in its collector card presentation. The open-top shape and bright wheels make a strong Japanese roadster display, with the package forming part of this carded example.",
     "options": [
       "Standard"
     ],
     "sourceImages": [
       "HOT_WHEELS_IMAGES/IMG_0452a2f4.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FEATURED-3",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Unopened packaging shown; card and blister wear to be inspected before sale.",
+    "scale": "1:64",
+    "packaging": "Retail package shown in original photographs",
+    "highlights": [
+      "Carded gold roadster",
+      "Collector presentation",
+      "Distinct from the loose display example"
+    ],
+    "series": "Hot Wheels Collectors"
   },
   {
     "id": "exclusive-1",
@@ -123,7 +188,16 @@
       "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-front-and-back-68251b235e167.jpg",
       "HOT_WHEELS_IMAGES/unisex-basic-softstyle-t-shirt-black-right-68251b235b49a.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "lifestyle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-EXCLUSIVE-1",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Example merchandise; size, material and condition to be confirmed.",
+    "scale": "Not applicable",
+    "packaging": "Merchandise example",
+    "highlights": [],
+    "series": "Kenny Scharf collaboration"
   },
   {
     "id": "exclusive-2",
@@ -135,7 +209,7 @@
       "/storefront/media/exclusive-2-1.webp",
       "/storefront/media/exclusive-2-2.webp"
     ],
-    "description": "A graphic stainless-steel tumbler with a straw, drawn from the original project\u2019s lifestyle collection.",
+    "description": "A graphic stainless-steel tumbler with a straw, drawn from the original project’s lifestyle collection.",
     "options": [
       "Standard"
     ],
@@ -144,7 +218,16 @@
       "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-back-682513249a572.jpg",
       "HOT_WHEELS_IMAGES/stainless-steel-tumbler-white-left-682513249a665.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "lifestyle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-EXCLUSIVE-2",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Example merchandise; size, material and condition to be confirmed.",
+    "scale": "Not applicable",
+    "packaging": "Merchandise example",
+    "highlights": [],
+    "series": "Kenny Scharf collaboration"
   },
   {
     "id": "exclusive-3",
@@ -165,6 +248,905 @@
       "HOT_WHEELS_IMAGES/image-1757086322165-602772375.jpg",
       "HOT_WHEELS_IMAGES/image-1757086322173-669445939.jpg"
     ],
-    "verification": "Sample listing \u2014 edition, condition and availability unverified"
+    "verification": "Sample listing — edition, condition and availability unverified",
+    "kind": "lifestyle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-EXCLUSIVE-3",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation.",
+    "condition": "Example merchandise; size, material and condition to be confirmed.",
+    "scale": "Not applicable",
+    "packaging": "Merchandise example",
+    "highlights": [],
+    "series": "Kenny Scharf collaboration"
+  },
+  {
+    "id": "ryu-nsx",
+    "name": "Ryu’s 1994 NSX",
+    "category": "Japanese Classics",
+    "priceCents": 4499,
+    "images": [
+      "/storefront/media/ryu-nsx-0.webp"
+    ],
+    "description": "Red NSX displayed in a cylindrical collector presentation. Its clean mid-engine profile brings a quieter contrast to the bright racing liveries in the garage.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-RYU-NSX",
+    "series": "Collector presentation",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Collector presentation presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/03A4B3A4-D226-4842-9473-F556CEBF536B_ff9bb9eb-d57f-468e-91d7-0382ea32fc69afe0.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "amc-javelin",
+    "name": "’71 AMC Javelin — 50th Favorites",
+    "category": "American Muscle",
+    "priceCents": 1599,
+    "images": [
+      "/storefront/media/amc-javelin-0.webp"
+    ],
+    "description": "Red, white and blue anniversary graphics give this AMC Javelin a period racing feel. A carded example for a muscle-car row or an anniversary-themed collection.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-AMC-JAVELIN",
+    "series": "50th Favorites",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "50th Favorites presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/FullSizeRender_65c00846-3dae-4247-a3a9-a15497bc78b220de.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "bmw-m3-silver",
+    "name": "1992 BMW M3 — Silver Series",
+    "category": "European Icons",
+    "priceCents": 899,
+    "images": [
+      "/storefront/media/bmw-m3-silver-0.webp"
+    ],
+    "description": "A white 1992 BMW M3 with motorsport-inspired stripes, photographed in its blue Silver Series packaging. Compact proportions and a familiar touring-car silhouette make this a natural European shelf addition.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-BMW-M3-SILVER",
+    "series": "BMW Silver Series",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "BMW Silver Series presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/FullSizeRender_70e395fd-3df5-42c3-ae1c-f617b1aef0b79b56.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "defender-90",
+    "name": "Land Rover Defender 90 Pickup",
+    "category": "Off Road",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/defender-90-0.webp"
+    ],
+    "description": "Pale green paint, a roof-mounted light bar and chunky tires give this Defender pickup a purposeful expedition look. The Elite 64 card is shown in the original photo.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-DEFENDER-90",
+    "series": "Elite 64",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Elite 64 presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/FullSizeRender_89dfd994-f27a-4d12-85b9-3980805060f2c976.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "chevelle-wagon",
+    "name": "’70 Chevelle SS Wagon",
+    "category": "American Muscle",
+    "priceCents": 1299,
+    "images": [
+      "/storefront/media/chevelle-wagon-0.webp"
+    ],
+    "description": "A bright yellow Chevelle SS wagon with a long roof and a low stance. The Fast Wagons card makes this a fun counterpoint to the coupes and supercars.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CHEVELLE-WAGON",
+    "series": "Fast Wagons",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Fast Wagons presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_00155fa2.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "offroad-camaro",
+    "name": "’67 Off Road Camaro",
+    "category": "Off Road",
+    "priceCents": 1199,
+    "images": [
+      "/storefront/media/offroad-camaro-0.webp"
+    ],
+    "description": "White paint, red and blue racing graphics and an elevated off-road stance turn a familiar Camaro profile into a desert-rally display piece.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-OFFROAD-CAMARO",
+    "series": "Car Culture",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Car Culture presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_00882696.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "chevrolet-ss",
+    "name": "Chevrolet SS — HW Workshop",
+    "category": "American Muscle",
+    "priceCents": 699,
+    "images": [
+      "/storefront/media/chevrolet-ss-0.webp",
+      "/storefront/media/chevrolet-ss-1.webp"
+    ],
+    "description": "A silver-finish Chevrolet SS with turquoise accents, shown on its HW Workshop card. A straightforward mainline example with a metallic look and classic muscle-car proportions.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CHEVROLET-SS",
+    "series": "HW Workshop",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "HW Workshop presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_014895ed.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0148c828.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "mustang-rtr",
+    "name": "2024 Ford Mustang RTR Spec 5-FD",
+    "category": "Motorsport",
+    "priceCents": 1299,
+    "images": [
+      "/storefront/media/mustang-rtr-0.webp",
+      "/storefront/media/mustang-rtr-1.webp",
+      "/storefront/media/mustang-rtr-2.webp"
+    ],
+    "description": "Dark bodywork and fluorescent accents give this Mustang RTR a drift-grid presence. Shown in Circuit Legends packaging with the model name visible on the card.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MUSTANG-RTR",
+    "series": "Circuit Legends",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Circuit Legends presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_89881600.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0278e31b.jpg",
+      "HOT_WHEELS_IMAGES/IMG_898821b0.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "sauber-f1",
+    "name": "Kick Sauber F1 Team",
+    "category": "Formula 1",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/sauber-f1-0.webp",
+      "/storefront/media/sauber-f1-1.webp"
+    ],
+    "description": "A vivid green Formula 1 model in Kick Sauber team presentation. Pair it with the other original F1 examples to create a miniature starting grid.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-SAUBER-F1",
+    "series": "Formula 1",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Formula 1 presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_02858d9b.jpg",
+      "HOT_WHEELS_IMAGES/IMG_02880cde.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "williams-f1",
+    "name": "Williams Racing FW46",
+    "category": "Formula 1",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/williams-f1-0.webp",
+      "/storefront/media/williams-f1-1.webp"
+    ],
+    "description": "Blue Williams Racing livery and a low, open-wheel shape make the FW46 an easy centerpiece for a modern motorsport shelf. The retail card is included in the original views.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-WILLIAMS-F1",
+    "series": "Formula 1",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Formula 1 presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_02898d9b.jpg",
+      "HOT_WHEELS_IMAGES/IMG_029078ae.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "mclaren-f1-team",
+    "name": "McLaren Formula 1 Team",
+    "category": "Formula 1",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/mclaren-f1-team-0.webp",
+      "/storefront/media/mclaren-f1-team-1.webp"
+    ],
+    "description": "Papaya-orange Formula 1 team colors stand out against the dark card art. A carded team-car example to sit alongside Williams, Sauber and Red Bull.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MCLAREN-F1-TEAM",
+    "series": "Formula 1",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Formula 1 presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_029178ae.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0292ff1e.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "lamborghini-revuelto",
+    "name": "2023 Lamborghini Revuelto",
+    "category": "Supercars",
+    "priceCents": 2499,
+    "images": [
+      "/storefront/media/lamborghini-revuelto-0.webp",
+      "/storefront/media/lamborghini-revuelto-1.webp"
+    ],
+    "description": "Sharp orange bodywork and angular supercar styling, presented on the larger Premium card. This 1:43 example adds a different scale to the garage display.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-LAMBORGHINI-REVUELTO",
+    "series": "Premium large scale",
+    "scale": "1:43",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Premium large scale presentation",
+      "1:43 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0293b442.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0293d116.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "toyota-gr-supra",
+    "name": "Toyota Supra GR Pandem Widebody",
+    "category": "Japanese Classics",
+    "priceCents": 2499,
+    "images": [
+      "/storefront/media/toyota-gr-supra-0.webp"
+    ],
+    "description": "Yellow paint and a widebody stance make this Toyota Supra a bold focal point. The original larger-scale package identifies the Pandem widebody specification.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-TOYOTA-GR-SUPRA",
+    "series": "Premium large scale",
+    "scale": "1:43",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Premium large scale presentation",
+      "1:43 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0294c0e1.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "mustang-gtd",
+    "name": "2025 Ford Mustang GTD",
+    "category": "American Muscle",
+    "priceCents": 2499,
+    "images": [
+      "/storefront/media/mustang-gtd-0.webp"
+    ],
+    "description": "A deep red Mustang GTD on the larger Premium card. Broad bodywork and a track-focused shape give this display a more substantial presence than the 1:64 models.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MUSTANG-GTD",
+    "series": "Premium large scale",
+    "scale": "1:43",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Premium large scale presentation",
+      "1:43 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_02978d9b.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "bmw-m3-large",
+    "name": "BMW M3 — large-scale white edition",
+    "category": "European Icons",
+    "priceCents": 2499,
+    "images": [
+      "/storefront/media/bmw-m3-large-0.webp",
+      "/storefront/media/bmw-m3-large-1.webp"
+    ],
+    "description": "White BMW M3 bodywork on a larger Premium display card. A clean, understated European coupe example for collectors who enjoy comparing the same marque across scales.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-BMW-M3-LARGE",
+    "series": "Premium large scale",
+    "scale": "1:43",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Premium large scale presentation",
+      "1:43 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0298.jpg",
+      "HOT_WHEELS_IMAGES/IMG_0298eede.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "super-van",
+    "name": "Super Van — Led Zeppelin II",
+    "category": "Pop Culture",
+    "priceCents": 1299,
+    "images": [
+      "/storefront/media/super-van-0.webp"
+    ],
+    "description": "A red and cream Super Van with Led Zeppelin II graphics and illustrated backing card. Music memorabilia and die-cast culture meet in one compact display.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-SUPER-VAN",
+    "series": "Pop Culture",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Pop Culture presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_03896097.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "mazda-cosmo",
+    "name": "’68 Mazda Cosmo Sport",
+    "category": "Japanese Classics",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/mazda-cosmo-0.webp"
+    ],
+    "description": "A white Mazda Cosmo Sport with a contrasting side stripe, shown on its Japan Historics 3 card. The rounded headlights and long hood bring an elegant vintage note to the collection.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MAZDA-COSMO",
+    "series": "Japan Historics 3",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Japan Historics 3 presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_0414c3c0.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "mazda-rx7",
+    "name": "Mazda RX7 FC Pandem",
+    "category": "Japanese Classics",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/mazda-rx7-0.webp"
+    ],
+    "description": "Turquoise paint, pink wheels and graphic-rich bodywork create an unmistakable show-car look. This RX7 FC Pandem example is shown in Silhouettes packaging.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-MAZDA-RX7",
+    "series": "Silhouettes",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Silhouettes presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_7149_6a614466-8b15-45ee-9184-02b1b100506c1061.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "vw-sp2",
+    "name": "Volkswagen SP2",
+    "category": "European Icons",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/vw-sp2-0.webp"
+    ],
+    "description": "A silver Volkswagen SP2 with racing-style graphics, photographed on its Air-Cooled card. A low-profile coupe for collectors who enjoy the less obvious European shapes.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-VW-SP2",
+    "series": "Air-Cooled",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Air-Cooled presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_74381deb.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "ford-gt40",
+    "name": "Ford GT40 — National Icons",
+    "category": "Motorsport",
+    "priceCents": 899,
+    "images": [
+      "/storefront/media/ford-gt40-0.webp"
+    ],
+    "description": "A white Ford GT40 with blue striping and number 12 graphics. The National Icons card and low endurance-racing profile make a coherent addition to a race-car display.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FORD-GT40",
+    "series": "National Icons Silver Series",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "National Icons Silver Series presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_86082279.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "subaru-brz",
+    "name": "Pandem Subaru BRZ",
+    "category": "Japanese Classics",
+    "priceCents": 1299,
+    "images": [
+      "/storefront/media/subaru-brz-0.webp"
+    ],
+    "description": "White bodywork, dark wheels and Pandem graphics give this Subaru BRZ a clean circuit-inspired appearance. Shown in the original Circuit Legends retail presentation.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-SUBARU-BRZ",
+    "series": "Circuit Legends",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Circuit Legends presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_899379cf.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "lamborghini-lm002",
+    "name": "Lamborghini LM002",
+    "category": "Off Road",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/lamborghini-lm002-0.webp"
+    ],
+    "description": "A black Lamborghini LM002 brings a boxy off-road silhouette to the Fast & Furious selection. Its package is shown intact in the original project photograph.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-LAMBORGHINI-LM002",
+    "series": "Fast & Furious",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Fast & Furious presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_93901d8b.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "copo-camaro",
+    "name": "’14 COPO Camaro",
+    "category": "American Muscle",
+    "priceCents": 599,
+    "images": [
+      "/storefront/media/copo-camaro-0.webp"
+    ],
+    "description": "A white COPO Camaro with blue graphics, shown on a 2014-style HW Workshop card. A compact drag-strip-inspired example for the American muscle section.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-COPO-CAMARO",
+    "series": "HW Workshop",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "HW Workshop presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_9541019f.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "corvette-color",
+    "name": "Corvette — blue Color Shifters",
+    "category": "Color Shifters",
+    "priceCents": 799,
+    "images": [
+      "/storefront/media/corvette-color-0.webp"
+    ],
+    "description": "A blue Corvette on splash-themed Color Shifters packaging. This is a sample of the play-focused side of the collection; any color-change function would need checking before a real sale.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-CORVETTE-COLOR",
+    "series": "Color Shifters",
+    "scale": "Small scale; confirm exact scale",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Color Shifters presentation",
+      "Small scale; confirm exact scale display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_9823974f.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "porsche-color",
+    "name": "Porsche 911 — Color Shifters",
+    "category": "Color Shifters",
+    "priceCents": 799,
+    "images": [
+      "/storefront/media/porsche-color-0.webp"
+    ],
+    "description": "A white Porsche coupe with purple graphic accents in Color Shifters packaging. Display it beside the Corvette for a playful, color-led pair. Function and exact variant would be checked for a sale listing.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-PORSCHE-COLOR",
+    "series": "Color Shifters",
+    "scale": "Small scale; confirm exact scale",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Color Shifters presentation",
+      "Small scale; confirm exact scale display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_9824148d.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "ford-lightning",
+    "name": "Ford F-150 SVT Lightning",
+    "category": "American Muscle",
+    "priceCents": 1599,
+    "images": [
+      "/storefront/media/ford-lightning-0.webp"
+    ],
+    "description": "A bright red Ford F-150 SVT Lightning on its Fast & Furious card. The short-bed performance-truck shape offers a change of pace from the coupes and open-wheel racers.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-FORD-LIGHTNING",
+    "series": "Fast & Furious / Motor City Muscle",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Fast & Furious / Motor City Muscle presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_995061c3.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "grave-digger",
+    "name": "Grave Digger — Monster Jam",
+    "category": "Monster Jam",
+    "priceCents": 1299,
+    "images": [
+      "/storefront/media/grave-digger-0.webp",
+      "/storefront/media/grave-digger-1.webp"
+    ],
+    "description": "Green bodywork, purple wheels and oversized tires give this Grave Digger truck a very different display stance. Shown in its Team Flag retail packaging.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-GRAVE-DIGGER",
+    "series": "Monster Jam Team Flag",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Monster Jam Team Flag presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_05056ca1.jpg",
+      "HOT_WHEELS_IMAGES/IMG_05057050.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "higher-education",
+    "name": "Higher Education — Monster Jam",
+    "category": "Monster Jam",
+    "priceCents": 1299,
+    "images": [
+      "/storefront/media/higher-education-0.webp",
+      "/storefront/media/higher-education-1.webp"
+    ],
+    "description": "A yellow school-bus monster truck with oversized black tires. Higher Education brings a playful contrast to the road-car and motorsport shelves.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "Hot Wheels",
+    "sku": "TDG-HIGHER-EDUCATION",
+    "series": "Monster Jam Team Flag",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "Monster Jam Team Flag presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_05102188.jpg",
+      "HOT_WHEELS_IMAGES/IMG_05102c1c.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
+  },
+  {
+    "id": "cadillac-godfather",
+    "name": "1955 Cadillac Fleetwood Series 60",
+    "category": "Screen Classics",
+    "priceCents": 1499,
+    "images": [
+      "/storefront/media/cadillac-godfather-0.webp"
+    ],
+    "description": "A black Cadillac Fleetwood in The Godfather-themed packaging. This original-archive example is made by GreenLight, not Hot Wheels, and demonstrates how Tim could include other die-cast brands.",
+    "options": [
+      "Standard"
+    ],
+    "kind": "vehicle",
+    "brand": "GreenLight",
+    "sku": "TDG-CADILLAC-GODFATHER",
+    "series": "GreenLight Hollywood",
+    "scale": "1:64",
+    "packaging": "Carded retail example shown in photographs",
+    "condition": "Packaging shown; card edges, blister and model condition not graded.",
+    "highlights": [
+      "GreenLight Hollywood presentation",
+      "1:64 display example",
+      "Original archive photography"
+    ],
+    "sourceImages": [
+      "HOT_WHEELS_IMAGES/IMG_03051d3c.jpg"
+    ],
+    "verification": "Demonstration listing; stock and sale condition await Tim’s confirmation.",
+    "priceBasis": "Illustrative USD demo price; not a current market valuation."
   }
 ]
